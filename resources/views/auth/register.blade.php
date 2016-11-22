@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container">
+<<<<<<< HEAD
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<h1>Register</h1>
