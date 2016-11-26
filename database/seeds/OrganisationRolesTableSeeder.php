@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class OrganisationAdminsTableSeeder extends Seeder
+class OrganisationRolesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,9 +11,10 @@ class OrganisationAdminsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('organisation_admins')->insert([
+        DB::table('organisation_roles')->insert([
         	'user_id'			=> 2,
         	'organisation_id'	=> 1,
+            'role'              => 'admin'
         ]);
     }
 }

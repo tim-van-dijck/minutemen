@@ -77,11 +77,11 @@ class User extends Authenticatable
 
 	protected function sluggify($string) {
 		$slug = preg_replace('/[^A-Za-z0-9\-\_\.]/', '', $string);
-		$users = User::where('slug', $slug)->get();
+		$users = self::where('slug', $slug)->get();
 
 		if (!$users->isEmpty()) { $slug .= count($users); }
 		
-		return $slug
+		return $slug;
 	}
 
 	protected static function isFriend($id) {

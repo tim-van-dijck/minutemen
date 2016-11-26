@@ -17,8 +17,8 @@ class Organisations extends Migration
             $table->increments('id');
             $table->string('name');
             $table->text('description');
-            $table->string('banner');
-            $table->string('thumb');
+            $table->string('banner')->nullable();
+            $table->string('thumb')->nullable();
             $table->boolean('trusted');
             $table->timestamps();
         });

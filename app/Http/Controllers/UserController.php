@@ -54,9 +54,9 @@ class UserController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit($id)
+	public function edit()
 	{
-		$user = User::find($id);
+		$user = User::find(Auth::user()->id);
 		return view('users.edit')->with(['user' => $user]);
 	}
 
@@ -74,6 +74,7 @@ class UserController extends Controller
 			'firstname'		=> 'required',
 			'lastname'		=> 'required',
 			'email'			=> 'required|email',
+			'passworld_old'	=> 'required_with:password',
 			'password'		=> 'min:6|confirmed',
 			'img'			=> 'image|max:4096',
 		]);

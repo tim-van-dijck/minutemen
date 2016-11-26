@@ -166,10 +166,7 @@ return [
         /*
          * Package Service Providers...
          */
-<<<<<<< HEAD
          Intervention\Image\ImageServiceProvider::class,
-=======
->>>>>>> origin/master
 
         //
 
@@ -181,10 +178,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-<<<<<<< HEAD
         App\Providers\ValidationServiceProvider::class,
-=======
->>>>>>> origin/master
 
     ],
 
@@ -234,10 +228,6 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-<<<<<<< HEAD
         'Image' => Intervention\Image\Facades\Image::class,
-=======
->>>>>>> origin/master
     ],
-
 ];

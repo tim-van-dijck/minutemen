@@ -21,6 +21,9 @@ class Events extends Migration
             $table->timestamp('ends_at')->nullable();
             $table->string('address');
             $table->string('coords');
+            $table->integer('organisation_id')->unsigned();
+
+            $table->foreign('organisation_id')->references('id')->on('organisations');
         });
     }
 
@@ -31,10 +34,6 @@ class Events extends Migration
      */
     public function down()
     {
-<<<<<<< HEAD
         Schema::drop('events');
-=======
-        Schema::drop('events')
->>>>>>> origin/master
     }
 }

@@ -24,7 +24,9 @@ class HomeController extends Controller
 	 */
 	public function home()
 	{
-		return view('home');
+		return view('home')->with([
+			'feed' => Post::getByUser(Auth::user()->id),
+		]);
 	}
 
 	public function search(Request $request) {

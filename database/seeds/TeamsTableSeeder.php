@@ -16,7 +16,7 @@ class TeamsTableSeeder extends Seeder
 			'slug'			=> 'RakePoepklappers',
 			'tag'			=> 'POEP',
 			'description'	=> 'De Poepklappers die zowaar steeds raak klappen!',
-			'emblem'		=> null,
+			'emblem'		=> null
 		]);
 
 		DB::table('teams')->insert([
@@ -24,7 +24,7 @@ class TeamsTableSeeder extends Seeder
 			'slug'			=> 'TeamSupertof',
 			'tag'			=> 'STOF',
 			'description'	=> 'Het supertofste team!!',
-			'emblem'		=> null,
+			'emblem'		=> null
 		]);
 
 		DB::table('teams')->insert([
@@ -32,7 +32,7 @@ class TeamsTableSeeder extends Seeder
 			'slug'			=> 'DeWallys',
 			'tag'			=> 'WAUW',
 			'description'	=> '<p>Ik spring uit een vliegmasjien</p>',
-			'emblem'		=> null,
+			'emblem'		=> null
 		]);
     }
 }

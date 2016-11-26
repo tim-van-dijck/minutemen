@@ -1,22 +1,19 @@
 @extends('layouts.app')
 @section('content')
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
-				<h2>Events</h2>
-				<div class="row">
-					@forelse($events as $event)
-						<div class="col-md-4">
-							<h4>{{ $event->title }}</h4>
-							<p>{{ date('d/m/Y', $event->starts_at) }}</p>
-						</div>
-					@empty
-						<div class="col-md-12 text-center">
-							There are no events available at this time
-						</div>
-					@endforelse
-				</div>
+	<h2>Events</h2>
+	<div class="row">
+		@forelse($events as $i => $event)
+			<div class="col-md-4">
+				<h4>{{ $event->title }}</h4>
+				<p>{{ date('d/m/Y', $event->starts_at) }}</p>
 			</div>
-		</div>
+			@if ($i != 0 && $i % 3 == 0)
+				</div><div class="row">
+			@endif
+		@empty
+			<div class="col-md-12 text-center">
+				There are no events available at this time
+			</div>
+		@endforelse
 	</div>
 @stop

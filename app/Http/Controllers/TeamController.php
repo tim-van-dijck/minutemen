@@ -72,6 +72,7 @@ class TeamController extends Controller
 		$team = Team::where(['slug' => $slug])->first();
 		$team->participations = Team::participations($team->id);
 		$team->members = Team::members($team->id);
+		$team->admins = Team::admins($team->id);
 
 		return view('teams.show')->with(['team' => $team]);
 	}
@@ -85,6 +86,10 @@ class TeamController extends Controller
 	public function edit($slug)
 	{
 		$team = Team::where(['slug' => $slug])->first();
+		$team->participations = Team::participations($team->id);
+		$team->members = Team::members($team->id);
+		$team->admins = Team::admins($team->id);
+		
 		return view('teams.edit')->with(['team' => $team]);
 	}
 
@@ -98,10 +103,9 @@ class TeamController extends Controller
 	public function update(Request $request, $id)
 	{
 		$this->validate($request, [
-			'name' => 'required',
-			'tag' => 'required',
-			'description' => '',
-			'emblem' => 'image|max:4096',
+			'name'			=> 'required',
+			'tag'			=> 'required',
+			'description'	=> 'required',
 		]);
 
 		$team = Team::find($id);
@@ -112,7 +116,7 @@ class TeamController extends Controller
 		// Deal with emblem upload
 		if (isset($input['emblem']) && $input['emblem'] != '') {
 			delete(public_path($team->emblem));
-			$input['emblem'] = Team::uploadFile($input['emblem'], true);
+			$input['emblem'] = Team::uploadImg($input['emblem'], true);
 		} else { unset($input['emblem']); }
 
 		foreach ($input as $field => $value) {
@@ -136,7 +140,8 @@ class TeamController extends Controller
 		return redirect()->back();
 	}
 
-	public function addMember($team_id, $user_id) {
+	public function addMember($team_id, $user_id)
+	{
 		Team::addMember($team_id, $user_id);
 		return redirect()->back();
 	}

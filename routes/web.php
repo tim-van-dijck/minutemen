@@ -27,11 +27,19 @@ Route::group(['prefix' => 'users'], function () {
 // Teams
 Route::group(['prefix' => 'teams'], function() {
 	Route::group(['middleware' => 'auth'], function() {
-		Route::get('create', 'TeamController@create')->name('teams.create');
 		Route::get('{slug}/edit', 'TeamController@edit')->name('teams.edit');
 	});
 	Route::get('{slug}', 'TeamController@show')->name('teams.show');
 	Route::get('/', 'TeamController@index')->name('teams.index');
+});
+
+// Organisations
+Route::group(['prefix' => 'organisations'], function() {
+	Route::group(['middleware' => 'auth'], function() {
+		Route::get('{slug}/edit', 'OrganisationController@edit')->name('organisations.edit');
+	});
+	Route::get('{id}', 'OrganisationController@show')->name('organisations.show');
+	Route::get('/', 'OrganisationController@index')->name('organisations.index');
 });
 
 // Events
@@ -65,6 +73,9 @@ Route::group(['middleware' => 'auth'], function () {
 
 	// Teams
 	Route::resource('teams', 'TeamController', ['except' => ['edit', 'show', 'index']]);
+
+	// Teams
+	Route::resource('organisations', 'OrganisationController', ['except' => ['edit', 'show', 'index']]);
 	
 	// Events
 	Route::resource('events', 'EventController', ['except' => ['index', 'show']]);

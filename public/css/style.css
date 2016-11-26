@@ -12,6 +12,12 @@ label .fa {
 body {
   background-color: #434548;
   color: #fff; }
+  body .panel {
+    border-radius: 0; }
+  body .sidebar ul {
+    padding: 0;
+    margin-bottom: 2em;
+    list-style-type: none; }
 
 .navbar-default {
   background-color: #232427;
@@ -124,6 +130,11 @@ form {
     color: #fff;
     text-align: center;
     font-weight: normal; }
+
+.users, .teams {
+  display: flex;
+  display: -webkit-flex;
+  display: -ms-flexbox; }
 
 .user, .team {
   padding: .5em; }

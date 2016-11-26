@@ -114,7 +114,47 @@
 			@yield('partial.success')
 			@yield('partial.errors')
 		</div>
-		@yield('content')
+		<div class="container">
+			<div class="row">
+				@if (Auth::check())
+					<div class="col-md-2 sidebar">
+						<h5>Teams</h5>
+						<ul>
+							@forelse (App\Team::mine() as $team)
+								<li><a href="{{ route('teams.show', ['slug' => $team->slug]) }}">{{ $team->name }}</a></li>
+							@empty
+								<li>You're not currently part of any team</li>
+							@endforelse
+						</ul>
+						<h5>Your Organisations</h5>
+						<ul>
+							@forelse (App\Organisation::mine() as $org)
+								<li><a href="{{ route('organisations.show', ['slug' => $org->id]) }}">{{ $org->name }}</a></li>
+							@empty
+								<li>You're not currently part of any organisation</li>
+							@endforelse
+						</ul>
+					</div>
+				@endif
+				<div class="col-md-8 {{ (Auth::check()) ? '' : 'col-md-offset-2' }}">
+					@yield('content')
+				</div>
+				
+				@if (Auth::check())
+					<div class="col-md-2 sidebar">
+						<h5>Subscriptions</h5>
+						<ul>
+							@forelse (App\Organisation::subscriptions() as $sub)
+								<li><a href="{{ route('subscriptions.show', ['slug' => $sub->id]) }}">{{ $sub->name }}</a></li>
+							@empty
+								<li>You're not currently part of any subscriptions</li>
+							@endforelse
+						</ul>
+					</div>
+				@endif
+			</div>
+		</div>
+		
 		@if (Auth::guest())
 			@include('auth.login')
 		@endif
