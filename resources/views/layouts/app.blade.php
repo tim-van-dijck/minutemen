@@ -147,7 +147,7 @@
 							@forelse (App\Organisation::subscriptions() as $sub)
 								<li><a href="{{ route('subscriptions.show', ['slug' => $sub->id]) }}">{{ $sub->name }}</a></li>
 							@empty
-								<li>You're not currently part of any subscriptions</li>
+								<li>You're not currently subscribed to any organisation.</li>
 							@endforelse
 						</ul>
 					</div>

@@ -18,6 +18,7 @@ body {
 			list-style-type: none;
 		}
 	}
+	#trusted { height: 1.5em; width: auto; max-width: 100%; }
 }
 
 .navbar-default {
@@ -69,6 +70,9 @@ h1,h2,h3,h4,h5,h6 { font-family: 'Oswald', sans-serif; }
 }
 
 form {
+	&#post-form {
+		textarea { resize: none; width: 100%; } 
+	}
 	.form-control {
 		border-radius: 0; background-color: #3a3b3e; border-color: #3a3b3e;
 		&:focus { border-color: #3a3b3e; box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(253, 72, 31, 0.6); }
@@ -90,6 +94,11 @@ form {
 	label.form-control {
 		color: #fff; text-align: center; font-weight: normal;
 	}
+}
+
+.banner {
+	height: 300px; width: 100%; overflow: hidden;
+	img { width: 100%; }
 }
 
 .users, .teams { display: flex; display: -webkit-flex; display: -ms-flexbox; }

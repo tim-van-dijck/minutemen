@@ -14,7 +14,7 @@ class OrganisationsTableSeeder extends Seeder
         DB::table('organisations')->insert([
         	'name'			=> 'Laser Tag League',
         	'description'	=> 'The first laser tag league of Belgium',
-        	'banner'		=> null,
+        	'banner'		=> 'img/organisations/LTL.jpg',
         	'thumb'			=> null,
         	'trusted'		=> 1
         ]);

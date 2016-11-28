@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Event;
 use App\Organisation;
+use App\Post;
 
 class OrganisationController extends Controller
 {
@@ -77,6 +78,7 @@ class OrganisationController extends Controller
 		$organisation = Organisation::find($id);
 		$organisation->events = Event::where('organisation_id', $organisation->id)->get();
 		$organisation->admins = Organisation::admins($organisation->id);
+		$organisation->posts = Post::where('organisation_id', $organisation->id)->get();
 
 		return view('organisations.show')->with(['organisation' => $organisation]);
 	}

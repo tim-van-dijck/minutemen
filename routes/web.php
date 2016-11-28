@@ -51,6 +51,7 @@ Route::group(['prefix' => 'events'], function () {
 // Ajax
 Route::group(['middleware' => 'ajax', 'prefix' => 'ajax'], function () {
 	Route::get('notifications/count', 'AjaxController@notificationCount');
+	Route::post('organisation/post/{id}', 'OrganisationController@post')->name('ajax.organisations.post');
 });
 
 // Routes requiring login

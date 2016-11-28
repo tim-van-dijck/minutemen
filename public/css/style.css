@@ -18,6 +18,10 @@ body {
     padding: 0;
     margin-bottom: 2em;
     list-style-type: none; }
+  body #trusted {
+    height: 1.5em;
+    width: auto;
+    max-width: 100%; }
 
 .navbar-default {
   background-color: #232427;
@@ -103,6 +107,9 @@ form {
   /* Mozilla Firefox 4 to 18 */
   /* Mozilla Firefox 19+ */
   /* Internet Explorer 10-11 */ }
+  form#post-form textarea {
+    resize: none;
+    width: 100%; }
   form .form-control {
     border-radius: 0;
     background-color: #3a3b3e;
@@ -130,6 +137,13 @@ form {
     color: #fff;
     text-align: center;
     font-weight: normal; }
+
+.banner {
+  height: 300px;
+  width: 100%;
+  overflow: hidden; }
+  .banner img {
+    width: 100%; }
 
 .users, .teams {
   display: flex;
