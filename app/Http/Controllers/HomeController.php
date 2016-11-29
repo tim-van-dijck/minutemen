@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 
 use App\Event;
+use App\Post;
 use App\Team;
 use App\User;
 

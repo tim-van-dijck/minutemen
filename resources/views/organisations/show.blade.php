@@ -2,48 +2,43 @@
 
 @section('content')
 	<!-- <div class="banner"><img src="{{ $organisation->banner }}" alt="{{ $organisation->name}} banner"></div> -->
+	@foreach($organisation->admins as $admin)
+		@if(Auth::user()->id == $admin->id)
+			<a href="{{ route('organisations.edit', ['id' => $organisation->id]) }}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> edit</a>
+		@endif
+	@endforeach
 	<h2>
 		@if ($organisation->trusted)
 			<img id="trusted" src="img/trusted.svg" alt="Trusted Organisation" title="Trusted Organisation">
 		@endif
 		{{ $organisation->name }}
-		@foreach($organisation->admins as $admin)
-			@if(Auth::user()->id == $admin->id)
-				<a href="{{ route('organisations.edit', ['id' => $organisation->id]) }}" class="btn btn-edit"><i class="fa fa-pencil"> edit</i></a>
-			@endif
-		@endforeach
 	</h2>
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-5">
 			<div class="profile-img">
 				<img src="{{ $organisation->thumb or 'img/organisation.png' }}" alt="{{ $organisation->name }}">
 			</div>
+		</div>
+		<div class="col-md-7">
+			<h5>About {{ $organisation->name }}</h5>
+			{!! $organisation->description !!}
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-md-5">
 			<div class="row">
 				<div class="col-md-12">
-					{{ $organisation->description }}
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<h3>Events</h3>
-					@forelse($organisation->events as $event)
-						<div class="row">
-							<div class="col-md-12">
-								<span class="title">{{ $event->title }}</span>
-								<span class="period">{{ $event->starts_at }}</span>
+					@if (!$organisation->events->isEmpty())
+						<h3>Events</h3>
+						@foreach($organisation->events as $event)
+							<div class="row">
+								<div class="col-md-12">
+									<span class="title">{{ $event->title }}</span>
+									<span class="period">{{ $event->starts_at }}</span>
+								</div>
 							</div>
-						</div>
-					@empty
-						<div class="row">
-							<div class="col-md-8 col-md-offset-2">
-								<p class="text-center">This organisation has no events yet.</p>
-							</div>
-						</div>
-					@endforelse
+						@endforeach
+					@endif
 				</div>
 			</div>
 			<div class="row">
@@ -66,26 +61,28 @@
 					<div class="row">
 						<div class="col-md-12">
 							<form id="post-form" action="{{ route('ajax.organisations.post', ['id' => $organisation->id]) }}" method="POST">
-								<textarea name="post"></textarea>
-								<button type="submit">Post</button>
+								{{ csrf_field() }}
+								<textarea name="post" class="form-control" required></textarea>
+								<button type="submit" class="btn btn-primary pull-right">Post</button>
 							</form>
 						</div>
 					</div>
 				@endif
 			@endforeach
-			@forelse($organisation->posts as $post)
-				<div class="row">
+			<div id="feed" data-id="{{ $organisation->id }}">
+				@forelse($organisation->posts as $post)
 					<div class="col-md-12 post">
 						{{ $post->content }}
 					</div>
-				</div>
-			@empty
-				<div class="row">
+				@empty
 					<div class="col-md-12">
 						<p class="text-center">No posts yet.</p>
 					</div>
-				</div>
-			@endforelse
+				@endforelse
+			</div>
 		</div>
 	</div>
+@stop
+@section('js')
+	<script src="js/forms.js"></script>
 @stop

@@ -1,21 +1,30 @@
 var uploadCrop;
 
 $(function () {
-	$uploadCrop = $('#preview-img').croppie({
-		enableExif: true,
-		viewport: {
-			width: 250,
-			height: 250,
-			type: 'square'
-		},
-		boundary: {
-			width: 300,
-			height: 300
-		}
+	if ($('#preview-img').length > 0) {
+		$uploadCrop = $('#preview-img').croppie({
+			enableExif: true,
+			viewport: {
+				width: 250,
+				height: 250,
+				type: 'square'
+			},
+			boundary: {
+				width: 300,
+				height: 300
+			}
+		});
+	}
+
+	$('#full-img').on('change', function() { readFile(this); });
+	$('.image-form').submit(function(e) { setImageData(); });
+
+	$('#post-form').submit(function(e) {
+		e.preventDefault();
+		ajaxSubmit($(this));
 	});
 
-	$('#full-img').on('change', function () { readFile(this); });
-	$('#register-form').submit(function(e) { setImageData(); });
+	$('textarea[name="post"]').keydown(function(e) { postOnEnter(this, e); });
 });
 
 function readFile(input, $target) {
@@ -57,4 +66,17 @@ function setImageData() {
 function resetEl($el) {
 	$el.wrap('<form>').closest('form').get(0).reset();
 	$el.unwrap();
+}
+
+function ajaxSubmit($form) {
+	$.post($form.attr('action'), $form.serialize(), function () {
+		$form.trigger('reset');
+		getFeed();
+	});
+}
+
+function postOnEnter(el, e) {
+	if (e.keyCode == 13 && $(el).value != "" && !e.shiftKey) {
+		$(el.form).submit();
+	}
 }

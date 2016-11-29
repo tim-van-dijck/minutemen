@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+	@if(in_array(Auth::user()->id, $team->admins))
+		<a href="{{ route('teams.edit', ['slug' => $team->slug]) }}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> edit</a>
+	@endif
 	<h2>
 		{{ $team->name }} - [{{ $team->tag }}]
-		@if(in_array(Auth::user()->id, $team->admins))
-			<a href="{{ route('teams.edit', ['slug' => $team->slug]) }}" class="btn btn-edit"><i class="fa fa-pencil"> edit</i></a>
-		@endif
 	</h2>
 	<div class="row">
 		<div class="col-md-5">
@@ -16,7 +16,7 @@
 		<div class="col-md-7">
 			<div class="row">
 				<div class="col-md-12">
-					{{ $team->description }}
+					{!! $team->description !!}
 				</div>
 			</div>
 			<div class="stats row">

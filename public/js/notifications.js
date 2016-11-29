@@ -13,4 +13,29 @@ function getNotifications() {
 			$('.notification-bubble').hide();
 		}
 	});
+	if ($('#feed').length > 0) {
+		getFeed();
+	}
+}
+
+function getFeed() {
+	var id = '';
+	if ($("#feed").data('organisation') > 0) {
+		id = '/' + $("#feed").data('organisation');
+	}
+	$.getJSON('ajax/feed'+id, function (posts) {
+		$("#feed").empty();
+
+		if (posts.length > 0) {
+			$.each(posts, function(i,v) {
+
+				$('<div/>')
+					.addClass('col-md-12')
+					.addClass('post')
+					.html(v.content)
+					.appendTo('#feed');
+			});
+		}
+		else { $("#feed").append('<div class="col-md-12"><p class="text-center">No posts yet.</p></div>'); }
+	});
 }

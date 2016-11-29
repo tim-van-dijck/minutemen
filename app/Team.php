@@ -58,7 +58,7 @@ class Team extends Model
 				->resize(250, null, function ($constraint) {
 					$constraint->aspectRatio();
 					$constraint->upsize();
-				});
+				})->save(public_path($hash));
 
 		return $hash;
 	}

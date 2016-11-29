@@ -2,7 +2,7 @@
 
 @section('content')
 	<h1>Register</h1>
-	<form id="register-form" class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}" enctype="multipart/form-data">
+	<form id="register-form" class="form-horizontal image-form" role="form" method="POST" action="{{ url('/register') }}" enctype="multipart/form-data">
 		{{ csrf_field() }}
 
 		<div class="row">
@@ -29,7 +29,7 @@
 				<div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
 					<div class="col-md-8 col-md-offset-2">
 						<label for="username" class="control-label">Username</label><br>
-						<input id="username" type="text" class="form-control" name="username" value="{{ $user->username }}" required autofocus>
+						<input id="username" type="text" class="form-control" name="username" value="{{ old('username') }}" required autofocus>
 
 						@if ($errors->has('username'))
 							<span class="help-block">
@@ -42,7 +42,7 @@
 				<div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
 					<div class="col-md-8 col-md-offset-2">
 						<label for="email" class="control-label">E-Mail Address</label><br>
-						<input id="email" type="email" class="form-control" name="email" value="{{ $user->email }}" required>
+						<input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
 
 						@if ($errors->has('email'))
 							<span class="help-block">
@@ -55,7 +55,7 @@
 				<div class="form-group{{ $errors->has('firstname') ? ' has-error' : '' }}">
 					<div class="col-md-8 col-md-offset-2">
 						<label for="firstname" class="control-label">First name</label><br>
-						<input id="firstname" type="text" class="form-control" name="firstname" value="{{ $user->firstname }}" required autofocus>
+						<input id="firstname" type="text" class="form-control" name="firstname" value="{{ old('firstname') }}" required autofocus>
 
 						@if ($errors->has('firstname'))
 							<span class="help-block">
@@ -68,7 +68,7 @@
 				<div class="form-group{{ $errors->has('lastname') ? ' has-error' : '' }}">
 					<div class="col-md-8 col-md-offset-2">
 						<label for="lastname" class="control-label">Last name</label>
-						<input id="lastname" type="text" class="form-control" name="lastname" value="{{ $user->lastname }}" required autofocus>
+						<input id="lastname" type="text" class="form-control" name="lastname" value="{{ old('lastname') }}" required autofocus>
 
 						@if ($errors->has('lastname'))
 							<span class="help-block">

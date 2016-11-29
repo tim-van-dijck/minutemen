@@ -8,7 +8,7 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-md-7">
-						<form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
+						<form id="login-form" class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
 							{{ csrf_field() }}
 
 							<div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">

@@ -69,8 +69,7 @@ class User extends Authenticatable
 				->resize(250, null, function ($constraint) {
 					$constraint->aspectRatio();
 					$constraint->upsize();
-				});
-		$img->save(public_path($hash));
+				})->save(public_path($hash));
 
 		return $hash;
 	}

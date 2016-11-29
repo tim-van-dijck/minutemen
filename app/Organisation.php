@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use Auth;
 use DB;
+use Image;
 
 class Organisation extends Model
 {
@@ -24,7 +25,7 @@ class Organisation extends Model
 		$hash = '';
 
 		while ($exists) {
-			$hash = 'img/teams/enblems/'.hash('sha512', str_random(40));
+			$hash = 'img/organisations/'.hash('sha512', str_random(40));
 
 			if (is_string($file)) { $hash.='.png'; }
 			else { $hash.='.'.$file->getClientOriginalExtension(); }
@@ -38,7 +39,7 @@ class Organisation extends Model
 				->resize(250, null, function ($constraint) {
 					$constraint->aspectRatio();
 					$constraint->upsize();
-				});
+				})->save(public_path($hash));
 
 		return $hash;
 	}
@@ -55,10 +56,21 @@ class Organisation extends Model
 	}
 
 	protected function makeAdmin($organisation_id, $user_id) {
-		$organisation_role = DB::table('organisation_roles')->where([
-			'organisation_id' => $organisation_id,
-			'user_id' => $user_id,
-		])->update(['role' => 'admin']);
+		$organisation_roles = DB::table('organisation_roles')->where(['organisation_id' => $organisation_id, 'user_id' => $user_id])->get();
+
+		if ($organisation_roles->isEmpty()) {
+			$organisation_role = DB::table('organisation_roles')->insert([
+				'organisation_id'	=> $organisation_id,
+				'user_id'			=> $user_id,
+				'role'				=> 'admin',
+				'created_at'		=> date('Y-m-d H:i:s')
+			]);
+		} else {
+			$organisation_role = DB::table('organisation_roles')->where([
+				'organisation_id' => $organisation_id,
+				'user_id' => $user_id,
+			])->update(['role' => 'admin']);
+		}
 	}
 
 	protected function deleteAdmin($organisation_id, $user_id) {
@@ -81,7 +93,8 @@ class Organisation extends Model
 		DB::table('organisation_roles')->insert([
 			'organisation_id'	=> $organisation_id,
 			'user_id'			=> $user_id,
-			'role'				=> 'subscriber'
+			'role'				=> 'subscriber',
+			'created_at'		=> date('Y-m-d H:i:s')
 		]);
 	}
 

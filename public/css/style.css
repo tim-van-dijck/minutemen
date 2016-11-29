@@ -109,7 +109,8 @@ form {
   /* Internet Explorer 10-11 */ }
   form#post-form textarea {
     resize: none;
-    width: 100%; }
+    width: 100%;
+    color: #999; }
   form .form-control {
     border-radius: 0;
     background-color: #3a3b3e;
@@ -176,14 +177,28 @@ form {
   fill: #dedada;
   transition: fill .2s; }
 
-.btn-primary {
-  background-color: #cc4020;
-  border-color: #cc4020; }
-  .btn-primary:focus, .btn-primary:active, .btn-primary:hover, .btn-primary:active:hover {
-    background-color: #bc3010;
-    box-shadow: none;
-    border-color: #bc3010;
-    outline-color: transparent; }
+#feed {
+  margin-top: 1.5em; }
+  #feed .post {
+    background-color: #3a3b3e;
+    margin: .25em 0;
+    padding: .5em; }
+
+.btn {
+  border-radius: 0; }
+  .btn.btn-primary {
+    background-color: #cc4020;
+    border-color: #cc4020;
+    margin-top: 1em; }
+    .btn.btn-primary:focus, .btn.btn-primary:active, .btn.btn-primary:hover, .btn.btn-primary:active:hover {
+      background-color: #bc3010;
+      box-shadow: none;
+      border-color: #bc3010;
+      outline-color: transparent; }
+
+.thumb {
+  width: 100%;
+  height: auto; }
 
 .cke_1.cke_chrome {
   background: #3a3b3e;

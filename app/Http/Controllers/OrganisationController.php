@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
+use Storage;
 
 use App\Event;
 use App\Organisation;
@@ -41,13 +43,10 @@ class OrganisationController extends Controller
 	{
 		$this->validate($request, [
 			'name'			=> 'required|profanity-filter',
-			'tag'			=> 'required',
 			'description'	=> 'required',
 		]);
 
 		$input = $request->all();
-
-		$input['slug'] = Organisation::sluggify($input['name']);
 
 		// Deal with thumb upload
 		if (isset($input['thumb']) && $input['thumb'] != '') {
@@ -62,7 +61,7 @@ class OrganisationController extends Controller
 		$organisation = new Organisation($input);
 		$organisation->save();
 
-		Organisation::join($organisation->id, true);
+		Organisation::makeAdmin($organisation->id, Auth::user()->id);
 
 		return redirect('organisations');
 	}
@@ -89,9 +88,9 @@ class OrganisationController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit($slug)
+	public function edit($id)
 	{
-		$organisation = Organisation::where(['slug' => $slug])->first();
+		$organisation = Organisation::find($id);
 		return view('organisations.edit')->with(['organisation' => $organisation]);
 	}
 
@@ -106,20 +105,21 @@ class OrganisationController extends Controller
 	{
 		$this->validate($request, [
 			'name'			=> 'required',
-			'tag'			=> 'required',
 			'description'	=> 'required',
 		]);
 
 		$organisation = Organisation::find($id);
-		$input = $request->all();
-
-		$input['slug'] = Organisation::sluggify($input['name']);
+		$input = [
+			'name'			=> $request->input('name'),
+			'description'	=> $request->input('description'),
+			'thumb'			=> $request->input('thumb')
+		];
 
 		// Deal with emblem upload
-		if (isset($input['emblem']) && $input['emblem'] != '') {
-			delete(public_path($organisation->emblem));
-			$input['emblem'] = Organisation::uploadImg($input['emblem'], true);
-		} else { unset($input['emblem']); }
+		if (isset($input['thumb']) && $input['thumb'] != '') {
+			Storage::delete(public_path($organisation->thumb));
+			$input['thumb'] = Organisation::uploadImg($input['thumb'], true);
+		} else { unset($input['thumb']); }
 
 		foreach ($input as $field => $value) {
 			$organisation->{$field} = $value;
@@ -127,7 +127,7 @@ class OrganisationController extends Controller
 
 		$organisation->save();
 
-		return redirect()->back();
+		return redirect(route('organisations.show', ['id' => $id]));
 	}
 
 	/**
@@ -140,5 +140,17 @@ class OrganisationController extends Controller
 	{
 		Organisation::destroy($id);
 		return redirect()->back();
+	}
+
+	public function post(Request $request, $id) {
+		$this->validate($request, ['post' => 'required']);
+
+		$organisation = Organisation::find($id);
+		$input = [
+			'content'			=> $request->input('post'),
+			'organisation_id'	=> $id,
+		];
+
+		Post::make($input);
 	}
 }

@@ -23,37 +23,6 @@ Route::group(['prefix' => 'users'], function () {
 	Route::get('{slug}', 'UserController@show')->name('users.show');
 });
 
-
-// Teams
-Route::group(['prefix' => 'teams'], function() {
-	Route::group(['middleware' => 'auth'], function() {
-		Route::get('{slug}/edit', 'TeamController@edit')->name('teams.edit');
-	});
-	Route::get('{slug}', 'TeamController@show')->name('teams.show');
-	Route::get('/', 'TeamController@index')->name('teams.index');
-});
-
-// Organisations
-Route::group(['prefix' => 'organisations'], function() {
-	Route::group(['middleware' => 'auth'], function() {
-		Route::get('{slug}/edit', 'OrganisationController@edit')->name('organisations.edit');
-	});
-	Route::get('{id}', 'OrganisationController@show')->name('organisations.show');
-	Route::get('/', 'OrganisationController@index')->name('organisations.index');
-});
-
-// Events
-Route::group(['prefix' => 'events'], function () {
-	Route::get('/', 'EventController@index')->name('events.index');
-	Route::get('/{id}/show', 'EventController@show')->name('events.show');
-});
-
-// Ajax
-Route::group(['middleware' => 'ajax', 'prefix' => 'ajax'], function () {
-	Route::get('notifications/count', 'AjaxController@notificationCount');
-	Route::post('organisation/post/{id}', 'OrganisationController@post')->name('ajax.organisations.post');
-});
-
 // Routes requiring login
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/home', 'HomeController@home');
@@ -76,8 +45,35 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('teams', 'TeamController', ['except' => ['edit', 'show', 'index']]);
 
 	// Teams
-	Route::resource('organisations', 'OrganisationController', ['except' => ['edit', 'show', 'index']]);
+	Route::resource('organisations', 'OrganisationController', ['except' => ['index']]);
 	
 	// Events
 	Route::resource('events', 'EventController', ['except' => ['index', 'show']]);
+});
+
+// Teams
+Route::group(['prefix' => 'teams'], function() {
+	Route::group(['middleware' => 'auth'], function() {
+		Route::get('{slug}/edit', 'TeamController@edit')->name('teams.edit');
+	});
+	Route::get('{slug}', 'TeamController@show')->name('teams.show');
+	Route::get('/', 'TeamController@index')->name('teams.index');
+});
+
+// Organisations
+Route::group(['prefix' => 'organisations'], function() {
+	Route::get('/', 'OrganisationController@index')->name('organisations.index');
+});
+
+// Events
+Route::group(['prefix' => 'events'], function () {
+	Route::get('/', 'EventController@index')->name('events.index');
+	Route::get('/{id}/show', 'EventController@show')->name('events.show');
+});
+
+// Ajax
+Route::group(['middleware' => 'ajax', 'prefix' => 'ajax'], function () {
+	Route::get('notifications/count', 'AjaxController@notificationCount');
+	Route::get('feed/{id?}', 'AjaxController@feed')->name('ajax.feed.get');
+	Route::post('organisation/post/{id}', 'OrganisationController@post')->name('ajax.organisations.post');
 });

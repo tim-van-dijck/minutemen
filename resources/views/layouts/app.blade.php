@@ -110,10 +110,8 @@
 				</div>
 			</div>
 		</nav>
-		<div class="row">
-			@yield('partial.success')
-			@yield('partial.errors')
-		</div>
+		@include('partial.success')
+		@include('partial.error')
 		<div class="container">
 			<div class="row">
 				@if (Auth::check())
@@ -147,7 +145,7 @@
 							@forelse (App\Organisation::subscriptions() as $sub)
 								<li><a href="{{ route('subscriptions.show', ['slug' => $sub->id]) }}">{{ $sub->name }}</a></li>
 							@empty
-								<li>You're not currently subscribed to any organisation.</li>
+								<li>No subscriptions yet.</li>
 							@endforelse
 						</ul>
 					</div>
@@ -163,6 +161,7 @@
 	<!-- Scripts -->
 	<script src="js/app.js"></script>
 	<script src="js/libs/sweetalert.min.js"></script>
+	<script src="js/libs/autosize.min.js"></script>
 	<script src="js/animations.js"></script>
 	@if (Auth::check())
 		<script src="js/notifications.js"></script>
