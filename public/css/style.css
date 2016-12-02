@@ -111,6 +111,8 @@ form {
     resize: none;
     width: 100%;
     color: #999; }
+  form input[type="number"].form-control {
+    padding: 6px; }
   form .form-control {
     border-radius: 0;
     background-color: #3a3b3e;
@@ -137,36 +139,61 @@ form {
   form label.form-control {
     color: #fff;
     text-align: center;
-    font-weight: normal; }
+    font-weight: normal;
+    cursor: pointer; }
+  form .banner {
+    display: none; }
 
 .banner {
-  height: 300px;
+  max-height: 300px;
   width: 100%;
   overflow: hidden; }
   .banner img {
-    width: 100%; }
+    width: 100%;
+    height: auto; }
 
 .users, .teams {
   display: flex;
   display: -webkit-flex;
   display: -ms-flexbox; }
 
-.user, .team {
-  padding: .5em; }
-  .user:hover, .team:hover {
-    background-color: #333535; }
-  .user a, .team a {
+.blocklink {
+  padding: .5em;
+  position: relative; }
+  .blocklink:hover {
+    background-color: #333535;
+    cursor: pointer; }
+  .blocklink a {
     color: #fff; }
-    .user a:hover, .team a:hover {
+    .blocklink a:hover {
       text-decoration: none; }
-  .user .profile-img, .team .profile-img {
+  .blocklink p {
+    text-align: center; }
+  .blocklink.user .profile-img, .blocklink.team .profile-img {
     width: calc(100% - .4em);
     margin: .2em; }
-    .user .profile-img img, .team .profile-img img {
+    .blocklink.user .profile-img img, .blocklink.team .profile-img img {
       height: auto;
       width: 100%; }
-  .user p, .team p {
-    text-align: center; }
+  .blocklink.user.request {
+    padding-bottom: 1.5em; }
+  .blocklink .friend-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 4.5em;
+    cursor: default;
+    text-align: center;
+    margin: 0 auto; }
+    .blocklink .friend-controls a {
+      display: inline-block;
+      font-size: 1.5em; }
+      .blocklink .friend-controls a.add {
+        color: green;
+        margin-right: 1em; }
+      .blocklink .friend-controls a.delete {
+        color: red; }
 
 .abs-wrapper {
   width: 100%;
@@ -182,7 +209,8 @@ form {
   #feed .post {
     background-color: #3a3b3e;
     margin: .25em 0;
-    padding: .5em; }
+    padding: .5em;
+    color: #999; }
 
 .btn {
   border-radius: 0; }
@@ -199,6 +227,41 @@ form {
 .thumb {
   width: 100%;
   height: auto; }
+
+table.table thead th {
+  border-bottom: 2px solid #393b3e; }
+table.table tr {
+  background-color: transparent !important; }
+  table.table tr td {
+    background-color: transparent; }
+    table.table tr td.empty {
+      text-align: center; }
+table.table.table-striped td:nth-child(even) {
+  background-color: #232427; }
+
+#map {
+  width: 100%;
+  min-height: 200px; }
+  #map a[href^="http://maps.google.com/maps"] {
+    display: none !important; }
+  #map a[href^="https://maps.google.com/maps"] {
+    display: none !important; }
+  #map .gmnoprint a, #map .gmnoprint span, #map .gm-style-cc {
+    display: none; }
+  #map .gmnoprint div {
+    background: none !important; }
+
+i.accent {
+  font-size: 1.5em; }
+
+.accent {
+  color: #cc4020; }
+
+.modal-content {
+  color: #000;
+  border-radius: 0; }
+  .modal-content form > * {
+    color: #000; }
 
 .cke_1.cke_chrome {
   background: #3a3b3e;

@@ -19,8 +19,8 @@ class Friendships extends Migration
             $table->integer('friend_id')->unsigned();
             $table->boolean('confirmed')->default(0);
 
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('friend_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('friend_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

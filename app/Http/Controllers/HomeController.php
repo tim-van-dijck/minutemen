@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 
 use App\Event;
+use App\General;
 use App\Post;
 use App\Team;
 use App\User;
@@ -34,8 +35,7 @@ class HomeController extends Controller
 	public function search(Request $request) {
 		$query = $request->input('q');
 
-		$results['users'] = User::search($query);
-		$results['teams'] = Team::search($query);
+		$results = General::search($query);
 
 		return view('pages.search')->with(['results' => $results, 'query' => $query]);
 	}

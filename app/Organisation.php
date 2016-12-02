@@ -115,7 +115,7 @@ class Organisation extends Model
 
 	protected function mine($id = false) {
 		if (!$id) { $id = Auth::user()->id; }
-		return self::select('*')->join('organisation_roles', 'organisation_roles.organisation_id', '=', 'organisations.id')
+		return self::select('organisations.*')->join('organisation_roles', 'organisation_roles.organisation_id', '=', 'organisations.id')
 					->where('organisation_roles.user_id', $id)
 					->where('organisation_roles.role', 'admin')
 					->orderBy('name')

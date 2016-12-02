@@ -30,9 +30,10 @@
 	<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
 	<link href="/css/app.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link href="/css/style.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
 	<link href="/css/libs/croppie.css" rel="stylesheet">
 	<link href="/css/libs/sweetalert.css" rel="stylesheet">
+	<link href="/css/style.css" rel="stylesheet">
 
 	<!-- Scripts -->
 	<script>
@@ -127,7 +128,7 @@
 						<h5>Your Organisations</h5>
 						<ul>
 							@forelse (App\Organisation::mine() as $org)
-								<li><a href="{{ route('organisations.show', ['slug' => $org->id]) }}">{{ $org->name }}</a></li>
+								<li><a href="{{ route('organisations.show', ['id' => $org->id]) }}">{{ $org->name }}</a></li>
 							@empty
 								<li>You're not currently part of any organisation</li>
 							@endforelse

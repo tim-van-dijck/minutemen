@@ -17,8 +17,8 @@ class Participation extends Migration
             $table->integer('event_id')->unsigned();
             $table->integer('team_id')->unsigned();
 
-            $table->foreign('event_id')->references('id')->on('events');
-            $table->foreign('team_id')->references('id')->on('teams');
+            $table->foreign('event_id')->references('id')->on('events')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('team_id')->references('id')->on('teams')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

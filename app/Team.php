@@ -13,15 +13,7 @@ class Team extends Model
 	public $timestamps = false;
 	protected $fillable = ['name', 'slug', 'tag', 'description', 'emblem'];
 
-	protected function search($query) {
-		return self::select('*')->where('name', 'LIKE', $query)
-						->orWhere('tag', 'LIKE', $query)
-						->orWhere('description', 'LIKE', $query)
-						->orderBy('name')
-						->get();
-	}
-
-	protected function mine() {
+		protected function mine() {
 		return self::select('*')->join('team_users', 'team_users.team_id', '=', 'teams.id')
 					->where('team_users.user_id', Auth::user()->id)
 					->orderBy('name')

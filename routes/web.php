@@ -48,7 +48,13 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('organisations', 'OrganisationController', ['except' => ['index']]);
 	
 	// Events
-	Route::resource('events', 'EventController', ['except' => ['index', 'show']]);
+	Route::resource('events', 'EventController', ['only' => ['edit', 'update', 'delete']]);
+});
+
+// Leaderboard
+Route::group(['prefix' => 'leaderboard'], function() {
+	Route::get('/', 'LeaderboardController@teams')->name('leaderboards.teams');
+	Route::get('/players', 'LeaderboardController@players')->name('leaderboards.players');
 });
 
 // Teams
@@ -63,12 +69,15 @@ Route::group(['prefix' => 'teams'], function() {
 // Organisations
 Route::group(['prefix' => 'organisations'], function() {
 	Route::get('/', 'OrganisationController@index')->name('organisations.index');
+	Route::get('/{id}/add-event', 'EventController@create')->name('events.create');
+	Route::post('/{id}/add-event', 'EventController@store')->name('events.store');
 });
 
 // Events
 Route::group(['prefix' => 'events'], function () {
 	Route::get('/', 'EventController@index')->name('events.index');
 	Route::get('/{id}/show', 'EventController@show')->name('events.show');
+	Route::any('/{event_id}/enter', 'EventController@enter')->name('events.enter');
 });
 
 // Ajax

@@ -17,8 +17,8 @@ class Commendations extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('commendee_id')->unsigned();
 
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('commendee_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('commendee_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

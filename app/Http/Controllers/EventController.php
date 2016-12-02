@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+
 use App\Event;
+use App\Organisation;
+use App\Team;
 
 class EventController extends Controller
 {
@@ -25,21 +28,57 @@ class EventController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function create()
+	public function create($id)
 	{
-		return view('events.create');
+		$organisation = Organisation::find($id);
+		return view('events.create')->with(['organisation' => $organisation]);
+	}
+
+	/**
+	 * Create a new resource.
+	 *
+	 * @param  int  $organisation_id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function store(Request $request, $organisation_id)
+	{
+		$this->validate($request, [
+			'title'			=> 'required|max:255',
+			'description'	=> 'required',
+			'starts_at'		=> 'required|date|after:today',
+			'ends_at'		=> 'required|date|after:starts_at',
+			'street'		=> 'required',
+			'number'		=> 'required',
+			'zip'			=> 'required',
+			'city'			=> 'required',
+			'banner'		=> 'image|max:4096'
+		]);
+
+		$input = $request->all();
+		$input['organisation_id'] = $organisation_id;
+		
+		if (isset($input['banner']) && $input['banner'] != '') {
+			$input['banner'] = Event::uploadImg($input['banner'], true);
+		} else { unset($input['banner']); }
+
+		$event = new Event($input);
+		$event->save();
+
+		return redirect(route('organisations.show', ['id' => $organisation_id]));
 	}
 
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param  int  $id
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param  int  $organisation_id
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show($id)
 	{
 		$event = Event::find($id);
-		return view('events.show')->with(['event' => $event]);
+		$myTeams = Team::mine();
+		return view('events.show')->with(['event' => $event, 'myTeams' => $myTeams]);
 	}
 
 	/**
@@ -77,5 +116,10 @@ class EventController extends Controller
 	{
 		Event::delete($id);
 		return redirect()->back();
+	}
+
+	public function enter(Request $request, $event_id)
+	{
+		Event::enter($event_id, intval($request->input('team')));
 	}
 }

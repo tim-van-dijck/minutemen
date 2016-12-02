@@ -5,7 +5,7 @@
 		<div class="pull-right"><a class="btn btn-primary" href="{{ route('organisations.create') }}"><i class="fa fa-plus"></i> new organisation</a></div>
 	@endif
 
-	<h1>Teams</h1>
+	<h1>Organisation</h1>
 	<div class="row teams">
 		@forelse($organisations as $i => $organisation)
 			<div class="col-md-2 team">

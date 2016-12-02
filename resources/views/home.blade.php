@@ -5,19 +5,21 @@
 		<div class="panel-heading">Dashboard</div>
 
 		<div class="panel-body">
-			@forelse($feed as $post)
-				<div class="row">
-					<div class="col-md-12">
-						{{ $post->content }}
+			<div id="feed">
+				@forelse($feed as $post)
+					<div class="col-md-12 post">
+						<div class="header">{{ $post->organisation->name or 'This Organisation' }}</div>
+						<div class="content">
+							{!! $post->content !!}
+						</div>
+						<div class="footer">{{ $post->updated_at }}</div>
 					</div>
-				</div>
-			@empty
-				<div class="row">
+				@empty
 					<div class="col-md-12">
-						No news could be gathered for you at this time.
+						<p class="text-center">No posts yet.</p>
 					</div>
-				</div>
-			@endforelse
+				@endforelse
+			</div>
 		</div>
 	</div>
 @stop

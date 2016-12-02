@@ -15,7 +15,7 @@ class Post extends Model
 		$post = new Post($data);
 		$post->save();
 
-		// Notification::send($organisation_id);
+		Notification::send($organisation_id);
 	}
 
 	protected function getByUser($user_id, $offset = false) {
@@ -35,8 +35,8 @@ class Post extends Model
 		return $posts;
 	}
 
-	protected function feed($id) {
-		if ($id !== false) { return self::where('organisation_id', $id)->latest()->limit(15)->get(); }
+	protected function feed($id = false) {
+		if ($id !== false) { return self::where('organisation_id', $id)->orderBy('created_at', 'desc')->limit(15)->get(); }
 		else { return self::getByUser(Auth::user()->id); }
 	}
 

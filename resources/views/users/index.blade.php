@@ -4,7 +4,7 @@
 	<h1>Users</h1>
 	<div class="row">
 		@forelse($friends as $index => $friend)
-			<div class="col-md-2 user">
+			<div class="col-md-2 blocklink user">
 				<a href="{{ route('users.show', ['slug' => $friend->slug]) }}">
 					<div class="profile-img">
 						<img src="{{ $friend->img or 'img/profile.png' }}" alt="{{ $friend->username }}">

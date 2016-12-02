@@ -8,7 +8,7 @@
 	<h1>Teams</h1>
 	<div class="row teams">
 		@forelse($teams as $i => $team)
-			<div class="col-md-2 team">
+			<div class="col-md-2 blocklink team">
 				<a href="{{ route('teams.show', ['slug' => $team->slug]) }}">
 					<div class="profile-img"><img src="{{ $team->emblem or 'img/emblem.png' }}" alt="{{ $team->name }}"></div>
 					<p>{{$team->name}}</p>

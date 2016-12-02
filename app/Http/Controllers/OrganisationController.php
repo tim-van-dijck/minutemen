@@ -75,9 +75,9 @@ class OrganisationController extends Controller
 	public function show($id)
 	{
 		$organisation = Organisation::find($id);
-		$organisation->events = Event::where('organisation_id', $organisation->id)->get();
-		$organisation->admins = Organisation::admins($organisation->id);
-		$organisation->posts = Post::where('organisation_id', $organisation->id)->get();
+		$organisation->events = Event::where('organisation_id', $id)->get();
+		$organisation->admins = Organisation::admins($id);
+		$organisation->posts = Post::feed($id);
 
 		return view('organisations.show')->with(['organisation' => $organisation]);
 	}

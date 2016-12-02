@@ -19,11 +19,15 @@ class Events extends Migration
             $table->text('description');
             $table->timestamp('starts_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('ends_at')->nullable();
-            $table->string('address');
+            $table->string('street');
+            $table->string('number');
+            $table->string('zip');
+            $table->string('city');
             $table->string('coords');
+            $table->string('banner')->nullable();
             $table->integer('organisation_id')->unsigned();
 
-            $table->foreign('organisation_id')->references('id')->on('organisations');
+            $table->foreign('organisation_id')->references('id')->on('organisations')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

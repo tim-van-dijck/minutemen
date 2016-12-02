@@ -5,6 +5,7 @@
 	@foreach($organisation->admins as $admin)
 		@if(Auth::user()->id == $admin->id)
 			<a href="{{ route('organisations.edit', ['id' => $organisation->id]) }}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> edit</a>
+			<a href="{{ route('events.create', ['id' => $organisation->id]) }}" class="btn btn-primary"><i class="fa fa-calendar"></i> create event</a>
 		@endif
 	@endforeach
 	<h2>
@@ -33,8 +34,9 @@
 						@foreach($organisation->events as $event)
 							<div class="row">
 								<div class="col-md-12">
-									<span class="title">{{ $event->title }}</span>
-									<span class="period">{{ $event->starts_at }}</span>
+									<div class="banner"><img src="{{ $event->banner }}" alt="{{ $event->title }}"></div>
+									<h5 class="text-center">{{ $event->title }}</h5>
+									<p class="period text-center">{{ $event->starts_at }}</p>
 								</div>
 							</div>
 						@endforeach
@@ -72,7 +74,11 @@
 			<div id="feed" data-id="{{ $organisation->id }}">
 				@forelse($organisation->posts as $post)
 					<div class="col-md-12 post">
-						{{ $post->content }}
+						<div class="header">{{ $organisation->name or 'This Organisation' }}</div>
+						<div class="content">
+							{!! $post->content !!}
+						</div>
+						<div class="footer">{{ $post->updated_at }}</div>
 					</div>
 				@empty
 					<div class="col-md-12">

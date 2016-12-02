@@ -2,7 +2,7 @@
 
 @section('content')
 	@if ($user->id != Auth::user()->id && !in_array($user->id, $friends))
-		<div class="btn btn-friend"><a href="friends/{{$user->slug}}/add"><i class="fa fa-plus"></i> add friend</></div>
+		<a href="friends/{{$user->slug}}/add" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> add friend</a>
 	@endif
 	<h2>{{ $user->username }}</h2>
 	<div class="profile-img"><img src="{{ $user->img or 'img/profile.png' }}" alt="{{ $user->username }}"></div>

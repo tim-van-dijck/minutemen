@@ -14,7 +14,7 @@ function getNotifications() {
 		}
 	});
 	if ($('#feed').length > 0) {
-		getFeed();
+		// getFeed();
 	}
 }
 

@@ -20,8 +20,8 @@ class OrganisationRoles extends Migration
             $table->string('role')->default('subscriber');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('organisation_id')->references('id')->on('organisations');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('organisation_id')->references('id')->on('organisations')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

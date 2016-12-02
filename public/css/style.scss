@@ -1,5 +1,6 @@
 $bgc: #434548;
 $nav-color: #232427;
+$accent: #cc4020;
 
 label .fa { font-size: 1.5em; }
 .img {
@@ -73,6 +74,7 @@ form {
 	&#post-form {
 		textarea { resize: none; width: 100%; color: #999; } 
 	}
+	input[type="number"].form-control { padding: 6px; }
 	.form-control {
 		border-radius: 0; background-color: #3a3b3e; border-color: #3a3b3e;
 		&:focus { border-color: #3a3b3e; box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(253, 72, 31, 0.6); }
@@ -92,30 +94,42 @@ form {
 		appearance: textfield;
 	}
 	label.form-control {
-		color: #fff; text-align: center; font-weight: normal;
+		color: #fff; text-align: center; font-weight: normal; cursor: pointer;
 	}
+	.banner { display: none; }
 }
 
 .banner {
-	height: 300px; width: 100%; overflow: hidden;
-	img { width: 100%; }
+	max-height: 300px; width: 100%; overflow: hidden;
+	img { width: 100%; height: auto; }
 }
 
 .users, .teams { display: flex; display: -webkit-flex; display: -ms-flexbox; }
-.user, .team {
-	padding: .5em;
+.blocklink {
+	padding: .5em; position: relative;
 	&:hover {
-		background-color: #333535
+		background-color: #333535; cursor: pointer;
 	}
 	a {
 		color: #fff;
 		&:hover { text-decoration: none; }
 	}
-	.profile-img {
-		width: calc(100% - .4em); margin: .2em;
-		img { height: auto; width: 100%; }
-	}
 	p { text-align: center; }
+	&.user, &.team {
+		.profile-img {
+			width: calc(100% - .4em); margin: .2em;
+			img { height: auto; width: 100%; }
+		}
+	}
+	&.user.request { padding-bottom: 1.5em; }
+	.friend-controls {
+		position: absolute; bottom: 0; left: 0; right: 0; width: 4.5em; cursor: default; text-align: center; margin: 0 auto;
+		a {
+			display: inline-block; font-size: 1.5em;
+			&.add { color: green;margin-right: 1em; }
+			&.delete { color: red; }
+		}
+	}
 }
 .abs-wrapper { width: 100%; height: 100%; position: relative; }
 
@@ -124,19 +138,56 @@ form {
 #feed {
 	margin-top: 1.5em;
 	.post {
-		background-color: #3a3b3e; margin: .25em 0; padding: .5em;
+		background-color: #3a3b3e; margin: .25em 0; padding: .5em; color: #999;
 	}
 }
 
 .btn {
 	border-radius: 0;
 	&.btn-primary {
-		background-color: #cc4020; border-color: #cc4020; margin-top: 1em;
+		background-color: $accent; border-color: $accent; margin-top: 1em;
 		&:focus, &:active, &:hover, &:active:hover { background-color: #bc3010; box-shadow: none; border-color: #bc3010; outline-color: transparent; }
 	}
 }
 
 .thumb { width: 100%; height: auto; }
+
+table.table {
+	thead {
+		th { border-bottom: 2px solid #393b3e; }
+	}
+	tr {
+		background-color: transparent !important;
+		td {
+			background-color: transparent;
+			&.empty { text-align: center; }
+		}
+	}
+	&.table-striped { td:nth-child(even) { background-color: $nav-color; } }
+}
+
+#map {
+	width: 100%; min-height: 200px;
+	a[href^="http://maps.google.com/maps"]{display:none !important}
+	a[href^="https://maps.google.com/maps"]{display:none !important}
+
+	.gmnoprint a, .gmnoprint span, .gm-style-cc {
+		display:none;
+	}
+	.gmnoprint div {
+		background:none !important;
+	}
+}
+
+i.accent { font-size: 1.5em; }
+.accent { 
+	color: $accent;
+}
+
+.modal-content {
+	color: #000; border-radius: 0;
+	form>* { color: #000; }
+}
 
 //-- CK EDITOR --//
 .cke_1.cke_chrome { background: #3a3b3e; border-color: #3a3b3e !important; border-radius: 0; }
