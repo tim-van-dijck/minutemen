@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
+use Storage;
+
+use App\General;
 use App\Team;
 
 class TeamController extends Controller
@@ -46,17 +48,18 @@ class TeamController extends Controller
 
 		$input = $request->all();
 
-		$input['slug'] = Team::sluggify($input['name']);
+		$input['slug'] = General::sluggify($input['name'], 'teams');
 
 		// Deal with emblem upload
 		if (isset($input['emblem']) && $input['emblem'] != '') {
-			$input['emblem'] = Team::uploadImg($input['emblem'], true);
+			$input['emblem'] = General::uploadImg($input['emblem'], 'teams',true);
 		} else { unset($input['emblem']); }
 
 		$team = new Team($input);
 		$team->save();
 
-		Team::join($team->id, true);
+		Team::join($team_id, Auth::user()->id, false, true);
+		Auth::user()->nlfg();
 
 		return redirect('teams');
 	}
@@ -70,10 +73,6 @@ class TeamController extends Controller
 	public function show($slug)
 	{
 		$team = Team::where(['slug' => $slug])->first();
-		$team->participations = Team::participations($team->id);
-		$team->members = Team::members($team->id);
-		$team->admins = Team::admins($team->id);
-
 		return view('teams.show')->with(['team' => $team]);
 	}
 
@@ -86,10 +85,6 @@ class TeamController extends Controller
 	public function edit($slug)
 	{
 		$team = Team::where(['slug' => $slug])->first();
-		$team->participations = Team::participations($team->id);
-		$team->members = Team::members($team->id);
-		$team->admins = Team::admins($team->id);
-		
 		return view('teams.edit')->with(['team' => $team]);
 	}
 
@@ -115,8 +110,8 @@ class TeamController extends Controller
 
 		// Deal with emblem upload
 		if (isset($input['emblem']) && $input['emblem'] != '') {
-			delete(public_path($team->emblem));
-			$input['emblem'] = Team::uploadImg($input['emblem'], true);
+			Storage::delete(public_path($team->emblem));
+			$input['emblem'] = General::uploadImg($input['emblem'], 'teams',true);
 		} else { unset($input['emblem']); }
 
 		foreach ($input as $field => $value) {
@@ -144,5 +139,9 @@ class TeamController extends Controller
 	{
 		Team::addMember($team_id, $user_id);
 		return redirect()->back();
+	}
+
+	public function join($team_id) {
+		Team::join($team_id, Auth::user()->id, false, false);
 	}
 }

@@ -13,7 +13,14 @@ body {
   background-color: #434548;
   color: #fff; }
   body .panel {
-    border-radius: 0; }
+    color: #636b6f;
+    border: 0; }
+    body .panel .form-control {
+      background-color: #fff;
+      border-color: #ccd0d2; }
+      body .panel .form-control:focus {
+        border-color: #ccd0d2;
+        box-shadow: none; }
   body .sidebar ul {
     padding: 0;
     margin-bottom: 2em;
@@ -25,33 +32,57 @@ body {
 
 .navbar-default {
   background-color: #232427;
-  border-color: #232427; }
-  .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a:active {
+  border-color: #232427;
+  position: relative; }
+  .navbar-default .navbar-collapse .navbar-nav#search {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 20em; }
+    .navbar-default .navbar-collapse .navbar-nav#search li {
+      padding-top: 12px;
+      float: left;
+      width: 100%; }
+      .navbar-default .navbar-collapse .navbar-nav#search li form {
+        overflow: hidden; }
+        .navbar-default .navbar-collapse .navbar-nav#search li form input[type="text"] {
+          background-color: #777;
+          border: none;
+          color: #232427;
+          width: calc(100% - 2em); }
+      .navbar-default .navbar-collapse .navbar-nav#search li button {
+        background-color: transparent;
+        border: none;
+        color: #777; }
+        .navbar-default .navbar-collapse .navbar-nav#search li button:hover, .navbar-default .navbar-collapse .navbar-nav#search li button:focus, .navbar-default .navbar-collapse .navbar-nav#search li button:active {
+          color: #c1bfbf; }
+  .navbar-default .navbar-collapse .navbar-nav > li > a:hover, .navbar-default .navbar-collapse .navbar-nav > li > a:focus, .navbar-default .navbar-collapse .navbar-nav > li > a:active {
     color: #c1bfbf; }
-  .navbar-default .navbar-nav > li.open ul {
+  .navbar-default .navbar-collapse .navbar-nav > li.open ul {
     background-color: #3b3c40; }
-  .navbar-default .navbar-nav > li.open a {
+  .navbar-default .navbar-collapse .navbar-nav > li.open a {
     background-color: #3b3c40;
     color: #777; }
-    .navbar-default .navbar-nav > li.open a:hover, .navbar-default .navbar-nav > li.open a:focus, .navbar-default .navbar-nav > li.open a:active {
+    .navbar-default .navbar-collapse .navbar-nav > li.open a:hover, .navbar-default .navbar-collapse .navbar-nav > li.open a:focus, .navbar-default .navbar-collapse .navbar-nav > li.open a:active {
       background-color: #3b3c40;
       color: #c1bfbf; }
-  .navbar-default .navbar-nav > li#search {
-    padding-top: 12px;
-    float: left;
-    width: 12em; }
-    .navbar-default .navbar-nav > li#search form {
-      overflow: hidden; }
-      .navbar-default .navbar-nav > li#search form input[type="text"] {
-        background-color: #777;
-        border: none;
-        color: #232427; }
-    .navbar-default .navbar-nav > li#search button {
-      background-color: transparent;
-      border: none;
-      color: #777; }
-      .navbar-default .navbar-nav > li#search button:hover, .navbar-default .navbar-nav > li#search button:focus, .navbar-default .navbar-nav > li#search button:active {
-        color: #c1bfbf; }
+  .navbar-default .navbar-collapse .navbar-nav > li.open .block {
+    display: inline-block;
+    min-width: 100%;
+    border-bottom: 1px solid #444;
+    margin-bottom: 1em; }
+    .navbar-default .navbar-collapse .navbar-nav > li.open .block span {
+      padding: 3px 20px;
+      color: #777;
+      white-space: pre;
+      margin-right: 80px;
+      display: block;
+      line-height: 34px; }
+    .navbar-default .navbar-collapse .navbar-nav > li.open .block .switch {
+      margin-right: 20px; }
   .navbar-default .notification-bubble {
     position: absolute;
     top: -.3em;
@@ -92,15 +123,6 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Oswald', sans-serif; }
-
-.panel {
-  color: #636b6f; }
-  .panel .form-control {
-    background-color: #fff;
-    border-color: #ccd0d2; }
-    .panel .form-control:focus {
-      border-color: #ccd0d2;
-      box-shadow: none; }
 
 form {
   /* WebKit, Blink, Edge */
@@ -157,6 +179,15 @@ form {
   display: -webkit-flex;
   display: -ms-flexbox; }
 
+.user, .team {
+  box-sizing: content-box; }
+  .user .profile-img, .team .profile-img {
+    width: calc(100% - .4em);
+    margin: .2em; }
+    .user .profile-img img, .team .profile-img img {
+      height: auto;
+      width: 100%; }
+
 .blocklink {
   padding: .5em;
   position: relative; }
@@ -169,15 +200,9 @@ form {
       text-decoration: none; }
   .blocklink p {
     text-align: center; }
-  .blocklink.user .profile-img, .blocklink.team .profile-img {
-    width: calc(100% - .4em);
-    margin: .2em; }
-    .blocklink.user .profile-img img, .blocklink.team .profile-img img {
-      height: auto;
-      width: 100%; }
   .blocklink.user.request {
     padding-bottom: 1.5em; }
-  .blocklink .friend-controls {
+  .blocklink .accept-deny {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -186,13 +211,13 @@ form {
     cursor: default;
     text-align: center;
     margin: 0 auto; }
-    .blocklink .friend-controls a {
+    .blocklink .accept-deny a {
       display: inline-block;
       font-size: 1.5em; }
-      .blocklink .friend-controls a.add {
+      .blocklink .accept-deny a.add {
         color: green;
         margin-right: 1em; }
-      .blocklink .friend-controls a.delete {
+      .blocklink .accept-deny a.delete {
         color: red; }
 
 .abs-wrapper {
@@ -262,6 +287,42 @@ i.accent {
   border-radius: 0; }
   .modal-content form > * {
     color: #000; }
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px; }
+  .switch .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s; }
+    .switch .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s; }
+  .switch input {
+    display: none; }
+    .switch input:checked + .slider {
+      background-color: #12F493; }
+    .switch input:focus + .slider {
+      box-shadow: 0 0 1px #2196F3; }
+    .switch input:checked + .slider:before {
+      -webkit-transform: translateX(26px);
+      -ms-transform: translateX(26px);
+      transform: translateX(26px); }
 
 .cke_1.cke_chrome {
   background: #3a3b3e;

@@ -18,7 +18,7 @@ class User extends Authenticatable
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['username', 'firstname', 'name', 'email', 'password', 'accuracy', 'kills', 'deaths'];
+	protected $fillable = ['username', 'firstname', 'name', 'email', 'password', 'accuracy', 'kills', 'deaths', 'lfg'];
 
 	/**
 	 * The attributes that should be hidden for arrays.
@@ -27,65 +27,40 @@ class User extends Authenticatable
 	 */
 	protected $hidden = [ 'password', 'remember_token', ];
 
-	protected function search($query) {
-		$result = self::select('*')
-						->where(function ($q) use ($query) {
-							$q->where('username', 'LIKE', '%'.$query.'%')
-								->orWhere('firstname', 'LIKE', '%'.$query.'%')
-								->orWhere('lastname', 'LIKE', '%'.$query.'%')
-								->orWhere('email', 'LIKE', '%'.$query.'%');
-						});
-
-		if (Auth::check()) { $result->where('id', '!=', Auth::user()->id); }
-
-		$result = $result->orderBy('username')->get();
-
-		if (Auth::check()) {
-			foreach ($result as $user) {
-				$user->isFriend = self::isFriend($user->id);
-			}
-		}
-
-		return $result;
-	}
-
-	protected function uploadImg($file) {
-
-		$exists = true;
-		$hash = '';
-
-		while ($exists) {
-			$hash = 'img/users/'.hash('sha512', str_random(40));
-			
-			if (is_string($file)) { $hash.='.png'; }
-			else { $hash.='.'.$file->getClientOriginalExtension(); }
-
-			$exists = file_exists(public_path($hash));
-		}
-
-		if (!is_string($file)) { $file = $file->getRealPath(); }
-
-		$img = Image::make($file)
-				->resize(250, null, function ($constraint) {
-					$constraint->aspectRatio();
-					$constraint->upsize();
-				})->save(public_path($hash));
-
-		return $hash;
-	}
-
-	protected function sluggify($string) {
-		$slug = preg_replace('/[^A-Za-z0-9\-\_\.]/', '', $string);
-		$users = self::where('slug', $slug)->get();
-
-		if (!$users->isEmpty()) { $slug .= count($users); }
-		
-		return $slug;
-	}
-
-	protected static function isFriend($id) {
-		$friends = Friendship::getFriendsIds();
-		if (in_array($id, $friends)) { return true; }
+	public function isFriend() {
+		$friends = Friendship::getFriendsIds($this->id);
+		if (in_array($this->id, $friends)) { return true; }
 		return false;
+	}
+
+	public function subscriptions() {
+		return Organisation::select('*')->join('organisation_roles', 'organisation_roles.user_id', '=', 'organisations.id')
+					->where('organisation_roles.user_id', $this->id)
+					->where('organisation_roles.role', 'subscriber')
+					->orderBy('name')
+					->get();
+	}
+
+	public function commendations() { return Commendation::count($this->id); }
+
+	public function friends() { return Friendship::getFriends($this->id); }
+
+	public function teams() { return Team::mine(); }
+
+	public function organisations() { return Organisation::mine($this->id); }
+
+	public function lfgToggle() {
+		$this->lfg = !$this->lfg;
+		$this->save();
+	}
+
+	public function lfg() {
+		$this->lfg = 1;
+		$this->save();
+	}
+
+	public function nlfg() {
+		$this->lfg = 0;
+		$this->save();
 	}
 }

@@ -35,7 +35,8 @@ class HomeController extends Controller
 	public function search(Request $request) {
 		$query = $request->input('q');
 
-		$results = General::search($query);
+		if ($query != "") { $results = General::search($query); }
+		else { $results = null; }
 
 		return view('pages.search')->with(['results' => $results, 'query' => $query]);
 	}

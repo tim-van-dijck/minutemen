@@ -10,7 +10,7 @@
 						<div class="profile-img"><img src="{{ $request->img or 'img/profile.png' }}" alt="{{ $request->username }}"></div>
 						<p>{{$request->username}}</p>
 					</a>
-					<div class="friend-controls">
+					<div class="accept-deny">
 						<a class="add" href="friends/{{$request->friendship_id}}/confirm">
 							<i class="fa fa-check-circle-o"></i>
 						</a>

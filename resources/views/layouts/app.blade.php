@@ -64,8 +64,8 @@
 
 				<div class="collapse navbar-collapse" id="app-navbar-collapse">
 					<!-- Left Side Of Navbar -->
-					<ul class="nav navbar-nav">
-						<li id="search">
+					<ul id="search" class="nav navbar-nav">
+						<li>
 							<form class="hidden" action="search" method="GET">
 								<input class="pull-left" type="text" name="q">
 								<button type="submit"><i class="fa fa-search"></i></button>
@@ -91,6 +91,15 @@
 								</a>
 
 								<ul class="dropdown-menu" role="menu">
+									<li>
+										<div class="block">
+											<label class="switch pull-right">
+												<input id="lfg" type="checkbox" name="lfg" data-toggle="toggle" {{ (Auth::user()->lfg) ? 'checked' : '' }}>
+												<div class="slider"></div>
+											</label>
+											<span title="Looking For Group">Looking For Group</span>
+										</div>
+									</li>
 									<li>
 										<a href="{{ route('users.friends') }}">
 											<div class="abs-wrapper">
@@ -119,7 +128,7 @@
 					<div class="col-md-2 sidebar">
 						<h5>Teams</h5>
 						<ul>
-							@forelse (App\Team::mine() as $team)
+							@forelse (Auth::user()->teams() as $team)
 								<li><a href="{{ route('teams.show', ['slug' => $team->slug]) }}">{{ $team->name }}</a></li>
 							@empty
 								<li>You're not currently part of any team</li>
@@ -127,7 +136,7 @@
 						</ul>
 						<h5>Your Organisations</h5>
 						<ul>
-							@forelse (App\Organisation::mine() as $org)
+							@forelse (Auth::user()->organisations() as $org)
 								<li><a href="{{ route('organisations.show', ['id' => $org->id]) }}">{{ $org->name }}</a></li>
 							@empty
 								<li>You're not currently part of any organisation</li>
@@ -143,7 +152,7 @@
 					<div class="col-md-2 sidebar">
 						<h5>Subscriptions</h5>
 						<ul>
-							@forelse (App\Organisation::subscriptions() as $sub)
+							@forelse (Auth::user()->subscriptions() as $sub)
 								<li><a href="{{ route('subscriptions.show', ['slug' => $sub->id]) }}">{{ $sub->name }}</a></li>
 							@empty
 								<li>No subscriptions yet.</li>
@@ -166,6 +175,7 @@
 	<script src="js/animations.js"></script>
 	@if (Auth::check())
 		<script src="js/notifications.js"></script>
+		<script src="js/interactions.js"></script>
 	@endif
 	@yield('js')
 </body>

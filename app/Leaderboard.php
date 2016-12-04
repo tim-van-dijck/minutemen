@@ -38,4 +38,24 @@ class Leaderboard extends Model
 				->limit(100)
 				->get();
 	}
+
+	protected function rank($event_id, $team_id) {
+		$leaderboard = self::select(DB::raw('COUNT(leaderboards.wins) AS wins, COUNT(leaderboards.draws) AS draws, COUNT(leaderboards.losses) AS losses'))
+				->where('event_id', $event_id)
+				->groupBy('leaderboards.team_id')
+				->orderBy('wins', 'desc')
+				->orderBy('draws', 'desc')
+				->orderBy('losses', 'asc')
+				->limit(100)
+				->get();
+
+		if ($leaderboard->isEmpty()) {
+			return 'N/A';
+		}
+		foreach ($leaderboard as $key => $team) {
+			if ($team->id == $team_id) {
+				return $key+1;
+			}
+		}
+	}
 }

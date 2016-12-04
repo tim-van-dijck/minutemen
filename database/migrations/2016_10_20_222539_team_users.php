@@ -18,6 +18,7 @@ class TeamUsers extends Migration
             $table->integer('user_id')->unsigned();
             $table->boolean('admin')->default(false);
             $table->boolean('pending')->default(true);
+            $table->boolean('invite')->default(false);
             $table->timestamp('created_at')->useCurrent();
 
             $table->softDeletes();

@@ -7,6 +7,7 @@ use Auth;
 use Storage;
 
 use App\Event;
+use App\General;
 use App\Organisation;
 use App\Post;
 
@@ -50,12 +51,12 @@ class OrganisationController extends Controller
 
 		// Deal with thumb upload
 		if (isset($input['thumb']) && $input['thumb'] != '') {
-			$input['thumb'] = Organisation::uploadImg($input['thumb'], true);
+			$input['thumb'] = General::uploadImg($input['thumb'], 'organisations/thumbs', true);
 		} else { unset($input['thumb']); }
 
 		// Deal with banner upload
 		if (isset($input['banner']) && $input['banner'] != '') {
-			$input['banner'] = Organisation::uploadImg($input['banner'], true);
+			$input['banner'] = General::uploadImg($input['banner'], 'organisations');
 		} else { unset($input['banner']); }
 
 		$organisation = new Organisation($input);
@@ -75,10 +76,6 @@ class OrganisationController extends Controller
 	public function show($id)
 	{
 		$organisation = Organisation::find($id);
-		$organisation->events = Event::where('organisation_id', $id)->get();
-		$organisation->admins = Organisation::admins($id);
-		$organisation->posts = Post::feed($id);
-
 		return view('organisations.show')->with(['organisation' => $organisation]);
 	}
 
@@ -118,8 +115,14 @@ class OrganisationController extends Controller
 		// Deal with emblem upload
 		if (isset($input['thumb']) && $input['thumb'] != '') {
 			Storage::delete(public_path($organisation->thumb));
-			$input['thumb'] = Organisation::uploadImg($input['thumb'], true);
+			$input['thumb'] = General::uploadImg($input['thumb'], 'organisations/thumbs', true);
 		} else { unset($input['thumb']); }
+
+		// Deal with banner upload
+		if (isset($input['banner']) && $input['banner'] != '') {
+			Storage::delete(public_path($organisation->banner));
+			$input['banner'] = General::uploadImg($input['banner'], 'organisations');
+		} else { unset($input['banner']); }
 
 		foreach ($input as $field => $value) {
 			$organisation->{$field} = $value;

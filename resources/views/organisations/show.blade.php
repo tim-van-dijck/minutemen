@@ -2,12 +2,10 @@
 
 @section('content')
 	<!-- <div class="banner"><img src="{{ $organisation->banner }}" alt="{{ $organisation->name}} banner"></div> -->
-	@foreach($organisation->admins as $admin)
-		@if(Auth::user()->id == $admin->id)
-			<a href="{{ route('organisations.edit', ['id' => $organisation->id]) }}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> edit</a>
-			<a href="{{ route('events.create', ['id' => $organisation->id]) }}" class="btn btn-primary"><i class="fa fa-calendar"></i> create event</a>
-		@endif
-	@endforeach
+	@if($organisation->isAdmin(Auth::user()->id))
+		<a href="{{ route('organisations.edit', ['id' => $organisation->id]) }}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> edit</a>
+		<a href="{{ route('events.create', ['id' => $organisation->id]) }}" class="btn btn-primary"><i class="fa fa-calendar"></i> create event</a>
+	@endif
 	<h2>
 		@if ($organisation->trusted)
 			<img id="trusted" src="img/trusted.svg" alt="Trusted Organisation" title="Trusted Organisation">
@@ -29,9 +27,9 @@
 		<div class="col-md-5">
 			<div class="row">
 				<div class="col-md-12">
-					@if (!$organisation->events->isEmpty())
+					@if (!$organisation->events()->isEmpty())
 						<h3>Events</h3>
-						@foreach($organisation->events as $event)
+						@foreach($organisation->events() as $event)
 							<div class="row">
 								<div class="col-md-12">
 									<div class="banner"><img src="{{ $event->banner }}" alt="{{ $event->title }}"></div>
@@ -46,7 +44,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<h3>Administrators</h3>
-					@foreach($organisation->admins as $admin)
+					@foreach($organisation->admins() as $admin)
 						<div class="row">
 							<div class="col-md-12">
 								<span class="title">{{ $admin->username }}</span>
@@ -58,21 +56,19 @@
 			</div>
 		</div>
 		<div class="col-md-7">
-			@foreach($organisation->admins as $admin)
-				@if(Auth::user()->id == $admin->id)
-					<div class="row">
-						<div class="col-md-12">
-							<form id="post-form" action="{{ route('ajax.organisations.post', ['id' => $organisation->id]) }}" method="POST">
-								{{ csrf_field() }}
-								<textarea name="post" class="form-control" required></textarea>
-								<button type="submit" class="btn btn-primary pull-right">Post</button>
-							</form>
-						</div>
+			@if($organisation->isAdmin(Auth::user()->id))
+				<div class="row">
+					<div class="col-md-12">
+						<form id="post-form" action="{{ route('ajax.organisations.post', ['id' => $organisation->id]) }}" method="POST">
+							{{ csrf_field() }}
+							<textarea name="post" class="form-control" required></textarea>
+							<button type="submit" class="btn btn-primary pull-right">Post</button>
+						</form>
 					</div>
-				@endif
-			@endforeach
+				</div>
+			@endif
 			<div id="feed" data-id="{{ $organisation->id }}">
-				@forelse($organisation->posts as $post)
+				@forelse($organisation->posts() as $post)
 					<div class="col-md-12 post">
 						<div class="header">{{ $organisation->name or 'This Organisation' }}</div>
 						<div class="content">

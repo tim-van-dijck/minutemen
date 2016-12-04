@@ -19,9 +19,7 @@ class Friendship extends Model
 		]);
 	}
 
-	protected function getFriends($id = false) {
-		if (!$id) { $id = Auth::user()->id; }
-
+	protected function getFriends($id ) {
 		$first = DB::table('users')->select('users.*')
 									->join('friendships', 'friendships.user_id', '=', 'users.id')
 									->where('friendships.friend_id', $id)
@@ -55,11 +53,8 @@ class Friendship extends Model
 				);
 	}
 
-	protected function getFriendsIds($id = false) {
-		if (!$id) { $id = Auth::user()->id; }
-
-		$result = self::getFriends();
-
+	protected function getFriendsIds($id) {
+		$result = self::getFriends(Auth::user()->id);
 		$friends = [];
 
 		if (!$result->isEmpty()) {

@@ -3,29 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
-use App\Commendation;
-use App\Friendship;
-use App\User;
-
 use Auth;
 use DB;
 
+use App\Commendation;
+use App\General;
+use App\Friendship;
+use App\User;
+
+
 class UserController extends Controller
 {
-	public function search()
-	{
-		return view('users.search');
-	}
-
-	public function find(Request $request)
-	{
-		$query = $request->input('query');
-		$users = User::search($query);
-		return view('users.search')->with(['users' => $users]);
-	}
-
 	/**
 	 * Display the specified resource.
 	 *
@@ -35,17 +24,10 @@ class UserController extends Controller
 	public function show($slug = false)
 	{
 		$friends = [];
-		if ($slug) {
-			$user = User::where(['slug' => $slug])->first();
-			$friends = Friendship::getFriendsIds();
-		} else {
-			$user = User::find(Auth::user()->id);
-		}
-
-		$user->friends = Friendship::getFriends($user->id);
-		$user->commendations = Commendation::count($user->id);
+		if ($slug) { $user = User::where(['slug' => $slug])->first(); }
+		else { $user = User::find(Auth::user()->id); }
 		
-		return view('users.show')->with(['user' => $user, 'friends' => $friends]);
+		return view('users.show')->with(['user' => $user]);
 	}
 
 	/**
@@ -85,7 +67,7 @@ class UserController extends Controller
 		// Handle img upload
 		if (isset($input['img']) && $input['img'] != '') {
 			delete(public_path($user->img));
-			$input['img'] = User::uploadFile($input['img']);
+			$input['img'] = General::uploadFile($input['img'], 'users');
 		} else { unset($input['img']); }
 
 		foreach ($input as $field => $value) {
@@ -123,7 +105,7 @@ class UserController extends Controller
 	// retrieve friends
 	public function friends()
 	{
-		$friends = Friendship::getFriends();
+		$friends = Auth::user()->friends();
 		$requests = Friendship::getRequests();
 		return view('users.friends')->with(['friends' => $friends, 'requests' => $requests]);
 	}
@@ -157,4 +139,6 @@ class UserController extends Controller
 		$friendship->delete();
 		return redirect()->back();
 	}
+
+	public function toggleLfg() { Auth::user()->lfgToggle(); }
 }

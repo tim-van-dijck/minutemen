@@ -28,4 +28,6 @@ $(function () {
 		$('.banner').css('height', $('.banner').width()/12*5);
 		$( window ).resize(function() { $('.banner').css('height', $('.banner').width()/12*5); });
 	}
+
+	$('.switch').click(function(e) { e.stopPropagation(); });
 });

@@ -10,42 +10,51 @@ label .fa { font-size: 1.5em; }
 body {
 	background-color: $bgc; color: #fff;
 	.panel {
-		border-radius: 0;
+		color: #636b6f; border: 0;
+		.form-control {
+			background-color: #fff; border-color: #ccd0d2;
+			&:focus { border-color: #ccd0d2; box-shadow: none; }
+		}
 	}
 	.sidebar {
-		ul {
-			padding: 0;
-			margin-bottom: 2em;
-			list-style-type: none;
-		}
+		ul { padding: 0; margin-bottom: 2em; list-style-type: none; }
 	}
 	#trusted { height: 1.5em; width: auto; max-width: 100%; }
 }
 
 .navbar-default {
-	background-color: $nav-color;
-	border-color: $nav-color;
-	.navbar-nav {
-		&>li {
-			&>a {
-				&:hover, &:focus, &:active { color: #c1bfbf; }
-			}
-			&.open {
-				ul { background-color: #3b3c40; }
-				a {
-					background-color: #3b3c40; color: #777;
-					&:hover, &:focus, &:active { background-color: #3b3c40; color: #c1bfbf; }
-				}
-			}
+	background-color: $nav-color; border-color: $nav-color; position: relative;
+	.navbar-collapse {
+		.navbar-nav {
 			&#search {
-				padding-top: 12px; float: left; width: 12em;
-				form {
-					overflow: hidden;
-					input[type="text"] { background-color: #777; border: none; color: $nav-color; }
+				position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto; width: 20em;
+				li {
+					padding-top: 12px; float: left; width: 100%;
+					form {
+						overflow: hidden;
+						input[type="text"] { background-color: #777; border: none; color: $nav-color; width: calc(100% - 2em); }
+					}
+					button {
+						background-color: transparent; border: none; color: #777;
+						&:hover, &:focus, &:active { color: #c1bfbf; }
+					}
 				}
-				button {
-					background-color: transparent; border: none; color: #777;
+			}
+			&>li {
+				&>a {
 					&:hover, &:focus, &:active { color: #c1bfbf; }
+				}
+				&.open {
+					ul { background-color: #3b3c40; }
+					a {
+						background-color: #3b3c40; color: #777;
+						&:hover, &:focus, &:active { background-color: #3b3c40; color: #c1bfbf; }
+					}
+					.block {
+						display: inline-block; min-width: 100%; border-bottom: 1px solid #444; margin-bottom: 1em;
+						span { padding: 3px 20px; color: #777; white-space: pre; margin-right: 80px; display: block; line-height: 34px; }
+						.switch { margin-right: 20px; }
+					}
 				}
 			}
 		}
@@ -62,13 +71,6 @@ body {
 	.col-md-7 { border-right: 1px solid #d3e0e9; }
 }
 h1,h2,h3,h4,h5,h6 { font-family: 'Oswald', sans-serif; }
-.panel {
-	color: #636b6f;
-	.form-control {
-		background-color: #fff; border-color: #ccd0d2;
-		&:focus { border-color: #ccd0d2; box-shadow: none; }
-	}
-}
 
 form {
 	&#post-form {
@@ -105,6 +107,13 @@ form {
 }
 
 .users, .teams { display: flex; display: -webkit-flex; display: -ms-flexbox; }
+.user, .team {
+	box-sizing: content-box;
+	.profile-img {
+		width: calc(100% - .4em); margin: .2em;
+		img { height: auto; width: 100%; }
+	}
+}
 .blocklink {
 	padding: .5em; position: relative;
 	&:hover {
@@ -115,14 +124,8 @@ form {
 		&:hover { text-decoration: none; }
 	}
 	p { text-align: center; }
-	&.user, &.team {
-		.profile-img {
-			width: calc(100% - .4em); margin: .2em;
-			img { height: auto; width: 100%; }
-		}
-	}
 	&.user.request { padding-bottom: 1.5em; }
-	.friend-controls {
+	.accept-deny {
 		position: absolute; bottom: 0; left: 0; right: 0; width: 4.5em; cursor: default; text-align: center; margin: 0 auto;
 		a {
 			display: inline-block; font-size: 1.5em;
@@ -188,6 +191,27 @@ i.accent { font-size: 1.5em; }
 	color: #000; border-radius: 0;
 	form>* { color: #000; }
 }
+
+// Toggle button
+.switch {
+	position: relative; display: inline-block; width: 60px; height: 34px;
+	.slider {
+		position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+		background-color: #ccc; -webkit-transition: .4s; transition: .4s;
+		&:before {
+			position: absolute; content: ""; height: 26px; width: 26px; left: 4px; bottom: 4px;
+			background-color: white; -webkit-transition: .4s; transition: .4s;
+		}
+	}
+	input {
+		display:none;
+		&:checked + .slider { background-color: #12F493; }
+		&:focus + .slider { box-shadow: 0 0 1px #2196F3; }
+		&:checked + .slider:before { -webkit-transform: translateX(26px); -ms-transform: translateX(26px); transform: translateX(26px); }
+	}
+}
+
+
 
 //-- CK EDITOR --//
 .cke_1.cke_chrome { background: #3a3b3e; border-color: #3a3b3e !important; border-radius: 0; }

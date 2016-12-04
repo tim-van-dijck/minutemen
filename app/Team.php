@@ -13,74 +13,45 @@ class Team extends Model
 	public $timestamps = false;
 	protected $fillable = ['name', 'slug', 'tag', 'description', 'emblem'];
 
-		protected function mine() {
-		return self::select('*')->join('team_users', 'team_users.team_id', '=', 'teams.id')
-					->where('team_users.user_id', Auth::user()->id)
-					->orderBy('name')
-					->get();
-	}
-
-	protected function join($team_id, $admin = false) {
-		$data = [
-			'team_id'	=> $team_id,
-			'user_id'	=> Auth::user()->id,
-			'pending'	=> !$admin,
-			'admin'		=> $admin,
-		];
-
-		DB::table('team_users')->insert($data);
-	}
-
-	protected function uploadImg($file) {
-		$exists = true;
-		$hash = '';
-
-		while ($exists) {
-			$hash = 'img/teams/enblems/'.hash('sha512', str_random(40));
-
-			if (is_string($file)) { $hash.='.png'; }
-			else { $hash.='.'.$file->getClientOriginalExtension(); }
-
-			$exists = file_exists(public_path($hash));
-		}
-
-		if (!is_string($file)) { $file = $file->getRealPath(); }
-
-		$img = Image::make($file)
-				->resize(250, null, function ($constraint) {
-					$constraint->aspectRatio();
-					$constraint->upsize();
-				})->save(public_path($hash));
-
-		return $hash;
-	}
-
-	protected function participations($id) {
-		return DB::table('participations')
+	public function participations() {
+		$participations = DB::table('participations')
 				->select('participations.*', 'events.title', 'events.ends_at')
 				->join('teams', 'teams.id', '=', 'participations.team_id')
 				->join('events', 'events.id', '=', 'participations.event_id')
-				->where('participations.team_id', $id)
+				->where('participations.team_id', $this->id)
 				->orderBy('events.ends_at', 'desc')
 				->get();
+
+		foreach ($participations as $participation) {
+			$participation->rank = Leaderboard::rank($participation->event_id, $this->id);
+		}
+
+		return $participations;
 	}
 
-	protected function members($id) {
+	public function requests() {
+		return User::join('team_users', 'team_users.user_id', '=', 'users.id')
+					->where(['team_id' => $this->id, 'invite' => 0, 'pending' => 1])
+					->get();
+	}
+
+	public function members() {
 		return DB::table('users')
 				->select('users.*', 'team_users.created_at AS joined', 'team_users.deleted_at AS left')
 				->join('team_users', 'team_users.user_id', '=', 'users.id')
 				->join('teams', 'teams.id', '=', 'team_users.team_id')
-				->where('team_users.team_id', $id)
+				->where('team_users.team_id', $this->id)
+				->where('team_users.pending', 0)
 				->orderBy('left', 'desc')
 				->get();
 	}
 
-	protected function admins($id) {
-		$result = DB::table('users')
+	public function admins() {
+		return DB::table('users')
 				->select('users.*', 'team_users.created_at AS joined', 'team_users.deleted_at AS left')
 				->join('team_users', 'team_users.user_id', '=', 'users.id')
 				->join('teams', 'teams.id', '=', 'team_users.team_id')
-				->where('team_users.team_id', $id)
+				->where('team_users.team_id', $this->id)
 				->where('team_users.admin', 1)
 				->orderBy('left', 'desc')
 				->get();
@@ -94,6 +65,54 @@ class Team extends Model
 		return $admins;
 	}
 
+	public function isAdmin($user_id = false) {
+		if (!$user_id) { $user_id = Auth::user()->id; }
+		$admin = DB::table('users')
+				->select('users.*', 'team_users.created_at AS joined')
+				->join('team_users', 'team_users.user_id', '=', 'users.id')
+				->join('teams', 'teams.id', '=', 'team_users.team_id')
+				->where('team_users.team_id', $this->id)
+				->where('team_users.user_id', $user_id)
+				->where('team_users.admin', 1)
+				->where('team_users.pending', 0)
+				->first();
+
+		if ($admin == null) { return false; }
+		return true;
+	}
+
+	public function isMember($user_id = false) {
+		if (!$user_id) { $user_id = Auth::user()->id; }
+		$member = DB::table('users')
+				->select('users.*', 'team_users.created_at AS joined')
+				->join('team_users', 'team_users.user_id', '=', 'users.id')
+				->join('teams', 'teams.id', '=', 'team_users.team_id')
+				->where('team_users.team_id', $this->id)
+				->where('team_users.user_id', $user_id)
+				->where('team_users.pending', 0)
+				->first();
+
+		if ($member == null) { return false; }
+		return true;
+	}
+
+	protected function mine() {
+		return self::select('*')->join('team_users', 'team_users.team_id', '=', 'teams.id')
+					->where('team_users.user_id', Auth::user()->id)
+					->orderBy('name')
+					->get();
+	}
+		
+	protected function join($team_id, $user_id, $invite, $admin = false) {
+		DB::table('team_users')->insert([
+			'team_id'	=> $team_id,
+			'user_id'	=> $user_id,
+			'invite'	=> $invite,
+			'admin'		=> $admin,
+			'pending'	=> !$admin
+		]);
+	}
+
 	protected function addMember($team_id, $user_id) {
 		DB::table('team_users')->insert([
 			'team_id' => $team_id,
@@ -105,7 +124,7 @@ class Team extends Model
 		DB::table('team_users')->where([
 			'team_id' => $team_id,
 			'user_id' => $user_id,
-		])->delete();
+		])->update(['deleted_at' => date('Y-m-d H:i:s')]);
 	}
 
 	protected function makeAdmin($team_id, $user_id) {
@@ -122,12 +141,21 @@ class Team extends Model
 		])->update(['admin' => 0]);
 	}
 
-	protected function sluggify($string) {
-		$slug = preg_replace('/[^A-Za-z0-9\-\_\.]/', '', $string);
-		$teams = self::where('slug', $slug)->get();
+	protected function confirm($team_id, $user_id) {
+		DB::table('team_users')
+			->where('team_id', $team_id)
+			->where('user_id', $user_id)
+			->update(['pending' => 0]);
+			
+		$user = User::find($user_id);
+		$user->nlfg();
+	}
 
-		if (!$teams->isEmpty()) { $slug .= count($teams); }
-		
-		return $slug;
+	protected function deleteRequest($team_id, $user_id) {
+		$request = DB::table('team_users')->where([
+						'team_id'	=> $team_id,
+						'user_id'	=> $user_id,
+						'pending'	=> 1
+					])->delete();
 	}
 }

@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->integer('kills');
             $table->integer('deaths');
             $table->string('img')->nullable();
+            $table->boolean('lfg')->default(false);
 
             $table->rememberToken();
             $table->timestamps();

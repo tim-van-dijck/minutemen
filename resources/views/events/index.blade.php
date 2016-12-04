@@ -6,7 +6,7 @@
 		@forelse($events as $index => $event)
 			<div class="col-md-4 blocklink event">
 				<a href="{{ route('events.show', ['id' => $event->id]) }}">
-					<div class="banner"><img src="{{ $event->banner }}" alt="{{ $event->title }}"></div>
+					<div class="banner"><img src="{{ $event->banner or 'img/event.png' }}" alt="{{ $event->title }}"></div>
 					<h4 class="text-center">{{ $event->title }}</h4>
 					<p class="period text-center">{{ date("F dS H:i", strtotime($event->starts_at)) }}</p>
 				</a>

@@ -1,6 +1,8 @@
 $(function() {
 	getNotifications();
 	setInterval(function () { getNotifications(); }, 5000);
+
+	$('#lfg').change(function(e) { $.get('ajax/lfg'); });
 });
 
 function getNotifications() {

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-	@if ($user->id != Auth::user()->id && !in_array($user->id, $friends))
+	@if (!$user->isFriend())
 		<a href="friends/{{$user->slug}}/add" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> add friend</a>
 	@endif
 	<h2>{{ $user->username }}</h2>

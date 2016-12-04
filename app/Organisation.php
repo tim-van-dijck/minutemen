@@ -20,105 +20,82 @@ class Organisation extends Model
 						->get();
 	}
 
-	protected function uploadImg($file) {
-		$exists = true;
-		$hash = '';
-
-		while ($exists) {
-			$hash = 'img/organisations/'.hash('sha512', str_random(40));
-
-			if (is_string($file)) { $hash.='.png'; }
-			else { $hash.='.'.$file->getClientOriginalExtension(); }
-
-			$exists = file_exists(public_path($hash));
-		}
-
-		if (!is_string($file)) { $file = $file->getRealPath(); }
-
-		$img = Image::make($file)
-				->resize(250, null, function ($constraint) {
-					$constraint->aspectRatio();
-					$constraint->upsize();
-				})->save(public_path($hash));
-
-		return $hash;
+	protected function mine($user_id) {
+		return self::select('organisations.*')
+					->join('organisation_roles', 'organisations.id', '=', 'organisation_roles.organisation_id')
+					->where('organisation_roles.user_id', $user_id)
+					->where('organisation_roles.role', 'admin')
+					->orderBy('name')
+					->get();
 	}
 
-	protected function admins($id) {
+	public function admins() {
 		return DB::table('users')
 				->select('users.*', 'organisation_roles.created_at AS joined')
 				->join('organisation_roles', 'organisation_roles.user_id', '=', 'users.id')
 				->join('organisations', 'organisations.id', '=', 'organisation_roles.organisation_id')
-				->where('organisation_roles.organisation_id', $id)
+				->where('organisation_roles.organisation_id', $this->id)
 				->where('organisation_roles.role', 'admin')
 				->orderBy('joined', 'asc')
 				->get();
 	}
 
-	protected function makeAdmin($organisation_id, $user_id) {
-		$organisation_roles = DB::table('organisation_roles')->where(['organisation_id' => $organisation_id, 'user_id' => $user_id])->get();
+	public function isAdmin($user_id) {
+		$admin = DB::table('users')
+				->select('users.*', 'organisation_roles.created_at AS joined')
+				->join('organisation_roles', 'organisation_roles.user_id', '=', 'users.id')
+				->join('organisations', 'organisations.id', '=', 'organisation_roles.organisation_id')
+				->where('organisation_roles.organisation_id', $this->id)
+				->where('organisation_roles.user_id', $user_id)
+				->where('organisation_roles.role', 'admin')
+				->orderBy('joined', 'asc')
+				->first();
+
+		if (isset($admin)) { return false; }
+		return true;
+	}
+
+	public function makeAdmin($user_id) {
+		$organisation_roles = DB::table('organisation_roles')->where(['organisation_id' => $this->id, 'user_id' => $user_id])->get();
 
 		if ($organisation_roles->isEmpty()) {
 			$organisation_role = DB::table('organisation_roles')->insert([
-				'organisation_id'	=> $organisation_id,
+				'organisation_id'	=> $this->id,
 				'user_id'			=> $user_id,
 				'role'				=> 'admin',
 				'created_at'		=> date('Y-m-d H:i:s')
 			]);
 		} else {
 			$organisation_role = DB::table('organisation_roles')->where([
-				'organisation_id' => $organisation_id,
+				'organisation_id' => $this->id,
 				'user_id' => $user_id,
 			])->update(['role' => 'admin']);
 		}
 	}
 
-	protected function deleteAdmin($organisation_id, $user_id) {
+	public function deleteAdmin($user_id) {
 		$organisation_role = DB::table('organisation_roles')->where([
-			'organisation_id' => $organisation_id,
+			'organisation_id' => $this->id,
 			'user_id' => $user_id,
 		])->update(['role' => 'subscriber']);
 	}
 
-	protected function sluggify($string) {
-		$slug = preg_replace('/[^A-Za-z0-9\-\_\.]/', '', $string);
-		$organisations = self::where('slug', $slug)->get();
-
-		if (!$organisations->isEmpty()) { $slug .= count($organisations); }
-		
-		return $slug;
-	}
-
-	protected function subscribe($organisation_id, $user_id) {
+	public function subscribe($user_id) {
 		DB::table('organisation_roles')->insert([
-			'organisation_id'	=> $organisation_id,
+			'organisation_id'	=> $this->id,
 			'user_id'			=> $user_id,
 			'role'				=> 'subscriber',
 			'created_at'		=> date('Y-m-d H:i:s')
 		]);
 	}
 
-	protected function unsubscribe($organisation_id, $user_id) {
+	public function unsubscribe($user_id) {
 		DB::table('organisation_roles')
-			->where(['organisation_id' => $organisation_id, 'user_id' => $user_id])
+			->where(['organisation_id' => $this->id, 'user_id' => $user_id])
 			->delete();
 	}
 
-	protected function subscriptions($id = false) {
-		if (!$id) { $id = Auth::user()->id; }
-		return self::select('*')->join('organisation_roles', 'organisation_roles.organisation_id', '=', 'organisations.id')
-					->where('organisation_roles.user_id', $id)
-					->where('organisation_roles.role', 'subscriber')
-					->orderBy('name')
-					->get();
-	}
-
-	protected function mine($id = false) {
-		if (!$id) { $id = Auth::user()->id; }
-		return self::select('organisations.*')->join('organisation_roles', 'organisation_roles.organisation_id', '=', 'organisations.id')
-					->where('organisation_roles.user_id', $id)
-					->where('organisation_roles.role', 'admin')
-					->orderBy('name')
-					->get();
-	}
+	public function events() { return Event::where('organisation_id', $this->id)->get(); }
+	
+	public function posts() { return Post::where('organisation_id', $this->id)->get(); }
 }

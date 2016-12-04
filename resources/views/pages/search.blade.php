@@ -2,7 +2,7 @@
 
 @section('content')
 	<h1>Results for "{{ $query }}"</h1>
-	@if ($results['organisations']->isEmpty() && $results['events']->isEmpty() && $results['teams']->isEmpty() && $results['users']->isEmpty())
+	@if (!isset($results) || $results['organisations']->isEmpty() && $results['events']->isEmpty() && $results['teams']->isEmpty() && $results['users']->isEmpty())
 		<div class="row">
 			<div class="col-md-12">
 				<p class="empty text-center">No results were found</p>
