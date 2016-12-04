@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use Auth;
 use Storage;
 
 use App\General;
@@ -58,7 +59,7 @@ class TeamController extends Controller
 		$team = new Team($input);
 		$team->save();
 
-		Team::join($team_id, Auth::user()->id, false, true);
+		Team::join($team->id, Auth::user()->id, false, true);
 		Auth::user()->nlfg();
 
 		return redirect('teams');

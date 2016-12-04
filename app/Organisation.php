@@ -51,7 +51,7 @@ class Organisation extends Model
 				->orderBy('joined', 'asc')
 				->first();
 
-		if (isset($admin)) { return false; }
+		if ($admin == null) { return false; }
 		return true;
 	}
 

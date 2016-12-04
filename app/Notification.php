@@ -15,7 +15,7 @@ class Notification extends Model
 							->get();
 
 		foreach ($subscribers as $subscriber) {
-			self->insert([
+			self::insert([
 				'content'			=> 'posted an update',
 				'seen'				=> 0,
 				'organisation_id'	=> $organisation_id,

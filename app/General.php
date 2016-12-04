@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Image;
+use DB;
 
 class General extends Model
 {
