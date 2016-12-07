@@ -17,7 +17,19 @@ body {
 		}
 	}
 	.sidebar {
-		ul { padding: 0; margin-bottom: 2em; list-style-type: none; }
+		ul {
+			padding: 0; margin-bottom: 2em; list-style-type: none;
+			&.links {
+				li:hover { background-color: #505355; }
+			}
+			li {
+				padding: .1em .5em;
+				&:hover {
+					&:hover a { text-decoration: none; color: #fff; }
+				}
+				a { color: #ccc; }
+			}
+		}
 	}
 	#trusted { height: 1.5em; width: auto; max-width: 100%; }
 }
@@ -106,18 +118,14 @@ form {
 	img { width: 100%; height: auto; }
 }
 
-.users, .teams { display: flex; display: -webkit-flex; display: -ms-flexbox; }
-.user, .team {
-	box-sizing: content-box;
+.users, .teams, .blocklink-wrapper { display: flex; display: -webkit-flex; display: -ms-flexbox; }
+.blocklink {
+	padding: .5em; position: relative; box-sizing: content-box;
+	&:hover { background-color: #333535; cursor: pointer; }
+
 	.profile-img {
 		width: calc(100% - .4em); margin: .2em;
 		img { height: auto; width: 100%; }
-	}
-}
-.blocklink {
-	padding: .5em; position: relative;
-	&:hover {
-		background-color: #333535; cursor: pointer;
 	}
 	a {
 		color: #fff;

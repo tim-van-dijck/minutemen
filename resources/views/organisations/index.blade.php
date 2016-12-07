@@ -6,9 +6,9 @@
 	@endif
 
 	<h1>Organisation</h1>
-	<div class="row teams">
+	<div class="row blocklink-wrapper">
 		@forelse($organisations as $i => $organisation)
-			<div class="col-md-2 team">
+			<div class="col-md-2 blocklink">
 				<a href="{{ route('organisations.show', ['id' => $organisation->id]) }}">
 					<div class="profile-img"><img src="{{ $organisation->thumb or 'img/organisation.png' }}" alt="{{ $organisation->name }}"></div>
 					<p>{{$organisation->name}}</p>

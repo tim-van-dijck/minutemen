@@ -25,6 +25,15 @@ body {
     padding: 0;
     margin-bottom: 2em;
     list-style-type: none; }
+    body .sidebar ul.links li:hover {
+      background-color: #505355; }
+    body .sidebar ul li {
+      padding: .1em .5em; }
+      body .sidebar ul li:hover:hover a {
+        text-decoration: none;
+        color: #fff; }
+      body .sidebar ul li a {
+        color: #ccc; }
   body #trusted {
     height: 1.5em;
     width: auto;
@@ -174,26 +183,24 @@ form {
     width: 100%;
     height: auto; }
 
-.users, .teams {
+.users, .teams, .blocklink-wrapper {
   display: flex;
   display: -webkit-flex;
   display: -ms-flexbox; }
 
-.user, .team {
-  box-sizing: content-box; }
-  .user .profile-img, .team .profile-img {
-    width: calc(100% - .4em);
-    margin: .2em; }
-    .user .profile-img img, .team .profile-img img {
-      height: auto;
-      width: 100%; }
-
 .blocklink {
   padding: .5em;
-  position: relative; }
+  position: relative;
+  box-sizing: content-box; }
   .blocklink:hover {
     background-color: #333535;
     cursor: pointer; }
+  .blocklink .profile-img {
+    width: calc(100% - .4em);
+    margin: .2em; }
+    .blocklink .profile-img img {
+      height: auto;
+      width: 100%; }
   .blocklink a {
     color: #fff; }
     .blocklink a:hover {

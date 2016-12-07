@@ -62,7 +62,7 @@ class OrganisationController extends Controller
 		$organisation = new Organisation($input);
 		$organisation->save();
 
-		Organisation::makeAdmin($organisation->id, Auth::user()->id);
+		$organisation->makeAdmin(Auth::user()->id);
 
 		return redirect('organisations');
 	}

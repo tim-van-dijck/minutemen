@@ -7,6 +7,7 @@ use Auth;
 
 use App\Event;
 use App\General;
+use App\Organisation;
 use App\Post;
 use App\Team;
 use App\User;
@@ -16,7 +17,8 @@ class HomeController extends Controller
 	public function index()
 	{
 		return view('pages.welcome')->with([
-			'events' => Event::orderBy('starts_at')->get(),
+			'events'		=> Event::orderBy('starts_at')->get(),
+			'organisations'	=> Organisation::popular(),
 		]);
 	}
 

@@ -29,6 +29,14 @@ class Organisation extends Model
 					->get();
 	}
 
+	protected function popular() {
+		return self::select('organisations.*', DB::raw('COUNT(organisation_roles.user_id) AS subscriptions'))
+					->join('organisation_roles', 'organisation_roles.organisation_id','=', 'organisations.id')
+					->groupBy('organisation_roles.organisation_id')
+					->orderBy('subscriptions', 'desc')
+					->limit(5)->get();
+	}
+
 	public function admins() {
 		return DB::table('users')
 				->select('users.*', 'organisation_roles.created_at AS joined')

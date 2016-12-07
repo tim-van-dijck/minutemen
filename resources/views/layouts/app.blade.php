@@ -57,7 +57,7 @@
 					</button>
 
 					<!-- Branding Image -->
-					<a id="logo" class="navbar-brand" href="{{ (Auth::check()) ? url('home') : url('/') }}">
+					<a id="logo" class="navbar-brand" href="{{ url('/') }}">
 						{!! file_get_contents('img/logo.svg') !!}
 					</a>
 				</div>
@@ -91,6 +91,7 @@
 								</a>
 
 								<ul class="dropdown-menu" role="menu">
+									<li><a href="{{ url('home') }}">Dashboard</a></li>
 									<li>
 										<div class="block">
 											<label class="switch pull-right">
@@ -127,20 +128,18 @@
 				@if (Auth::check())
 					<div class="col-md-2 sidebar">
 						<h5>Teams</h5>
-						<ul>
-							@forelse (Auth::user()->teams() as $team)
+						<ul class='links'>
+							@foreach (Auth::user()->teams() as $team)
 								<li><a href="{{ route('teams.show', ['slug' => $team->slug]) }}">{{ $team->name }}</a></li>
-							@empty
-								<li>You're not currently part of any team</li>
-							@endforelse
+							@endforeach
+							<li><a href="{{ route('teams.create') }}"><i class="fa fa-plus"></i> create team</a></li>
 						</ul>
 						<h5>Your Organisations</h5>
-						<ul>
-							@forelse (Auth::user()->organisations() as $org)
+						<ul class='links'>
+							@foreach (Auth::user()->organisations() as $org)
 								<li><a href="{{ route('organisations.show', ['id' => $org->id]) }}">{{ $org->name }}</a></li>
-							@empty
-								<li>You're not currently part of any organisation</li>
-							@endforelse
+							@endforeach
+							<li><a href="{{ route('organisations.create') }}"><i class="fa fa-plus"></i> create organisation</a></li>
 						</ul>
 					</div>
 				@endif
