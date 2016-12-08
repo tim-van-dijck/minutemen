@@ -18,7 +18,7 @@ class User extends Authenticatable
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['username', 'firstname', 'lastname', 'slug', 'email', 'password', 'accuracy', 'kills', 'deaths', 'lfg'];
+	protected $fillable = ['username', 'firstname', 'lastname', 'slug', 'email', 'street', 'number', 'zip', 'city', 'coords', 'password', 'lfg'];
 
 	/**
 	 * The attributes that should be hidden for arrays.
@@ -62,5 +62,14 @@ class User extends Authenticatable
 	public function nlfg() {
 		$this->lfg = 0;
 		$this->save();
+	}
+
+	protected function getLfg($where = null) {
+		$query = User::select(DB::raw('*, ROUND(6353 * 2 * ASIN(SQRT(POWER(SIN(('.Auth::user()->lat.' - abs(`lat`))
+								* pi()/180 / 2),2) + COS('.Auth::user()->lat.' * pi()/180 ) * COS(abs(`lat`) *  pi()/180)
+								* POWER(SIN(('.Auth::user()->long.' - `lng`) *  pi()/180 / 2), 2) )), 2) AS distance'))
+								->where('lfg', 1);
+		if (isset($where)) { $query->where($where); }
+		return $query->orderBy('distance')->limit(6)->get();
 	}
 }

@@ -37,6 +37,23 @@ class Organisation extends Model
 					->limit(5)->get();
 	}
 
+	protected function subscribe($organisation_id) {
+		if (!self::find($organisation_id)->subscribed()) {
+			DB::table('organisation_roles')->insert([
+				'organisation_id'	=> $organisation_id,
+				'user_id'			=> Auth::user()->id,
+				'role'				=> 'subscriber',
+				'created_at'		=> date('Y-m-d H:i:s')
+			]);
+		}
+	}
+
+	protected function unsubscribe($organisation_id) {
+		DB::table('organisation_roles')
+			->where(['organisation_id' => $organisation_id, 'user_id' => Auth::user()->id])
+			->delete();
+	}
+
 	public function admins() {
 		return DB::table('users')
 				->select('users.*', 'organisation_roles.created_at AS joined')
@@ -88,19 +105,15 @@ class Organisation extends Model
 		])->update(['role' => 'subscriber']);
 	}
 
-	public function subscribe($user_id) {
-		DB::table('organisation_roles')->insert([
+	public function subscribed() {
+		$subscription = DB::table('organisation_roles')->where([
+			'user_id'			=> Auth::user()->id,
 			'organisation_id'	=> $this->id,
-			'user_id'			=> $user_id,
-			'role'				=> 'subscriber',
-			'created_at'		=> date('Y-m-d H:i:s')
-		]);
-	}
+			'role'				=> 'subscriber'
+		])->first();
 
-	public function unsubscribe($user_id) {
-		DB::table('organisation_roles')
-			->where(['organisation_id' => $this->id, 'user_id' => $user_id])
-			->delete();
+		if ($subscription == null) { return false; }
+		return true;
 	}
 
 	public function events() { return Event::where('organisation_id', $this->id)->get(); }

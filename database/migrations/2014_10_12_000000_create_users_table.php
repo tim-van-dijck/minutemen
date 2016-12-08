@@ -19,10 +19,16 @@ class CreateUsersTable extends Migration
             $table->string('slug')->unique();
             $table->string('firstname');
             $table->string('lastname');
+
             $table->string('email')->unique();
             $table->string('password');
-            $table->integer('kills');
-            $table->integer('deaths');
+            
+            $table->string('street');
+            $table->string('number');
+            $table->string('zip');
+            $table->string('city');
+            $table->string('coords');
+            
             $table->string('img')->nullable();
             $table->boolean('lfg')->default(false);
 

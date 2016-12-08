@@ -46,6 +46,17 @@ class Team extends Model
 				->get();
 	}
 
+	public function onlyMembers() {
+		return DB::table('users')
+				->select('users.*', 'team_users.created_at AS joined', 'team_users.deleted_at AS left')
+				->join('team_users', 'team_users.user_id', '=', 'users.id')
+				->join('teams', 'teams.id', '=', 'team_users.team_id')
+				->where('team_users.team_id', $this->id)
+				->where('team_users.admin', 0)
+				->orderBy('left', 'desc')
+				->get();
+	}
+
 	public function admins() {
 		return DB::table('users')
 				->select('users.*', 'team_users.created_at AS joined', 'team_users.deleted_at AS left')
@@ -55,14 +66,6 @@ class Team extends Model
 				->where('team_users.admin', 1)
 				->orderBy('left', 'desc')
 				->get();
-
-		$admins = [];
-
-		foreach ($result as $admin) {
-			$admins[] = $admin->id;
-		}
-
-		return $admins;
 	}
 
 	public function isAdmin($user_id = false) {

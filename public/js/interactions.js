@@ -1,6 +1,11 @@
 $('#join').click(function (e) {
 	e.preventDefault();
-	handleAjaxClick($(this));
+	ajaxJoin($(this));
+});
+
+$('#sub').click(function (e) {
+	e.preventDefault();
+	ajaxSub($(this));
 });
 
 $('.accept-deny a').click(function (e) {
@@ -8,7 +13,7 @@ $('.accept-deny a').click(function (e) {
 	acceptDeny($(this));
 });
 
-function handleAjaxClick($a) {
+function ajaxJoin($a) {
 	var href = $a.attr('href');
 	var text = 'Leave team';
 
@@ -19,6 +24,21 @@ function handleAjaxClick($a) {
 			.data('href', href);
 
 		if ($a.text() == text) { text = 'Join team'; }
+		$a.text(text);
+	});
+}
+
+function ajaxSub($a) {
+	var href = $a.attr('href');
+	var text = 'Unsubscribe';
+
+	$.get(href, function(data) {
+		var dHref = $a.data('href');
+
+		$a.attr('href', dHref)
+			.data('href', href);
+
+		if ($a.text() == text) { text = 'Subscribe'; }
 		$a.text(text);
 	});
 }

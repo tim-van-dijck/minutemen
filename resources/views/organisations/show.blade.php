@@ -2,9 +2,15 @@
 
 @section('content')
 	<!-- <div class="banner"><img src="{{ $organisation->banner }}" alt="{{ $organisation->name}} banner"></div> -->
-	@if($organisation->isAdmin(Auth::user()->id))
-		<a href="{{ route('organisations.edit', ['id' => $organisation->id]) }}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> edit</a>
-		<a href="{{ route('events.create', ['id' => $organisation->id]) }}" class="btn btn-primary"><i class="fa fa-calendar"></i> create event</a>
+	@if (Auth::check())
+		@if($organisation->isAdmin(Auth::user()->id))
+			<a href="{{ route('organisations.edit', ['id' => $organisation->id]) }}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> edit</a>
+			<a href="{{ route('events.create', ['id' => $organisation->id]) }}" class="btn btn-primary"><i class="fa fa-calendar"></i> create event</a>
+		@elseif ($organisation->subscribed())
+			<a id="sub" href="{{ route('ajax.unsub', ['organisation_id' => $organisation->id]) }}" class="btn btn-primary pull-right" data-href="{{ route('ajax.sub', ['organisation_id' => $organisation->id]) }}">Unsubscribe</a>
+		@else
+			<a id="sub" href="{{ route('ajax.sub', ['organisation_id' => $organisation->id]) }}" class="btn btn-primary pull-right" data-href="{{ route('ajax.unsub', ['organisation_id' => $organisation->id]) }}">Subscribe</a>
+		@endif
 	@endif
 	<h2>
 		@if ($organisation->trusted)
@@ -32,9 +38,13 @@
 						@foreach($organisation->events() as $event)
 							<div class="row">
 								<div class="col-md-12">
-									<div class="banner"><img src="{{ $event->banner }}" alt="{{ $event->title }}"></div>
-									<h5 class="text-center">{{ $event->title }}</h5>
-									<p class="period text-center">{{ $event->starts_at }}</p>
+									<div class="blocklink">
+										<a href="{{ route('events.show', ['id' => $event->id]) }}">
+											<div class="banner"><img src="{{ $event->banner or 'img/event.png' }}" alt="{{ $event->title }}"></div>
+											<h5 class="text-center">{{ $event->title }}</h5>
+											<p class="period text-center">{{ $event->starts_at }}</p>
+										</a>
+									</div>
 								</div>
 							</div>
 						@endforeach

@@ -142,7 +142,10 @@ class TeamController extends Controller
 		return redirect()->back();
 	}
 
-	public function join($team_id) {
-		Team::join($team_id, Auth::user()->id, false, false);
+	public function join($team_id) { Team::join($team_id, Auth::user()->id, false, false); }
+
+	public function members($slug) {
+		$team = Team::where(['slug' => $slug])->first();
+		return view('teams.members')->with(['team' => $team]);
 	}
 }

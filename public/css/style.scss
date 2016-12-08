@@ -19,12 +19,10 @@ body {
 	.sidebar {
 		ul {
 			padding: 0; margin-bottom: 2em; list-style-type: none;
-			&.links {
-				li:hover { background-color: #505355; }
-			}
 			li {
 				padding: .1em .5em;
 				&:hover {
+					&:not(.empty) { background-color: #505355; }
 					&:hover a { text-decoration: none; color: #fff; }
 				}
 				a { color: #ccc; }
@@ -128,8 +126,8 @@ form {
 		img { height: auto; width: 100%; }
 	}
 	a {
-		color: #fff;
-		&:hover { text-decoration: none; }
+		color: #fff; text-decoration: none;
+		&:hover, &:focus, &:active { text-decoration: none; }
 	}
 	p { text-align: center; }
 	&.user.request { padding-bottom: 1.5em; }

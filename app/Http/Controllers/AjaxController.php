@@ -29,4 +29,6 @@ class AjaxController extends Controller
 	}
 
 	public function denyRequest($team_id, $user_id) { Team::deleteRequest($team_id, $user_id); }
+
+	public function toggleLfg() { Auth::user()->lfgToggle(); }
 }

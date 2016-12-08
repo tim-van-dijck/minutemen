@@ -66,11 +66,10 @@
 					<!-- Left Side Of Navbar -->
 					<ul id="search" class="nav navbar-nav">
 						<li>
-							<form class="hidden" action="search" method="GET">
+							<form action="search" method="GET">
 								<input class="pull-left" type="text" name="q">
 								<button type="submit"><i class="fa fa-search"></i></button>
 							</form>
-							<button class="search-icon "><i class="fa fa-search"></i></button>
 						</li>
 					</ul>
 
@@ -128,14 +127,14 @@
 				@if (Auth::check())
 					<div class="col-md-2 sidebar">
 						<h5>Teams</h5>
-						<ul class='links'>
+						<ul>
 							@foreach (Auth::user()->teams() as $team)
 								<li><a href="{{ route('teams.show', ['slug' => $team->slug]) }}">{{ $team->name }}</a></li>
 							@endforeach
 							<li><a href="{{ route('teams.create') }}"><i class="fa fa-plus"></i> create team</a></li>
 						</ul>
 						<h5>Your Organisations</h5>
-						<ul class='links'>
+						<ul>
 							@foreach (Auth::user()->organisations() as $org)
 								<li><a href="{{ route('organisations.show', ['id' => $org->id]) }}">{{ $org->name }}</a></li>
 							@endforeach
@@ -152,9 +151,9 @@
 						<h5>Subscriptions</h5>
 						<ul>
 							@forelse (Auth::user()->subscriptions() as $sub)
-								<li><a href="{{ route('subscriptions.show', ['slug' => $sub->id]) }}">{{ $sub->name }}</a></li>
+								<li><a href="{{ route('organisations.show', ['slug' => $sub->organisation_id]) }}">{{ $sub->name }}</a></li>
 							@empty
-								<li>No subscriptions yet.</li>
+								<li class="empty">No subscriptions yet.</li>
 							@endforelse
 						</ul>
 					</div>

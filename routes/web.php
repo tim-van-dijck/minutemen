@@ -63,6 +63,7 @@ Route::group(['prefix' => 'teams'], function() {
 		Route::get('{slug}/edit', 'TeamController@edit')->name('teams.edit');
 	});
 	Route::get('{slug}', 'TeamController@show')->name('teams.show');
+	Route::get('{slug}/members', 'TeamController@members')->name('teams.members');
 	Route::get('/', 'TeamController@index')->name('teams.index');
 });
 
@@ -86,16 +87,16 @@ Route::group(['middleware' => 'ajax', 'prefix' => 'ajax'], function () {
 		Route::get('notifications/count', 'AjaxController@notificationCount');
 		Route::get('feed/{id?}', 'AjaxController@feed')->name('ajax.feed.get');
 
-		Route::get('lfg', 'UserController@toggleLfg')->name('ajax.lfg');
+		Route::get('lfg', 'AjaxController@toggleLfg')->name('ajax.lfg');
 
-		Route::get('ajax/sub', 'AjaxController@subscribe')->name('ajax.sub');
-		Route::get('ajax/unsub', 'AjaxController@unsubscribe')->name('ajax.unsub');
+		Route::get('organisations/{organisation_id}/sub', 'OrganisationController@subscribe')->name('ajax.sub');
+		Route::get('organisations/{organisation_id}/unsub', 'OrganisationController@unsubscribe')->name('ajax.unsub');
 
-		Route::get('ajax/team/{team_id}/join', 'AjaxController@joinTeam')->name('ajax.team.join');
-		Route::get('ajax/team/{team_id}/leave', 'AjaxController@leaveTeam')->name('ajax.team.leave');
+		Route::get('team/{team_id}/join', 'AjaxController@joinTeam')->name('ajax.team.join');
+		Route::get('team/{team_id}/leave', 'AjaxController@leaveTeam')->name('ajax.team.leave');
 
-		Route::get('ajax/team/{team_id}/accept/{user_id}', 'AjaxController@confirmJoin')->name('ajax.team.accept');
-		Route::get('ajax/team/{team_id}/deny/{user_id}', 'AjaxController@denyRequest')->name('ajax.team.deny');
+		Route::get('team/{team_id}/accept/{user_id}', 'AjaxController@confirmJoin')->name('ajax.team.accept');
+		Route::get('team/{team_id}/deny/{user_id}', 'AjaxController@denyRequest')->name('ajax.team.deny');
 	});
 	
 	Route::post('organisation/post/{id}', 'OrganisationController@post')->name('ajax.organisations.post');

@@ -56,6 +56,10 @@ class UserController extends Controller
 			'firstname'		=> 'required',
 			'lastname'		=> 'required',
 			'email'			=> 'required|email',
+			'street'		=> 'required',
+			'number'		=> 'required',
+			'zip'			=> 'required',
+			'city'			=> 'required',
 			'passworld_old'	=> 'required_with:password',
 			'password'		=> 'min:6|confirmed',
 			'img'			=> 'image|max:4096',
@@ -96,7 +100,6 @@ class UserController extends Controller
 		$users = User::orderBy(DB::raw('kills/deaths'), 'DESC')->get();
 		return view('users.leaderboard');
 	}
-
 
 	/**
 	 * Friend-related routes
@@ -140,5 +143,5 @@ class UserController extends Controller
 		return redirect()->back();
 	}
 
-	public function toggleLfg() { Auth::user()->lfgToggle(); }
+	public function lfg() { return view('users.lfg')->with(['users' => User::lfg()]); }
 }

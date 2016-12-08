@@ -18,10 +18,6 @@
 								<label for="banner" class="form-control img-label">
 									<span>Browse</span><input id="banner" type="file" class="hidden" name="banner" value="{{ old('banner') }}" accept="image/*">
 								</label>
-								<input type="hidden" name="cropx" id="cropx" value="0" />
-								<input type="hidden" name="cropy" id="cropy" value="0" />
-								<input type="hidden" name="cropw" id="cropw" value="0" />
-								<input type="hidden" name="croph" id="croph" value="0" />
 
 								@if ($errors->has('banner'))
 									<span class="help-block">
@@ -164,7 +160,6 @@
 @stop
 
 @section('js')
-	<script src="http://jcrop-cdn.tapmodo.com/v0.9.12/js/jquery.Jcrop.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjI_a7-CJA5anDE0q3NSBHoccjlL31Dmk"></script>
 	<script src="js/ckeditor/ckeditor.js"></script>
 	<script src="js/forms.js"></script>

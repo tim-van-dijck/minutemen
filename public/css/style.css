@@ -25,10 +25,10 @@ body {
     padding: 0;
     margin-bottom: 2em;
     list-style-type: none; }
-    body .sidebar ul.links li:hover {
-      background-color: #505355; }
     body .sidebar ul li {
       padding: .1em .5em; }
+      body .sidebar ul li:hover:not(.empty) {
+        background-color: #505355; }
       body .sidebar ul li:hover:hover a {
         text-decoration: none;
         color: #fff; }
@@ -203,7 +203,7 @@ form {
       width: 100%; }
   .blocklink a {
     color: #fff; }
-    .blocklink a:hover {
+    .blocklink a:hover, .blocklink a:focus, .blocklink a:active {
       text-decoration: none; }
   .blocklink p {
     text-align: center; }

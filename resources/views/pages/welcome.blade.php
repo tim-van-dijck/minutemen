@@ -22,7 +22,7 @@
 	<h2>Popular Organisations</h2>
 	<div class="row blocklink-wrapper">
 		@forelse($organisations as $i => $organisation)
-			<div class="col-md-{{ (count($organisations) < 6) ? floor(10/count($organisations)) : 2 }} blocklink">
+			<div class="col-md-3 {{ (count($organisations) < 4 && count($organisations) % 2 == 0) ? 'col-md-offset-'.floor((12-3*count($organisations))/2) : '' }} blocklink">
 				<a href="{{ route('organisations.show', ['id' => $organisation->id]) }}">
 					<div class="profile-img"><img src="{{ $organisation->thumb or 'img/organisation.png' }}" alt="{{ $organisation->name }}"></div>
 					<p class="text-center">{{ $organisation->name }}</p>

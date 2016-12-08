@@ -55,6 +55,10 @@ class RegisterController extends Controller
 			'lastname'	=> 'required|max:255',
 			'email'		=> 'required|email|max:255|unique:users',
 			'password'	=> 'required|min:6|confirmed',
+			'street'	=> 'required',
+			'number'	=> 'required',
+			'zip'		=> 'required',
+			'city'		=> 'required',
 		]);
 	}
 
@@ -66,9 +70,8 @@ class RegisterController extends Controller
 	 */
 	protected function create(array $data)
 	{
-		if (isset($data['img'])) {
-			$img = General::uploadImg($data['img'], 'users', true);
-		} else { $img = null; }
+		if (isset($data['img'])) { $img = General::uploadImg($data['img'], 'users', true); }
+		else { $img = null; }
 		
 		return User::create([
 			'username'	=> $data['username'],
@@ -76,9 +79,12 @@ class RegisterController extends Controller
 			'firstname'	=> $data['firstname'],
 			'lastname'	=> $data['lastname'],
 			'email'		=> $data['email'],
+			'street'	=> $data['street'],
+			'number'	=> $data['number'],
+			'zip'		=> $data['zip'],
+			'city'		=> $data['city'],
+			'coords'	=> $data['coords'],
 			'password'	=> bcrypt($data['password']),
-			'kills'		=> 0,
-			'deaths'	=> 0,
 			'img'		=> $img,
 		]);
 	}

@@ -29,10 +29,7 @@ class OrganisationController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function create()
-	{
-		return view('organisations.create');
-	}
+	public function create() { return view('organisations.create'); }
 
 	/**
 	 * Store a newly created resource in storage.
@@ -156,4 +153,8 @@ class OrganisationController extends Controller
 
 		Post::make($input);
 	}
+
+	public function subscribe($organisation_id) { Organisation::subscribe($organisation_id); }
+
+	public function unsubscribe($organisation_id) { Organisation::unsubscribe($organisation_id); }
 }

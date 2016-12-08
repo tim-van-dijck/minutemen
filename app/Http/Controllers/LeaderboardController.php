@@ -8,11 +8,6 @@ use App\Leaderboard;
 
 class LeaderboardController extends Controller
 {
-	public function index()
-	{
-
-	}
-
 	public function teams()
 	{
 		$teams = Leaderboard::getGlobal();

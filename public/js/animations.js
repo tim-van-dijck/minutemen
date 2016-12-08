@@ -1,12 +1,4 @@
 $(function () {
-	$('button.search-icon').click(function(e) {
-		e.preventDefault();
-		$(this).hide();
-		$('#search form')
-			.css('width', 0)
-			.toggleClass('hidden')
-			.animate({width: '100%'});
-	});
 
 	$('.navbar-nav a.login').click(function(e) {
 		e.preventDefault();
