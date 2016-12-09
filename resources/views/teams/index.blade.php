@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+@section('title', 'Teams')
 @section('content')
 	@if (Auth::check())
 		<div class="pull-right"><a class="btn btn-primary" href="{{ route('teams.create') }}"><i class="fa fa-plus"></i> new team</a></div>

@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+@section('title', 'Friends')
 @section('content')
 	@if (!$requests->isEmpty())
 		<h2>Friend Requests</h2>

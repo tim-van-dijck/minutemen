@@ -16,6 +16,8 @@ class Event extends Model
 		return Team::select('*')->join('participations', 'participations.team_id', '=', 'teams.id')->where('participations.event_id', $this->id)->get();
 	}
 
+	public function rounds() { return Round::where('event_id', $this->id)->get(); }
+
 	public function full() {
 		return count($this->participators()) == $this->max_teams;
 	}

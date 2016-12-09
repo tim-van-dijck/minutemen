@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+@section('title', $team->name)
 @section('content')
 	@if($team->isAdmin())
 		<a href="{{ route('teams.edit', ['slug' => $team->slug]) }}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> edit</a>

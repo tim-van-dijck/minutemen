@@ -1,4 +1,6 @@
 @extends('layouts.app')
+
+@section('title', 'Home')
 @section('content')
 	<h2>Events</h2>
 	<div class="row blocklink-wrapper">

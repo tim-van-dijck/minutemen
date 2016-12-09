@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+@section('title', $organisation->name)
 @section('content')
 	<!-- <div class="banner"><img src="{{ $organisation->banner }}" alt="{{ $organisation->name}} banner"></div> -->
 	@if (Auth::check())

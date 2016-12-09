@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+@section('title', $user->name)
 @section('content')
 	@if (!$user->isFriend())
 		<a href="friends/{{$user->slug}}/add" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> add friend</a>

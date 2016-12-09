@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+@section('title', 'Create event')
 @section('content')
 	<h1>Create an event</h1>
 	<form class="form-horizontal" role="form" method="POST" action="{{ route('events.store', ['id' => $organisation->id]) }}" enctype="multipart/form-data">

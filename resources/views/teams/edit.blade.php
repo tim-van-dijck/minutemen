@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+@section('title', 'Edit '.$team->name)
 @section('content')
 	<form action="teams/{{ $team->id }}" method="POST">
 		{{ csrf_field() }}

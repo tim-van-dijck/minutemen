@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+@section('title', 'Team leaderboard')
 @section('content')
 	<h2>Leaderboard: Teams</h2>
 	<div class="row">

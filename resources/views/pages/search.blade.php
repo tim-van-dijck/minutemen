@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+@section('title', 'Search results')
 @section('content')
 	<h1>Results for "{{ $query }}"</h1>
 	@if (!isset($results) || $results['organisations']->isEmpty() && $results['events']->isEmpty() && $results['teams']->isEmpty() && $results['users']->isEmpty())

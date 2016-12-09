@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+@section('title', 'Create team')
 @section('content')
 	<h1>Create a team</h1>
 	<form id="team-form" class="form-horizontal image-form" role="form" method="POST" action="{{ route('teams.store') }}" enctype="multipart/form-data">

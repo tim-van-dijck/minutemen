@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+@section('title', 'Settings')
 @section('content')
 	<h1>Edit profile</h1>
 	<form id="edit-form" class="form-horizontal" role="form" method="POST" action="{{ route('users.update', ['id' => $user->id]) }}" enctype="multipart/form-data">

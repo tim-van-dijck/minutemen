@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
+@section('title', $event->title)
 @section('content')
-	<div class="banner"><img src="{{ $event->banner or 'img/event.png' }}" alt="{{ $event->username }}"></div>
+	<div class="banner"><img src="{{ $event->banner or 'img/event.png' }}" alt="{{ $event->title }}"></div>
 	<h2>{{ $event->title }}</h2>
 	<div class="row">
 		<div class="col-md-9">

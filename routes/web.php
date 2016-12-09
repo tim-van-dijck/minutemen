@@ -25,7 +25,7 @@ Route::group(['prefix' => 'users'], function () {
 
 // Routes requiring login
 Route::group(['middleware' => 'auth'], function () {
-	Route::get('/home', 'HomeController@home');
+	Route::get('/dashboard', 'HomeController@home');
 
 	// Users
 	Route::get('settings', 'UserController@edit')->name('users.edit');
@@ -78,7 +78,10 @@ Route::group(['prefix' => 'organisations'], function() {
 Route::group(['prefix' => 'events'], function () {
 	Route::get('/', 'EventController@index')->name('events.index');
 	Route::get('/{id}', 'EventController@show')->name('events.show');
-	Route::post('/{event_id}/enter', 'EventController@enter')->name('events.enter');
+	Route::group(['middleware' => 'auth'], function () {
+		Route::get('/{event_id}/manage', 'EventController@manage')->name('events.manage');
+		Route::post('/{event_id}/enter', 'EventController@enter')->name('events.enter');
+	});
 });
 
 // Ajax

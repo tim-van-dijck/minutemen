@@ -4,12 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Schedule extends Model
+class Round extends Model
 {
 	public $timestamps = false;
-	protected $fillable = [];
+	protected $fillable = ['event_id', 'name'];
 	
     protected function make() {
-
+    	// 
     }
 }

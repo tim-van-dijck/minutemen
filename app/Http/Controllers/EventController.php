@@ -29,11 +29,7 @@ class EventController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function create($id)
-	{
-		$organisation = Organisation::find($id);
-		return view('events.create')->with(['organisation' => $organisation]);
-	}
+	public function create($id) { return view('events.create')->with(['organisation' => Organisation::find($id)]); }
 
 	/**
 	 * Create a new resource.
@@ -89,11 +85,7 @@ class EventController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit($id)
-	{
-		$event = Event::find($id);
-		return view('events.edit')->with(['event' => $event]);
-	}
+	public function edit($id) { return view('events.edit')->with(['event' => Event::find($id)]); }
 
 	/**
 	 * Update the specified resource in storage.
@@ -145,8 +137,7 @@ class EventController extends Controller
 		return redirect()->back();
 	}
 
-	public function enter(Request $request, $event_id)
-	{
-		Event::enter($event_id, intval($request->input('team')));
-	}
+	public function manage($event_id) { return view('events.manage')->with(['event' => EVent::find($event_id)]); }
+
+	public function enter(Request $request, $event_id) { Event::enter($event_id, intval($request->input('team'))); }
 }

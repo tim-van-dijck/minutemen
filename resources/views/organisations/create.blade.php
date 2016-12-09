@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+@section('title', 'Create organisation')
 @section('content')
 	<h1>Create an organisation</h1>
 	<form id="organisation-form" class="form-horizontal image-form" role="form" method="POST" action="{{ route('organisations.store') }}" enctype="multipart/form-data">
