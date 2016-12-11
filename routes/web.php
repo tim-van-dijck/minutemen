@@ -76,12 +76,14 @@ Route::group(['prefix' => 'organisations'], function() {
 
 // Events
 Route::group(['prefix' => 'events'], function () {
-	Route::get('/', 'EventController@index')->name('events.index');
-	Route::get('/{id}', 'EventController@show')->name('events.show');
 	Route::group(['middleware' => 'auth'], function () {
 		Route::get('/{event_id}/manage', 'EventController@manage')->name('events.manage');
 		Route::post('/{event_id}/enter', 'EventController@enter')->name('events.enter');
+		Route::get('/{event_id}/roundrobin', 'RoundController@roundrobin')->name('events.roundrobin');
 	});
+	Route::get('/', 'EventController@index')->name('events.index');
+	Route::get('/{id}', 'EventController@show')->name('events.show');
+	Route::get('/{id}/leaderboard', 'EventController@leaderboard')->name('events.leaderboard');
 });
 
 // Ajax
@@ -104,3 +106,5 @@ Route::group(['middleware' => 'ajax', 'prefix' => 'ajax'], function () {
 	
 	Route::post('organisation/post/{id}', 'OrganisationController@post')->name('ajax.organisations.post');
 });
+
+Route::get('run', function () { return json_encode(\App\Leaderboard::createOrUpdateAll()); });

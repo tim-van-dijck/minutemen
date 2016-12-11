@@ -10,7 +10,7 @@ use Image;
 
 class Organisation extends Model
 {
-	protected $fillable = ['name', 'description', 'thumb', 'banner', 'trusted', 'created_at', 'updated_at'];
+	protected $fillable = ['name', 'description', 'thumb', 'banner', 'website', 'trusted', 'created_at', 'updated_at'];
 
 	protected function search($query) {
 		return self::select('*')->where('name', 'LIKE', $query)
@@ -65,7 +65,9 @@ class Organisation extends Model
 				->get();
 	}
 
-	public function isAdmin($user_id) {
+	public function isAdmin($user_id = false) {
+		if (!$user_id) { $user_id = Auth::user()->id; }
+		
 		$admin = DB::table('users')
 				->select('users.*', 'organisation_roles.created_at AS joined')
 				->join('organisation_roles', 'organisation_roles.user_id', '=', 'users.id')

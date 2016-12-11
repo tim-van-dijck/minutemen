@@ -183,6 +183,9 @@ form {
     width: 100%;
     height: auto; }
 
+.row.rounds {
+  margin-bottom: 3em; }
+
 .users, .teams, .blocklink-wrapper {
   display: flex;
   display: -webkit-flex;
@@ -202,7 +205,8 @@ form {
       height: auto;
       width: 100%; }
   .blocklink a {
-    color: #fff; }
+    color: #fff;
+    text-decoration: none; }
     .blocklink a:hover, .blocklink a:focus, .blocklink a:active {
       text-decoration: none; }
   .blocklink p {

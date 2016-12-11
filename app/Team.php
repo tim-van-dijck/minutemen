@@ -36,49 +36,45 @@ class Team extends Model
 	}
 
 	public function members() {
-		return DB::table('users')
-				->select('users.*', 'team_users.created_at AS joined', 'team_users.deleted_at AS left')
-				->join('team_users', 'team_users.user_id', '=', 'users.id')
-				->join('teams', 'teams.id', '=', 'team_users.team_id')
-				->where('team_users.team_id', $this->id)
-				->where('team_users.pending', 0)
-				->orderBy('left', 'desc')
-				->get();
+		return User::select('users.*', 'team_users.created_at AS joined', 'team_users.deleted_at AS left')
+					->join('team_users', 'team_users.user_id', '=', 'users.id')
+					->join('teams', 'teams.id', '=', 'team_users.team_id')
+					->where('team_users.team_id', $this->id)
+					->where('team_users.pending', 0)
+					->orderBy('left', 'desc')
+					->get();
 	}
 
 	public function onlyMembers() {
-		return DB::table('users')
-				->select('users.*', 'team_users.created_at AS joined', 'team_users.deleted_at AS left')
-				->join('team_users', 'team_users.user_id', '=', 'users.id')
-				->join('teams', 'teams.id', '=', 'team_users.team_id')
-				->where('team_users.team_id', $this->id)
-				->where('team_users.admin', 0)
-				->orderBy('left', 'desc')
-				->get();
+		return User::select('users.*', 'team_users.created_at AS joined', 'team_users.deleted_at AS left')
+					->join('team_users', 'team_users.user_id', '=', 'users.id')
+					->join('teams', 'teams.id', '=', 'team_users.team_id')
+					->where('team_users.team_id', $this->id)
+					->where('team_users.admin', 0)
+					->orderBy('left', 'desc')
+					->get();
 	}
 
 	public function admins() {
-		return DB::table('users')
-				->select('users.*', 'team_users.created_at AS joined', 'team_users.deleted_at AS left')
-				->join('team_users', 'team_users.user_id', '=', 'users.id')
-				->join('teams', 'teams.id', '=', 'team_users.team_id')
-				->where('team_users.team_id', $this->id)
-				->where('team_users.admin', 1)
-				->orderBy('left', 'desc')
-				->get();
+		return User::select('users.*', 'team_users.created_at AS joined', 'team_users.deleted_at AS left')
+					->join('team_users', 'team_users.user_id', '=', 'users.id')
+					->join('teams', 'teams.id', '=', 'team_users.team_id')
+					->where('team_users.team_id', $this->id)
+					->where('team_users.admin', 1)
+					->orderBy('left', 'desc')
+					->get();
 	}
 
 	public function isAdmin($user_id = false) {
 		if (!$user_id) { $user_id = Auth::user()->id; }
-		$admin = DB::table('users')
-				->select('users.*', 'team_users.created_at AS joined')
-				->join('team_users', 'team_users.user_id', '=', 'users.id')
-				->join('teams', 'teams.id', '=', 'team_users.team_id')
-				->where('team_users.team_id', $this->id)
-				->where('team_users.user_id', $user_id)
-				->where('team_users.admin', 1)
-				->where('team_users.pending', 0)
-				->first();
+		$admin = User::select('users.*', 'team_users.created_at AS joined')
+					->join('team_users', 'team_users.user_id', '=', 'users.id')
+					->join('teams', 'teams.id', '=', 'team_users.team_id')
+					->where('team_users.team_id', $this->id)
+					->where('team_users.user_id', $user_id)
+					->where('team_users.admin', 1)
+					->where('team_users.pending', 0)
+					->first();
 
 		if ($admin == null) { return false; }
 		return true;
@@ -86,14 +82,13 @@ class Team extends Model
 
 	public function isMember($user_id = false) {
 		if (!$user_id) { $user_id = Auth::user()->id; }
-		$member = DB::table('users')
-				->select('users.*', 'team_users.created_at AS joined')
-				->join('team_users', 'team_users.user_id', '=', 'users.id')
-				->join('teams', 'teams.id', '=', 'team_users.team_id')
-				->where('team_users.team_id', $this->id)
-				->where('team_users.user_id', $user_id)
-				->where('team_users.pending', 0)
-				->first();
+		$member = User::select('users.*', 'team_users.created_at AS joined')
+					->join('team_users', 'team_users.user_id', '=', 'users.id')
+					->join('teams', 'teams.id', '=', 'team_users.team_id')
+					->where('team_users.team_id', $this->id)
+					->where('team_users.user_id', $user_id)
+					->where('team_users.pending', 0)
+					->first();
 
 		if ($member == null) { return false; }
 		return true;
@@ -131,14 +126,14 @@ class Team extends Model
 	}
 
 	protected function makeAdmin($team_id, $user_id) {
-		$team_user = DB::table('team_users')->where([
+		DB::table('team_users')->where([
 			'team_id' => $team_id,
 			'user_id' => $user_id,
 		])->update(['admin' => 1]);
 	}
 
 	protected function deleteAdmin($team_id, $user_id) {
-		$team_user = DB::table('team_users')->where([
+		DB::table('team_users')->where([
 			'team_id' => $team_id,
 			'user_id' => $user_id,
 		])->update(['admin' => 0]);
@@ -160,5 +155,62 @@ class Team extends Model
 						'user_id'	=> $user_id,
 						'pending'	=> 1
 					])->delete();
+	}
+
+	public function wins($event_id = false) {
+		$first = Game::select(DB::raw('team_1_won as wins'))
+					->join('rounds', 'rounds.id', '=', 'games.round_id')
+					->where('team_1_won', 1)
+					->where('draw', 0)
+					->where('games.team_1', $this->id);
+
+		if ($event_id) { $first->where('rounds.event_id', $event_id); }
+
+		$first = $first->get();
+
+		$second = Game::select(DB::raw('team_1_won as wins'))
+					->join('rounds', 'rounds.id', '=', 'games.round_id')
+					->where('team_1_won', 0)
+					->where('draw', 0)
+					->where('games.team_2', $this->id);
+		if ($event_id) { $second->where('rounds.event_id', $event_id); }
+		
+		$second = $second->get();
+
+		return count($first) + count($second);
+	}
+
+	public function losses($event_id = false) {
+		$first = Game::select(DB::raw('team_1_won as losses'))
+					->join('rounds', 'rounds.id', '=', 'games.round_id')
+					->where('team_1_won', 0)
+					->where('draw', 0)
+					->where('games.team_1', $this->id);
+
+		if ($event_id) { $first->where('rounds.event_id', $event_id); }
+		$first = $first->get();
+
+		$second = Game::select(DB::raw('team_1_won as losses'))
+					->join('rounds', 'rounds.id', '=', 'games.round_id')
+					->where('team_1_won', 1)
+					->where('draw', 0)
+					->where('games.team_2', $this->id);
+		if ($event_id) { $second->where('rounds.event_id', $event_id); }
+		$second = $second->get();
+
+		return count($first) + count($second);
+	}
+
+	public function draws($event_id = false) {
+		$query = Game::select(DB::raw('draw as draws'))
+					->join('rounds', 'rounds.id', '=', 'games.round_id')
+					->where('games.team_1', $this->id)
+					->orWhere('games.team2', $this->id)
+					->where('draw', 1);
+
+		if ($event_id) { $query->where('rounds.event_id', $event_id); }
+		$result = $query->get();
+
+		return count($result);
 	}
 }

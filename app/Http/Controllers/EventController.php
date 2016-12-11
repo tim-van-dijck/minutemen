@@ -137,7 +137,11 @@ class EventController extends Controller
 		return redirect()->back();
 	}
 
-	public function manage($event_id) { return view('events.manage')->with(['event' => EVent::find($event_id)]); }
+	public function manage($event_id) { return view('events.manage')->with(['event' => Event::find($event_id)]); }
+
+	public function leaderboard($event_id) {
+		$event = Event::find($event_id);
+		return view('events.leaderboard')->with(['event' => $event, 'leaderboard' => $event->leaderboard()]); }
 
 	public function enter(Request $request, $event_id) { Event::enter($event_id, intval($request->input('team'))); }
 }

@@ -3,6 +3,9 @@
 @section('title', $event->title)
 @section('content')
 	<div class="banner"><img src="{{ $event->banner or 'img/event.png' }}" alt="{{ $event->title }}"></div>
+	@if (Auth::check() && $event->isAdmin())
+		<a href="{{ route('events.edit', ['id' => $event->id]) }}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> edit</a>
+	@endif
 	<h2>{{ $event->title }}</h2>
 	<div class="row">
 		<div class="col-md-9">
@@ -11,11 +14,15 @@
 		</div>
 		<div class="col-md-3">
 			<h4>Participators</h4>
-			@foreach($event->participators() as $team)
-				<div class="col-md-3 team">
+			@forelse($event->participators() as $team)
+				<div class="col-md-3 blocklink team">
 					<div class="profile-img"><img src="{{ $team->thumb or 'img/emblem.png' }}" alt="{{ $team->name }}" title="{{ $team->name }}"></div>
 				</div>
-			@endforeach
+			@empty
+				<div class="col-md-12">
+					<p class="empty">No sign ups yet</p>
+				</div>
+			@endforelse
 		</div>
 	</div>
 	<div class="row data">
@@ -35,7 +42,7 @@
 			</div>
 		</div>
 
-		@if (Auth::check() && !$event->full())
+		@if (Auth::check() && !$event->full() && !$event->isAdmin())
 			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#enter-event">sign up your team</button>
 			
 			<div class="modal fade" id="enter-event" tabindex="-1" role="dialog">
@@ -66,6 +73,15 @@
 				</div>
 			</div>
 		@endif
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			@if (Auth::check() && $event->isAdmin())
+				<a href="{{ route('events.manage', ['id' => $event->id]) }}" class="btn btn-primary">manage tournament</a>
+			@else
+				<a href="{{ route('events.leaderboard', ['id' => $event->id]) }}" class="btn btn-primary">leaderboard</a>
+			@endif
+		</div>
 	</div>
 @stop
 

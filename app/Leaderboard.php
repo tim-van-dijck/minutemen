@@ -58,4 +58,37 @@ class Leaderboard extends Model
 			}
 		}
 	}
+
+	protected function getByEvent($event_id) {
+		return Team::select(DB::raw('teams.*, COUNT(leaderboards.wins) AS wins, COUNT(leaderboards.draws) AS draws, COUNT(leaderboards.losses) AS losses'))
+				->join('leaderboards', 'leaderboards.team_id', '=', 'teams.id')
+				->where('event_id', $event_id)
+				->groupBy('leaderboards.team_id')
+				->orderBy('wins', 'desc')
+				->orderBy('draws', 'desc')
+				->orderBy('losses', 'asc')
+				->get();
+	}
+
+	protected function createOrUpdateAll() {
+		$events = Event::get();
+			//  where('ends_at',  '>', date('Y-m-d H:i:s'))
+		foreach ($events as $event) {
+
+			foreach ($event->participators() as $team) {
+				$leaderboard = self::firstOrNew([
+					'team_id' => $team->id,
+					'event_id' => $event->id
+				]);
+
+				$leaderboard->wins = $team->wins($event->id);
+				return json_encode($leaderboard->wins);
+				// $leaderboard->draws = $team->draws($event->id);
+				// $leaderboard->losses = $team->losses($event->id);
+
+				$leaderboard->save();
+			}
+
+		}
+	}
 }

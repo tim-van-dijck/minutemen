@@ -34,7 +34,7 @@
 											@endif
 										</div>
 									@else
-										<div class="banner"><img src="{{ $item->banner }}" alt="{{ $item->title }}"></div>
+										<div class="banner"><img src="{{ $item->banner or 'img/event.png' }}" alt="{{ $item->title }}"></div>
 									@endif
 									@if ($index == 'users')
 										<p>{{ $item->username }}</p>
