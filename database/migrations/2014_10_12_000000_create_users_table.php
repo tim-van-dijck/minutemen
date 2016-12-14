@@ -27,8 +27,9 @@ class CreateUsersTable extends Migration
             $table->string('number');
             $table->string('zip');
             $table->string('city');
-            $table->string('coords');
-            
+            $table->string('lat');
+            $table->string('long');
+
             $table->string('img')->nullable();
             $table->boolean('lfg')->default(false);
 

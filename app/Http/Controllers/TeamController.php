@@ -9,6 +9,7 @@ use Storage;
 
 use App\General;
 use App\Team;
+use App\User;
 
 class TeamController extends Controller
 {
@@ -148,4 +149,14 @@ class TeamController extends Controller
 		$team = Team::where(['slug' => $slug])->first();
 		return view('teams.members')->with(['team' => $team]);
 	}
+
+    public function lfg($slug)
+    {
+        $team = Team::where('slug', $slug)->first();
+        return view('teams.lfg')->with([
+            'team'      => $team,
+            'requests'  => $team->requests(),
+            'users'     => User::getLfg()
+        ]);
+    }
 }

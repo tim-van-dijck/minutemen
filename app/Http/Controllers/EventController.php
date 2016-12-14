@@ -141,7 +141,8 @@ class EventController extends Controller
 
 	public function leaderboard($event_id) {
 		$event = Event::find($event_id);
-		return view('events.leaderboard')->with(['event' => $event, 'leaderboard' => $event->leaderboard()]); }
+		return view('events.leaderboard')->with(['event' => $event, 'leaderboard' => $event->leaderboard()]);
+	}
 
 	public function enter(Request $request, $event_id) { Event::enter($event_id, intval($request->input('team'))); }
 }

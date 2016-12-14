@@ -61,6 +61,7 @@ Route::group(['prefix' => 'leaderboard'], function() {
 Route::group(['prefix' => 'teams'], function() {
 	Route::group(['middleware' => 'auth'], function() {
 		Route::get('{slug}/edit', 'TeamController@edit')->name('teams.edit');
+        Route::get('/{slug}/lfg', 'TeamController@lfg')->name('teams.lfg');
 	});
 	Route::get('{slug}', 'TeamController@show')->name('teams.show');
 	Route::get('{slug}/members', 'TeamController@members')->name('teams.members');
@@ -76,10 +77,10 @@ Route::group(['prefix' => 'organisations'], function() {
 
 // Events
 Route::group(['prefix' => 'events'], function () {
-	Route::group(['middleware' => 'auth'], function () {
-		Route::get('/{event_id}/manage', 'EventController@manage')->name('events.manage');
-		Route::post('/{event_id}/enter', 'EventController@enter')->name('events.enter');
-		Route::get('/{event_id}/roundrobin', 'RoundController@roundrobin')->name('events.roundrobin');
+    Route::group(['middleware' => 'auth'], function () {
+        Route::get('/{event_id}/manage', 'EventController@manage')->name('events.manage');
+        Route::post('/{event_id}/enter', 'EventController@enter')->name('events.enter');
+        Route::get('/{event_id}/roundrobin', 'RoundController@roundrobin')->name('events.roundrobin');
 	});
 	Route::get('/', 'EventController@index')->name('events.index');
 	Route::get('/{id}', 'EventController@show')->name('events.show');
@@ -106,5 +107,3 @@ Route::group(['middleware' => 'ajax', 'prefix' => 'ajax'], function () {
 	
 	Route::post('organisation/post/{id}', 'OrganisationController@post')->name('ajax.organisations.post');
 });
-
-Route::get('run', function () { return json_encode(\App\Leaderboard::createOrUpdateAll()); });

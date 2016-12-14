@@ -204,9 +204,9 @@ class Team extends Model
 	public function draws($event_id = false) {
 		$query = Game::select(DB::raw('draw as draws'))
 					->join('rounds', 'rounds.id', '=', 'games.round_id')
-					->where('games.team_1', $this->id)
-					->orWhere('games.team2', $this->id)
-					->where('draw', 1);
+                    ->where('draw', 1)
+                    ->where('games.team_1', $this->id)
+                    ->orWhere('games.team_2', $this->id);
 
 		if ($event_id) { $query->where('rounds.event_id', $event_id); }
 		$result = $query->get();

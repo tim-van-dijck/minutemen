@@ -8,6 +8,7 @@ use DB;
 
 class Leaderboard extends Model
 {
+    public $timestamps = false;
 	protected $fillable = ['team_id', 'event_id', 'wins', 'losses', 'draws'];
 
 	protected function getGlobal() {
@@ -60,10 +61,9 @@ class Leaderboard extends Model
 	}
 
 	protected function getByEvent($event_id) {
-		return Team::select(DB::raw('teams.*, COUNT(leaderboards.wins) AS wins, COUNT(leaderboards.draws) AS draws, COUNT(leaderboards.losses) AS losses'))
+		return Team::select(DB::raw('DISTINCT teams.*, leaderboards.wins AS wins, leaderboards.draws AS draws, leaderboards.losses AS losses'))
 				->join('leaderboards', 'leaderboards.team_id', '=', 'teams.id')
 				->where('event_id', $event_id)
-				->groupBy('leaderboards.team_id')
 				->orderBy('wins', 'desc')
 				->orderBy('draws', 'desc')
 				->orderBy('losses', 'asc')
@@ -82,9 +82,8 @@ class Leaderboard extends Model
 				]);
 
 				$leaderboard->wins = $team->wins($event->id);
-				return json_encode($leaderboard->wins);
-				// $leaderboard->draws = $team->draws($event->id);
-				// $leaderboard->losses = $team->losses($event->id);
+				$leaderboard->draws = $team->draws($event->id);
+                $leaderboard->losses = $team->losses($event->id);
 
 				$leaderboard->save();
 			}
