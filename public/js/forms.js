@@ -104,7 +104,7 @@ function setCoords() {
 
 	$.get('https://maps.google.com/maps/api/geocode/json?sensor=false&key=AIzaSyDuJIisroEDUZcSowh6tqA_LG9Vmn1C4IQ&address='+address, function (data) {
 		
-		if ($('#coords').length > 0) {
+		if ($('#map').length > 0) {
 			pos = new google.maps.LatLng(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng);
 			map.setCenter(pos);
 			map.setZoom(15);

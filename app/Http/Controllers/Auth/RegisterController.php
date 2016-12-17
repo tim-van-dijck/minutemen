@@ -29,7 +29,7 @@ class RegisterController extends Controller
 	 *
 	 * @var string
 	 */
-	protected $redirectTo = '/home';
+	protected $redirectTo = '/dashboard';
 
 	/**
 	 * Create a new controller instance.
@@ -72,6 +72,8 @@ class RegisterController extends Controller
 	{
 		if (isset($data['img'])) { $img = General::uploadImg($data['img'], 'users', true); }
 		else { $img = null; }
+
+		$coords = explode(';', $data['coords']);
 		
 		return User::create([
 			'username'	=> $data['username'],
@@ -83,7 +85,8 @@ class RegisterController extends Controller
 			'number'	=> $data['number'],
 			'zip'		=> $data['zip'],
 			'city'		=> $data['city'],
-			'coords'	=> $data['coords'],
+			'lat'       => $coords[0],
+			'long'      => $coords[1],
 			'password'	=> bcrypt($data['password']),
 			'img'		=> $img,
 		]);

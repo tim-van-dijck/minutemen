@@ -97,13 +97,13 @@
 								<input id="street" type="text" class="form-control" name="street" value="{{ old('street') }}" required autofocus>
 							</div>
 							<div class="col-md-3">
-								<label for="number" class="control-label">Number</label><br>
 								@if ($errors->has('number'))
 									<span class="help-block">
 										<strong>{{ $errors->first('number') }}</strong>
 									</span>
 								@endif
-								<input id="number" type="number" class="form-control" name="number">
+								<label for="number" class="control-label">Number</label><br>
+								<input id="number" type="number" class="form-control" name="number" value="{{ old('number') }}">
 							</div>
 						</div>
 					</div>
@@ -113,21 +113,21 @@
 						<div class="row">
 							<div class="col-md-5">
 								<label for="zip" class="control-label">ZIP-code</label><br>
+								<input id="zip" type="text" class="form-control" name="zip" value="{{ old('zip') }}" required autofocus>
 								@if ($errors->has('zip'))
 									<span class="help-block">
 										<strong>{{ $errors->first('zip') }}</strong>
 									</span>
 								@endif
-								<input id="zip" type="text" class="form-control" name="zip" value="{{ old('zip') }}" required autofocus>
 							</div>
 							<div class="col-md-7">
 								<label for="city" class="control-label">City</label><br>
+								<input id="city" type="text" class="form-control" name="city" value="{{ old('number') }}">
 								@if ($errors->has('city'))
 									<span class="help-block">
 										<strong>{{ $errors->first('city') }}</strong>
 									</span>
 								@endif
-								<input id="city" type="text" class="form-control" name="city">
 							</div>
 						</div>
 					</div>
