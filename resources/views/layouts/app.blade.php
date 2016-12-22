@@ -122,6 +122,53 @@
 		</nav>
 		@include('partial.success')
 		@include('partial.error')
+		<div class="carousel fade-carousel slide" data-ride="carousel" data-interval="4000" id="bs-carousel">
+			<!-- Overlay -->
+
+			<!-- Indicators -->
+			<ol class="carousel-indicators">
+				<li data-target="#bs-carousel" data-slide-to="0" class="active"></li>
+				<li data-target="#bs-carousel" data-slide-to="1"></li>
+				<li data-target="#bs-carousel" data-slide-to="2"></li>
+			</ol>
+
+			<!-- Wrapper for slides -->
+			<div class="carousel-inner">
+				<div class="item slides active">
+					<div class="overlay"></div>
+					<div class="slide-1"></div>
+					<div class="hero">
+						<hgroup>
+							<h1>Laser tag</h1>
+							<h2>at a minute's notice</h2>
+						</hgroup>
+						<a class="btn btn-hero btn-lg" href="register">Sign up</a>
+					</div>
+				</div>
+				<div class="item slides">
+					<div class="overlay"></div>
+					<div class="slide-2"></div>
+					<div class="hero">
+						<hgroup>
+							<h1>Connect</h1>
+							<h2>Team up with other minutemen</h2>
+						</hgroup>
+						<a class="btn btn-hero btn-lg" href="register">Sign up</a>
+					</div>
+				</div>
+				<div class="item slides">
+					<div class="overlay"></div>
+					<div class="slide-3"></div>
+					<div class="hero">
+						<hgroup>
+							<h1>Compete</h1>
+							<h2>Enter events and rise through the leaderboard</h2>
+						</hgroup>
+						<a class="btn btn-hero btn-lg" href="register">Sign up</a>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div class="container">
 			<div class="row">
 				@if (Auth::check())

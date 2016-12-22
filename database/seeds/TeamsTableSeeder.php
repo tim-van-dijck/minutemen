@@ -34,6 +34,13 @@ class TeamsTableSeeder extends Seeder
 				'emblem'		=> null
 			],
 			[
+				'name'			=> 'Team All Star',
+				'slug'			=> 'TeamAllStar',
+				'tag'			=> 'GOLD',
+				'description'	=> '<p>Somebody once told me<br/>the world was gonna roll me</p><p>I ain\'t the sharpest tool in the shed</p>',
+				'emblem'		=> null
+			],
+                [
 				'name'			=> 'Team 1',
 				'slug'			=> 'Team1',
 				'tag'			=> 'T1',
