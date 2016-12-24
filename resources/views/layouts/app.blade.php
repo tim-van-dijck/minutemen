@@ -67,7 +67,7 @@
 					<ul id="search" class="nav navbar-nav">
 						<li>
 							<form action="search" method="GET">
-								<input class="pull-left" type="text" name="q">
+								<input class="pull-left" type="text" name="q" placeholder="Search Minutemen">
 								<button type="submit"><i class="fa fa-search"></i></button>
 							</form>
 						</li>
@@ -90,7 +90,7 @@
 								</a>
 
 								<ul class="dropdown-menu" role="menu">
-									<li><a href="{{ url('home') }}">Dashboard</a></li>
+									<li><a href="{{ url('dashboard') }}">Dashboard</a></li>
 									<li>
 										<div class="block">
 											<label class="switch pull-right">
@@ -122,8 +122,10 @@
 		</nav>
 		@include('partial.success')
 		@include('partial.error')
-		<div class="carousel fade-carousel slide" data-ride="carousel" data-interval="4000" id="bs-carousel">
-			<!-- Overlay -->
+		@if (Request::is('/'))
+			<div class="carousel fade-carousel slide" data-ride="carousel" data-interval="4000" id="bs-carousel"&>
+			<!-- Scroll button -->
+				<a href="#" class="scrollDown"><i class="fa fa-2x fa-chevron-down"></i></a>
 
 			<!-- Indicators -->
 			<ol class="carousel-indicators">
@@ -142,7 +144,6 @@
 							<h1>Laser tag</h1>
 							<h2>at a minute's notice</h2>
 						</hgroup>
-						<a class="btn btn-hero btn-lg" href="register">Sign up</a>
 					</div>
 				</div>
 				<div class="item slides">
@@ -153,7 +154,6 @@
 							<h1>Connect</h1>
 							<h2>Team up with other minutemen</h2>
 						</hgroup>
-						<a class="btn btn-hero btn-lg" href="register">Sign up</a>
 					</div>
 				</div>
 				<div class="item slides">
@@ -164,11 +164,11 @@
 							<h1>Compete</h1>
 							<h2>Enter events and rise through the leaderboard</h2>
 						</hgroup>
-						<a class="btn btn-hero btn-lg" href="register">Sign up</a>
 					</div>
 				</div>
 			</div>
 		</div>
+		@endif
 		<div class="container">
 			<div class="row">
 				@if (Auth::check())
@@ -207,7 +207,33 @@
 				@endif
 			</div>
 		</div>
-		
+
+		<footer>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="row">
+							<div class="col-md-3"></div>
+							<div class="col-md-2 col-md-offset-1">
+								<h5>Laser Tag enthusiasts</h5>
+								<p class="about">
+									Minutemen is a community of Laser Tag enthusiasts coming together to compete and connect.
+								</p>
+							</div>
+							<div class="col-md-3 pull-right">
+								<h5>Contact us</h5>
+								<p><a href="mailto:tim.vandijck.1@student.kdg.be">tim.vandijck.1@student.kdg.be</a></p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 col-md-offset-4">
+						<a href="sitemap" class="sitemap pull-left">Sitemap</a> | <p class="copy pull-right">&copy; All rights reserved</p>
+					</div>
+				</div>
+			</div>
+		</footer>
 		@if (Auth::guest())
 			@include('auth.login')
 		@endif

@@ -33,6 +33,8 @@ class CreateUsersTable extends Migration
             $table->string('img')->nullable();
             $table->boolean('lfg')->default(false);
 
+            $table->boolean('admin')->default(0);
+
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

@@ -22,4 +22,11 @@ $(function () {
 	}
 
 	$('.switch').click(function(e) { e.stopPropagation(); });
+
+	$('.scrollDown').click(function(e) {
+		e.preventDefault();
+        $('html, body').animate({
+            scrollTop: $("#app > .container").offset().top
+        }, 500);
+	});
 });

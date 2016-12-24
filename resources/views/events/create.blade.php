@@ -66,7 +66,7 @@
 												<strong>{{ $errors->first('number') }}</strong>
 											</span>
 										@endif
-										<input id="number" type="number" class="form-control" name="number">
+										<input id="number" type="text" class="form-control" name="number">
 									</div>
 								</div>
 							</div>
@@ -127,6 +127,29 @@
 										<strong>{{ $errors->first('ends_at') }}</strong>
 									</span>
 								@endif
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<label>Schedule type</label>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<div class="col-md-12">
+										<input id="single-elim" type="radio" name="type">
+										<label for="single-elim">Single Elimination</label>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<div class="col-md-12">
+										<input id="round-robin" type="radio" name="type">
+										<label for="round-robin">Round robin</label>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>

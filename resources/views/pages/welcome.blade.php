@@ -2,7 +2,7 @@
 
 @section('title', 'Home')
 @section('content')
-	<h2>Events</h2>
+	<h2>Upcoming</h2>
 	<div class="row blocklink-wrapper">
 		@forelse($events as $i => $event)
 			<div class="col-md-4 blocklink">

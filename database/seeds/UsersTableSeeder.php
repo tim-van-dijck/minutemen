@@ -27,6 +27,7 @@ class UsersTableSeeder extends Seeder
 				'password'	=> bcrypt('admin123'),
 				'img'		=> null,
 				'lfg'		=> 0,
+				'admin'		=> 1,
 			],
 			[
 				'username'	=> 'timvandijck',
@@ -43,6 +44,7 @@ class UsersTableSeeder extends Seeder
 				'password'	=> bcrypt('t1mp1312'),
 				'img'		=> null,
 				'lfg'		=> 0,
+				'admin'		=> 0,
 			],
 			[
 				'username'	=> 'user3',
@@ -59,6 +61,7 @@ class UsersTableSeeder extends Seeder
 				'password'	=> bcrypt('t1mp1312'),
 				'img'		=> null,
 				'lfg'		=> 0,
+				'admin'		=> 0,
 			]
 		]);
 	}

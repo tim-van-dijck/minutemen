@@ -2,8 +2,10 @@
 
 @section('title', $user->name)
 @section('content')
-	@if (!$user->isFriend())
+	@if (!$user->isFriend() && $user->id != Auth::user()->id)
 		<a href="friends/{{$user->slug}}/add" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> add friend</a>
+	@elseif ($user->id == Auth::user()->id)
+		<a href="{{ route('settings') }}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> edit profile</a>
 	@endif
 	<h2>{{ $user->username }}</h2>
 	<div class="profile-img"><img src="{{ $user->img or 'img/profile.png' }}" alt="{{ $user->username }}"></div>

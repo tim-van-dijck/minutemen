@@ -14,6 +14,7 @@
 Auth::routes();
 
 Route::get('/', 'HomeController@index');
+Route::get('about', 'HomeController@about');
 Route::get('search', 'HomeController@search');
 
 // Users
@@ -28,7 +29,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/dashboard', 'HomeController@home');
 
 	// Users
-	Route::get('settings', 'UserController@edit')->name('users.edit');
+	Route::get('settings', 'UserController@edit')->name('settings');
 	Route::match(['put', 'patch'], 'settings', 'UserController@update')->name('users.update');
 	Route::get('profile', 'UserController@show')->name('users.profile');
 
@@ -100,10 +101,20 @@ Route::group(['middleware' => 'ajax', 'prefix' => 'ajax'], function () {
 
 		Route::get('team/{team_id}/join', 'AjaxController@joinTeam')->name('ajax.team.join');
 		Route::get('team/{team_id}/leave', 'AjaxController@leaveTeam')->name('ajax.team.leave');
+		Route::get('team/{team_id}/invite', 'AjaxController@invite')->name('ajax.team.invite');
+
+		Route::get('users/find/{team_id?}', 'UserController@search')->name('ajax.users.search');
 
 		Route::get('team/{team_id}/accept/{user_id}', 'AjaxController@confirmJoin')->name('ajax.team.accept');
 		Route::get('team/{team_id}/deny/{user_id}', 'AjaxController@denyRequest')->name('ajax.team.deny');
+
+		Route::post('team/{team_id}/kick', 'TeamController@kick')->name('ajax.team.kick');
 	});
 	
 	Route::post('organisation/post/{id}', 'OrganisationController@post')->name('ajax.organisations.post');
+});
+
+// Admin
+Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function () {
+    Route::get('/', 'AdminController@index');
 });

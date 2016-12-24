@@ -94,6 +94,21 @@ class Team extends Model
 		return true;
 	}
 
+	public function isInvited($user_id = false) {
+        if (!$user_id) { $user_id = Auth::user()->id; }
+        $member = User::select('users.*', 'team_users.created_at AS joined')
+            ->join('team_users', 'team_users.user_id', '=', 'users.id')
+            ->join('teams', 'teams.id', '=', 'team_users.team_id')
+            ->where('team_users.team_id', $this->id)
+            ->where('team_users.user_id', $user_id)
+            ->where('team_users.pending', 1)
+            ->where('team_users.invite', 1)
+            ->first();
+
+        if ($member == null) { return false; }
+        return true;
+    }
+
 	protected function mine() {
 		return self::select('*')->join('team_users', 'team_users.team_id', '=', 'teams.id')
 					->where('team_users.user_id', Auth::user()->id)
@@ -213,4 +228,16 @@ class Team extends Model
 
 		return count($result);
 	}
+
+	protected function kick($team_id, $user_id) {
+	    $team = self::find($team_id);
+	    if ($team->isAdmin($user_id) && count($team->admins()) < 2) {
+            $user = '';
+        }
+        DB::table('team_users')->where([
+            'team_id' => $team_id,
+            'user_id' => $user_id,
+        ])->delete();
+        return json_encode(['success' => 'Successfully kicked user']);
+    }
 }

@@ -18,7 +18,7 @@ class Ajax
 		if ($request->ajax()) {
 			return $next($request);
 		} else {
-			return response('', 405);
+            return response('Bad request', 400)->header('Content-Type', 'text/plain');
 		}
 	}
 }

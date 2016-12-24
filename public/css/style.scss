@@ -1,16 +1,31 @@
-$bgc: #434548;
-$nav-color: #232427;
-$accent: #cc4020;
+$bgc:			#434548;
+$nav-color:		#232427;
+$accent:		#cc4020;
+$text-color:	#c1bfbf;
+
+//MEDIA
+$tabletMini:	"(min-width: 37em)"; /* 600px */
+$tablet:		"(min-width: 47em)"; /* 767px */
+$mobile:		"(max-width: 47em)"; /* 767px */
+$desktop:		"(min-width: 61em)"; /* 980px */
+$ultrabook:		"(min-width: 68em)"; /* 1066px */
+$netbook:		"(min-width: 72em)"; /* 1152px */
+$m1280:			"(min-width: 80em)"; /* 1280px */
+$wide:			"(min-width: 84em)"; /* 1350px */
+$large:			"(min-width: 93em)"; /* 1488px */
+
 
 label .fa { font-size: 1.5em; }
 .img {
 	width: 250px; height: 250px; display: none;
 	img { width: 100%; height: 100%; }
 }
+img#edit-img { padding: 25px; }
 body {
 	background-color: $bgc; color: #fff;
+	#app > .container { padding-bottom: 2em; }
 	.panel {
-		color: #636b6f; border: 0;
+		color: #636b6f; border: 0; border-radius: 0;
 		.form-control {
 			background-color: #fff; border-color: #ccd0d2;
 			&:focus { border-color: #ccd0d2; box-shadow: none; }
@@ -32,33 +47,53 @@ body {
 	#trusted { height: 1.5em; width: auto; max-width: 100%; }
 }
 
+footer {
+	width:  100%; background-color: #232427; height: 200px; color: #666;
+	h5 { color: #fff; }
+	a {
+		color: $accent;
+		&:hover, &:active, &:focus { color: #b3381c; }
+	}
+
+	p.about { font-style: italic; font-size: .85em; }
+	p.copy { font-size: .75em; text-align: center;  }
+}
+
 .navbar-default {
 	background-color: $nav-color; border-color: $nav-color; position: relative;
 	.navbar-collapse {
 		.navbar-nav {
 			&#search {
-				position: absolute; top: 0; left: 0; right: 0; bottom: 0; margin: auto; width: 20em;
+				width: auto; margin: auto;
+				@media #{$desktop} { position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 20em; }
 				li {
 					padding-top: 12px; float: left; width: 100%;
 					form {
 						overflow: hidden;
-						input[type="text"] { background-color: #777; border: none; color: $nav-color; width: calc(100% - 2em); }
+						::-webkit-input-placeholder { color: $nav-color !important; }
+						:-moz-placeholder { color: $nav-color !important; }
+						::-moz-placeholder { color: $nav-color !important; }
+						:-ms-input-placeholder { color: $nav-color !important; }
+						input[type="text"] {
+							background-color: #777; border: none; color: $nav-color !important; width: calc(100% - 2em);
+							padding-left: .5em; padding-right: .5em;
+						}
 					}
 					button {
 						background-color: transparent; border: none; color: #777;
-						&:hover, &:focus, &:active { color: #c1bfbf; }
+						&:hover, &:focus, &:active { color: $text-color; }
 					}
 				}
 			}
 			&>li {
 				&>a {
-					&:hover, &:focus, &:active { color: #c1bfbf; }
+					&:hover, &:focus, &:active { color: $text-color; }
 				}
 				&.open {
 					ul { background-color: #3b3c40; }
 					a {
 						background-color: #3b3c40; color: #777;
-						&:hover, &:focus, &:active { background-color: #3b3c40; color: #c1bfbf; }
+						&:hover, &:focus, &:active { background-color: #3b3c40; color: $text-color; }
 					}
 					.block {
 						display: inline-block; min-width: 100%; border-bottom: 1px solid #444; margin-bottom: 1em;
@@ -67,7 +102,12 @@ body {
 					}
 				}
 			}
+			.dropdown-menu { border: 0; top: auto; }
 		}
+	}
+	.navbar-toggle {
+		border-radius: 0; color: $text-color; border-color: $text-color;
+		&:hover { background-color: $text-color; }
 	}
 	.notification-bubble {
 		position: absolute; top: -.3em; left: -.6em; display: none; border-radius: 50%; padding: .1em; box-sizing: content-box;
@@ -83,6 +123,7 @@ body {
 h1,h2,h3,h4,h5,h6 { font-family: 'Oswald', sans-serif; }
 
 form {
+	input:focus { box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(253, 72, 31, 0.6); outline-color: rgba(253, 72, 31, 0.6);; }
 	&#post-form {
 		textarea { resize: none; width: 100%; color: #999; } 
 	}
@@ -91,14 +132,38 @@ form {
 		border-radius: 0; background-color: #3a3b3e; border-color: #3a3b3e;
 		&:focus { border-color: #3a3b3e; box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(253, 72, 31, 0.6); }
 	}
-	/* WebKit, Blink, Edge */
+
 	::-webkit-input-placeholder { color: #555 !important; }
-	/* Mozilla Firefox 4 to 18 */
 	:-moz-placeholder { color: #555 !important; opacity: 1; }
-	/* Mozilla Firefox 19+ */
 	::-moz-placeholder { color: #555 !important; opacity: 1 }
-	/* Internet Explorer 10-11 */
 	:-ms-input-placeholder { color: #555 !important; }
+
+	// FA checkboxes/radio buttons
+	input[type=radio],
+	input[type=checkbox] {
+		border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px; overflow: hidden;
+		padding: 0; position: absolute; width: 1px;
+	}
+
+	input[type=radio] ~ label:before,
+	input[type=checkbox] ~ label:before {
+		font-family: FontAwesome; display: inline-block; content: "\f1db"; letter-spacing: 10px; font-size: 1.2em;
+		color: $accent; width: 1.4em;
+	}
+	input[type=radio] ~ label,
+	input[type=checkbox] ~ label { cursor: pointer; }
+
+	input[type=radio]:checked ~ label:before,
+	input[type=checkbox]:checked ~ label:before  {
+		content: "\f00c"; font-size: 1.2em; color: $accent; letter-spacing: 5px;
+	}
+	input[type=checkbox] ~ label:before { content: "\f096"; }
+	input[type=checkbox]:checked ~ label:before { content: "\f046"; color: $accent; }
+
+	input[type=radio]:focus ~ label:before,
+	input[type=checkbox]:focus ~ label:before,
+	input[type=radio]:focus ~ label { color: $accent; }
+
 	input { color: #96999f !important; }
 	input[type="search"], input[type="email"] {
 		-moz-appearance: textfield;
@@ -158,7 +223,22 @@ form {
 		background-color: $accent; border-color: $accent; margin-top: 1em;
 		&:focus, &:active, &:hover, &:active:hover { background-color: #bc3010; box-shadow: none; border-color: #bc3010; outline-color: transparent; }
 	}
+	&.btn-dropdown {
+		background-color: transparent; border-color: transparent; position: absolute; top: .2em; right: .2em;
+		height: 1.5em; line-height: .5em;
+		&:active, &:focus, &:hover { background-color: #dbdbdb; color: $bgc;}
+	}
 }
+.dropdown {
+	.dropdown-menu {
+		background-color: #dbdbdb; color: $bgc; top: 1.5em; min-width: 5em; right: 0; left: auto;
+		border-radius: 0;
+		li {
+			a:active, a:hover, a:focus { background-color: transparent; color: #868686; }
+		}
+	}
+}
+
 
 .thumb { width: 100%; height: auto; }
 
@@ -176,6 +256,7 @@ table.table {
 	&.table-striped { td:nth-child(even) { background-color: $nav-color; } }
 }
 
+// GMaps
 #map {
 	width: 100%; min-height: 200px;
 	a[href^="http://maps.google.com/maps"]{display:none !important}
@@ -194,9 +275,13 @@ i.accent { font-size: 1.5em; }
 	color: $accent;
 }
 
+// Modals
 .modal-content {
 	color: #000; border-radius: 0;
 	form>* { color: #000; }
+}
+.modal-footer {
+	.btn-primary { margin: 0; }
 }
 
 // Toggle button
@@ -229,10 +314,19 @@ i.accent { font-size: 1.5em; }
 // END CKEDITOR //
 
 //-- CAROUSEL/HERO --//
-.fade-carousel { position: relative; height: calc(100vh - 50px); margin-top: -22px; overflow: hidden; }
-.fade-carousel .carousel-inner .item { height: 100vh; }
-.fade-carousel .carousel-indicators > li { margin: 0 2px; background-color: $accent; border-color: $accent; opacity: .7; }
-.fade-carousel .carousel-indicators > li.active { width: 10px; height: 10px; opacity: 1; }
+.fade-carousel {
+	position: relative; height: calc(100vh - 50px); margin-top: -22px; overflow: hidden;
+	a.scrollDown {
+		position: absolute; bottom: 5em; left: 0; right: 0; margin: auto; width: 40px; height: 40px; text-align: center;
+		color: #777; z-index: 1; padding: 6px; border: 1px solid #777; background-color: rgba(119, 119, 119, .3);
+		&:hover, &:active { background-color: #777; color: $nav-color }
+	}
+	.carousel-inner .item { height: 100vh; }
+	.carousel-indicators > li {
+		margin: 0 2px; background-color: $accent; border-color: $accent; opacity: .7;
+		&.active { width: 10px; height: 10px; opacity: 1; }
+	}
+}
 
 .hero {
 	position: absolute; top: 50%; left: 50%; z-index: 3; color: #d6d9d5; text-align: center; text-transform: uppercase;
@@ -246,8 +340,8 @@ i.accent { font-size: 1.5em; }
 	-ms-transition: 2s all ease-in-out .1s; -o-transition: 2s all ease-in-out .1s; transition: 2s all ease-in-out .1s;
 }
 .fade-carousel .carousel-inner .item.active .hero {
-	opacity: 1; -webkit-transition: 2s all ease-in-out .1s; -moz-transition: 2s all ease-in-out .1s;
-	-ms-transition: 2s all ease-in-out .1s; -o-transition: 2s all ease-in-out .1s; transition: 2s all ease-in-out .1s;
+	opacity: 1; -webkit-transition: .5s all ease-in-out .1s; -moz-transition: .5s all ease-in-out .1s;
+	-ms-transition: .5s all ease-in-out .1s; -o-transition: 2s all ease-in-out .1s; transition: .5s all ease-in-out .1s;
 }
 
 .overlay { position: absolute; width: 100%; height: 100%; z-index: 2; background-color: #080d15; opacity: .7; }

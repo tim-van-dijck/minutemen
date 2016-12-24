@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Auth;
 use DB;
+use Storage;
 
 use App\Commendation;
 use App\General;
@@ -49,32 +50,37 @@ class UserController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(Request $request, $id)
+	public function update(Request $request)
 	{
 		$this->validate($request, [
-			'username'		=> 'required',
-			'firstname'		=> 'required',
-			'lastname'		=> 'required',
-			'email'			=> 'required|email',
-			'street'		=> 'required',
-			'number'		=> 'required',
-			'zip'			=> 'required',
-			'city'			=> 'required',
+			'firstname'		=> 'max:255|profanity-filter',
+			'lastname'		=> 'max:255|profanity-filter',
+			'email'			=> 'required|email|max:255|unique:users,email,'.Auth::user()->id,
+			'street'		=> 'max:255',
+			'number'		=> 'max:20',
+			'zip'			=> 'max:10',
+			'city'			=> 'max:255',
 			'passworld_old'	=> 'required_with:password',
 			'password'		=> 'min:6|confirmed',
-			'img'			=> 'image|max:4096',
 		]);
 
-		$user = User::find($id);
+		$user = User::find(Auth::user()->id);
 		$input = $request->all();
 
+		unset($input['password_old']);
+		unset($input['password_confirmation']);
+		unset($input['_token']);
+		unset($input['_method']);
+		unset($input['full-img']);
+
 		// Handle img upload
-		if (isset($input['img']) && $input['img'] != '') {
-			delete(public_path($user->img));
-			$input['img'] = General::uploadFile($input['img'], 'users');
+		if (isset($input['img']) && $input['img'] != 'data:,') {
+			Storage::delete(public_path($user->img));
+			$input['img'] = General::uploadImg($input['img'], 'users');
 		} else { unset($input['img']); }
 
 		foreach ($input as $field => $value) {
+		    if ($value != null && $value != '')
 			$user->{$field} = $value;
 		}
 		
@@ -144,4 +150,8 @@ class UserController extends Controller
 	}
 
 	public function lfg() { return view('users.lfg')->with(['users' => User::lfg()]); }
+
+	public function search(Request $request, $team_id) {
+	    return json_encode(User::search($request->input('term'), $team_id));
+	}
 }

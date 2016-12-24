@@ -18,7 +18,14 @@ class OrganisationsTableSeeder extends Seeder
 				'banner'		=> 'img/organisations/LTL.jpg',
 				'thumb'			=> null,
 				'trusted'		=> 1
-			]
+			],
+            [
+                'name'			=> 'The Base',
+                'description'	=> 'Laser Tag arena in Kontich, Flanders',
+                'banner'		=> 'img/organisations/LTL.jpg',
+                'thumb'			=> null,
+                'trusted'		=> 0
+            ],
 		]);
 	}
 }

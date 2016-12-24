@@ -14,15 +14,24 @@
 		</div>
 		<div class="col-md-3">
 			<h4>Participators</h4>
-			@forelse($event->participators() as $team)
-				<div class="col-md-3 blocklink team">
-					<div class="profile-img"><img src="{{ $team->thumb or 'img/emblem.png' }}" alt="{{ $team->name }}" title="{{ $team->name }}"></div>
-				</div>
-			@empty
+			@if (0 < count($event->participators()) && count($event->participators()) <= 4)
+				@foreach($event->participators() as $team)
+					<div class="col-md-3 blocklink team">
+						<div class="profile-img"><img src="{{ $team->thumb or 'img/emblem.png' }}" alt="{{ $team->name }}" title="{{ $team->name }}"></div>
+					</div>
+				@endforeach
+			@elseif(count($event->participators()) > 4)
+				@for ($i = 0; $i < 4; $i++)
+					<div class="col-md-3 blocklink team">
+						<div class="profile-img"><img src="{{ $event->participators()[$i]->thumb or 'img/emblem.png' }}" alt="{{ $event->participators()[$i]->name }}" title="{{ $event->participators()[$i]->name }}"></div>
+					</div>
+				@endfor
+				<button class="btn btn-primary">see all</button>
+			@else
 				<div class="col-md-12">
 					<p class="empty">No sign ups yet</p>
 				</div>
-			@endforelse
+			@endif
 		</div>
 	</div>
 	<div class="row data">

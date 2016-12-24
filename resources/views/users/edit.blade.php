@@ -3,7 +3,7 @@
 @section('title', 'Settings')
 @section('content')
 	<h1>Edit profile</h1>
-	<form id="edit-form" class="form-horizontal" role="form" method="POST" action="{{ route('users.update', ['id' => $user->id]) }}" enctype="multipart/form-data">
+	<form id="edit-form" class="form-horizontal image-form" role="form" method="POST" action="{{ route('settings') }}" enctype="multipart/form-data">
 		{{ csrf_field() }}
 		<input type="hidden" name="_method" value="PATCH">
 
@@ -13,6 +13,7 @@
 					<div class="col-md-8 col-md-offset-2">
 						<label class="control-label">Profile picture</label><br>
 						<input id="img" type="hidden" name="img">
+						<img id="edit-img" src="{{ $user->img or 'img/profile.png' }}" alt="{{ $user->username }}">
 						<div id="preview-img">
 						</div>
 						<label for="full-img" class="form-control img-label">
@@ -31,7 +32,7 @@
 				<div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
 					<div class="col-md-8 col-md-offset-2">
 						<label for="email" class="control-label">E-Mail Address</label><br>
-						<input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
+						<input id="email" type="email" class="form-control" name="email" value="{{ $user->email }}" required>
 
 						@if ($errors->has('email'))
 							<span class="help-block">
@@ -44,7 +45,7 @@
 				<div class="form-group{{ $errors->has('firstname') ? ' has-error' : '' }}">
 					<div class="col-md-8 col-md-offset-2">
 						<label for="firstname" class="control-label">First name</label><br>
-						<input id="firstname" type="text" class="form-control" name="firstname" value="{{ old('firstname') }}" required autofocus>
+						<input id="firstname" type="text" class="form-control" name="firstname" value="{{ $user->firstname or '' }}" required autofocus>
 
 						@if ($errors->has('firstname'))
 							<span class="help-block">
@@ -57,7 +58,7 @@
 				<div class="form-group{{ $errors->has('lastname') ? ' has-error' : '' }}">
 					<div class="col-md-8 col-md-offset-2">
 						<label for="lastname" class="control-label">Last name</label>
-						<input id="lastname" type="text" class="form-control" name="lastname" value="{{ old('lastname') }}" required autofocus>
+						<input id="lastname" type="text" class="form-control" name="lastname" value="{{ $user->lastname or '' }}" required autofocus>
 
 						@if ($errors->has('lastname'))
 							<span class="help-block">
@@ -113,7 +114,7 @@
 		<div class="form-group">
 			<div class="col-md-6 col-md-offset-4">
 				<button type="submit" class="btn btn-primary">
-					Register
+					Save
 				</button>
 			</div>
 		</div>
@@ -123,4 +124,14 @@
 @section('js')
 	<script src="js/libs/croppie.min.js"></script>
 	<script src="js/forms.js"></script>
+	<script>
+        $(function() {
+            $('#preview-img').hide();
+
+            $('#full-img').change(function() {
+                $('#edit-img').hide();
+                $('#preview-img').show();
+			});
+        });
+	</script>
 @stop

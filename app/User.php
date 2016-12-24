@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use Auth;
 use DB;
+use Hash;
 use Image;
 
 class User extends Authenticatable
@@ -72,4 +73,29 @@ class User extends Authenticatable
 		if (isset($where)) { $query->where($where); }
 		return $query->orderBy('distance')->limit(6)->get();
 	}
+
+	protected function search($term, int $team_id) {
+	    /*return [
+	        'team_id' => $team_id,
+            'term'      => $term
+        ];*/
+	    return self::where('username', 'LIKE', '%'.$term.'%')
+                    ->whereNotExists(function($query) use ($team_id) {
+                        $query->select(DB::raw(1))
+                            ->from('team_users')
+                            ->whereRaw('team_users.user_id = users.id')
+                            ->where('team_users.team_id', $team_id);
+                    })
+                    ->limit(10)->get();
+	}
+
+	protected function passwordConfirm($pass) {
+	    if (Hash::check($pass, Auth::user()->password)) { return true; }
+	    return false;
+    }
+
+    public function isAdmin() {
+	    if ($this->admin == 1) { return true; }
+	    else { return false; }
+    }
 }

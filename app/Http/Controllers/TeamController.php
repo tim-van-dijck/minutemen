@@ -69,7 +69,7 @@ class TeamController extends Controller
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param  int  $id
+	 * @param  int  $slug
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show($slug)
@@ -81,7 +81,7 @@ class TeamController extends Controller
 	/**
 	 * Show the form for editing the specified resource.
 	 *
-	 * @param  int  $id
+	 * @param  int  $slug
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit($slug)
@@ -100,7 +100,7 @@ class TeamController extends Controller
 	public function update(Request $request, $id)
 	{
 		$this->validate($request, [
-			'name'			=> 'required',
+			'name'			=> 'required|profanity-filter',
 			'tag'			=> 'required',
 			'description'	=> 'required',
 		]);
@@ -158,5 +158,11 @@ class TeamController extends Controller
             'requests'  => $team->requests(),
             'users'     => User::getLfg()
         ]);
+    }
+
+    public function kick(Request $request, $team_id) {
+        if (User::passwordConfirm($request->input('password'))) {
+            return Team::kick($team_id, $request->input('member_id'));
+        } else { return json_encode(['error' => 'The password you entered was wrong']); }
     }
 }

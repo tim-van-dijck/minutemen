@@ -42,4 +42,6 @@ class HomeController extends Controller
 
 		return view('pages.search')->with(['results' => $results, 'query' => $query]);
 	}
+
+	public function about() { return view('pages.about'); }
 }
