@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 
 use App\Friendship;
+use App\Game;
 use App\Post;
 use App\Team;
 use App\User;
@@ -31,4 +32,6 @@ class AjaxController extends Controller
 	public function denyRequest($team_id, $user_id) { Team::deleteRequest($team_id, $user_id); }
 
 	public function toggleLfg() { Auth::user()->lfgToggle(); }
+
+	public function setGameWinner(Request $request, $game_id) { Game::setWinner($game_id, $request->input('winner')); }
 }

@@ -12,7 +12,7 @@ class Event extends Model
     protected $fillable = ['title', 'description', 'starts_at', 'ends_at', 'street', 'number', 'zip', 'city', 'banner', 'coords', 'organisation_id', 'website'];
 
 	public function participators() {
-		return Team::select('*')->join('participations', 'participations.team_id', '=', 'teams.id')
+		return Team::select('teams.*')->join('participations', 'participations.team_id', '=', 'teams.id')
 					->where('participations.event_id', $this->id)->get();
 	}
 
@@ -22,25 +22,52 @@ class Event extends Model
 
 	public function leaderboard() { return Leaderboard::getByEvent($this->id); }
 
-	public function competing($limit = false) {
-		$query = Team::select('*')->join('games', 'games.team_1', '=', 'teams.id')
-					->join('rounds', 'games.round_id', '=', 'rounds.id')
-					->where('games.team_1_won', 1)
-					->where('draw', 0)
-					->where('rounds.event_id', $this->id)
-					->get();
+	public function competing() {
+        if (count($this->rounds()) > 0) {
+            $prevRound = Round::where('event_id', $this->id)->orderBy('created_at', 'desc')->first();
 
-		$competing = Team::select('*')->join('games', 'games.team_1', '=', 'teams.id')
-					->join('rounds', 'games.round_id', '=', 'rounds.id')
-					->where('games.team_1_won', 0)
-					->where('draw', 0)
-					->where('rounds.event_id', $this->id)
-					->union($query);
-		
-		if ($limit) { $competing->limit($limit); }
+            $query = Team::select('teams.*')->join('games', 'games.team_1', '=', 'teams.id')
+                ->join('rounds', 'games.round_id', '=', 'rounds.id')
+                ->where('games.team_1_won', 1)
+                ->where('draw', 0)
+                ->where('rounds.id', $prevRound->id);
 
-		return $competing->get();
+            return Team::select('teams.*')->join('games', 'games.team_2', '=', 'teams.id')
+                ->join('rounds', 'games.round_id', '=', 'rounds.id')
+                ->where('games.team_1_won', 0)
+                ->where('draw', 0)
+                ->where('rounds.id', $prevRound->id)
+                ->union($query)
+                ->get();
+        } else {
+	        return $this->participators();
+        }
 	}
+
+	public function extraPlayer() {
+        $competing = $this->competing();
+        $teams = $this->participators();
+
+        foreach ($competing as $i => $competitor) {
+            foreach ($teams as $j => $team) {
+                if ($team->id == $competitor->id) {
+                    unset($competing[$i]);
+                    unset($teams[$j]);
+                }
+            }
+        }
+
+        $roundTeams = [];
+
+        foreach ($teams as $team) {
+            $roundTeams[] = $team;
+        }
+        usort($roundTeams, function($a, $b) {
+            return $a->wins($this->id) <=> $b->wins($this->id);
+        });
+
+        return $roundTeams[0];
+    }
 
 	protected function enter($event_id, $team_id) {
 		$event = self::find($event_id);
@@ -85,6 +112,27 @@ class Event extends Model
 			$g->save();
 		}
 	}
+
+	public function eliminationRound($data) {
+        $prevRound = Round::where('event_id', $this->id)->orderBy('created_at', 'desc')->first();
+        $teams = $this->competing()->shuffle();
+        if (count($teams) % 2 != 0) { $teams[] = $this->extraPlayer(); }
+
+        $round = new Round($data);
+        $round->save();
+
+        while(count($teams) > 0) {
+
+            $team_1 = $teams->shift();
+            $team_2 = $teams->shift();
+
+            $game = new Game();
+            $game->team_1 = $team_1->id;
+            $game->team_2 = $team_2->id;
+            $game->round_id = $round->id;
+            $game->save();
+        }
+    }
 
 	public function isAdmin() { return Organisation::find($this->organisation_id)->isAdmin(); }
 }

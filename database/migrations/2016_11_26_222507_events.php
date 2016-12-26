@@ -26,6 +26,7 @@ class Events extends Migration
             $table->string('city');
             $table->string('coords');
             $table->string('banner')->nullable();
+            $table->string('type')->default('round-robin');
             $table->integer('organisation_id')->unsigned();
 
             $table->foreign('organisation_id')->references('id')->on('organisations')->onUpdate('cascade')->onDelete('cascade');

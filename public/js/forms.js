@@ -35,11 +35,18 @@ $(function () {
 		ajaxSubmit($(this));
 	});
 	$('textarea[name="post"]').keydown(function(e) { postOnEnter(this, e); });
-	$('#enter-form').submit(function(e) {
+	$('#enter-form, #settle-game-form').submit(function(e) {
 		e.preventDefault();
 		ajaxSubmit($(this));
 		$('#enter-event').modal('toggle');
+        $('#settle-game').modal('toggle');
 	});
+	$('.game-settle').click(function(e) {
+        e.preventDefault();
+        $('#settle-game-form').attr('action', $(this).data('action'));
+        $('#settle-game .team_1 label').text($(this).find('.team_1').html());
+        $('#settle-game .team_2 label').text($(this).find('.team_2').html());
+    });
 });
 
 

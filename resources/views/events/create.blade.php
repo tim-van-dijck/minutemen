@@ -138,7 +138,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<div class="col-md-12">
-										<input id="single-elim" type="radio" name="type">
+										<input id="single-elim" type="radio" name="type" value="elimination">
 										<label for="single-elim">Single Elimination</label>
 									</div>
 								</div>
@@ -146,7 +146,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<div class="col-md-12">
-										<input id="round-robin" type="radio" name="type">
+										<input id="round-robin" type="radio" name="type" value="round-robin">
 										<label for="round-robin">Round robin</label>
 									</div>
 								</div>

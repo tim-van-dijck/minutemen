@@ -13,28 +13,26 @@ class RoundController extends Controller
 	 * Store a newly created resource in storage.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
+	 * @param  int $event_id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(Request $request)
+	public function store(Request $request, $event_id)
 	{
-		$this->validate($request, [
-			'' => '',
-		]);
+        $event = Event::find($event_id);
 
-		$input = $request->all();
-		$round = new Round($input);
-		$round->save();
-	}
+        if ($event->type == 'round-robin' && count($event->rounds()) == 0) { $event->roundrobin(); }
+        else {
+            $this->validate($request, ['name' => 'required|max:255|profanity-filter']);
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function show($id)
-	{
-		//
+            $data = [
+                'name'      => $request->input('name'),
+                'event_id'  => $event_id
+            ];
+
+            $event->eliminationRound($data);
+        }
+
+        return redirect()->back();
 	}
 
 	/**
@@ -49,18 +47,6 @@ class RoundController extends Controller
 	}
 
 	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function update(Request $request, $id)
-	{
-		//
-	}
-
-	/**
 	 * Remove the specified resource from storage.
 	 *
 	 * @param  int  $id
@@ -69,10 +55,5 @@ class RoundController extends Controller
 	public function destroy($id)
 	{
 		//
-	}
-
-	public function roundrobin($event_id) {
-		Event::find($event_id)->roundrobin();
-		return redirect()->back();
 	}
 }

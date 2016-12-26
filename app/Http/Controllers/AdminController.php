@@ -22,17 +22,28 @@ class AdminController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $organisation_id
      * @return \Illuminate\Http\Response
      */
-    public function trust($organisation_id)
+    public function trust(Request $request, $organisation_id = false)
     {
-        if (Auth::user()->isAdmin()) {
-            $org = Organisation::find($organisation_id);
+        if ($organisation_id) {
+            if (Auth::user()->isAdmin()) {
+                $org = Organisation::find($organisation_id);
 
-            $org->trusted = 1;
-            $org->save();
+                $org->trusted = 1;
+                $org->save();
+            }
+        } else {
+            foreach ($request->input('trusted') as $org_id) {
+                $org = Organisation::find($org_id);
+
+                $org->trusted = 1;
+                $org->save();
+            }
         }
+        return redirect()->back();
     }
 
     /**

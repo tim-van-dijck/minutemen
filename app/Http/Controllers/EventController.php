@@ -48,7 +48,8 @@ class EventController extends Controller
 			'number'		=> 'required',
 			'zip'			=> 'required',
 			'city'			=> 'required',
-			'banner'		=> 'image|max:4096'
+			'banner'		=> 'image|max:4096',
+            'type'          => 'required',
 		]);
 
 		$input = $request->all();
@@ -109,6 +110,8 @@ class EventController extends Controller
 		]);
 
 		$input = $request->all();
+		unset($input['_method']);
+		unset($input['_token']);
 		$event = Event::find($id);
 		
 		if (isset($input['banner']) && $input['banner'] != '') {

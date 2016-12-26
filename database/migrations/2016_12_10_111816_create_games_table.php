@@ -19,7 +19,7 @@ class CreateGamesTable extends Migration
             $table->integer('team_2')->unsigned();
             $table->integer('round_id')->unsigned();
             $table->boolean('team_1_won')->nullable()->default(null);
-            $table->boolean('draw')->nullable()->default(null);
+            $table->boolean('draw')->nullable()->default(0);
 
             $table->foreign('team_1')->references('id')->on('teams')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('team_2')->references('id')->on('teams')->onUpdate('cascade')->onDelete('cascade');

@@ -81,7 +81,7 @@ Route::group(['prefix' => 'events'], function () {
     Route::group(['middleware' => 'auth'], function () {
         Route::get('/{event_id}/manage', 'EventController@manage')->name('events.manage');
         Route::post('/{event_id}/enter', 'EventController@enter')->name('events.enter');
-        Route::get('/{event_id}/roundrobin', 'RoundController@roundrobin')->name('events.roundrobin');
+        Route::match(['get', 'post'], '/{event_id}/round/add', 'RoundController@store')->name('events.add-round');
 	});
 	Route::get('/', 'EventController@index')->name('events.index');
 	Route::get('/{id}', 'EventController@show')->name('events.show');
@@ -109,6 +109,8 @@ Route::group(['middleware' => 'ajax', 'prefix' => 'ajax'], function () {
 		Route::get('team/{team_id}/deny/{user_id}', 'AjaxController@denyRequest')->name('ajax.team.deny');
 
 		Route::post('team/{team_id}/kick', 'TeamController@kick')->name('ajax.team.kick');
+
+		Route::post('game/{game_id}/set-winner', 'AjaxController@setGameWinner')->name('ajax.game.winner');
 	});
 	
 	Route::post('organisation/post/{id}', 'OrganisationController@post')->name('ajax.organisations.post');
@@ -117,4 +119,6 @@ Route::group(['middleware' => 'ajax', 'prefix' => 'ajax'], function () {
 // Admin
 Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function () {
     Route::get('/', 'AdminController@index');
+    Route::post('organisation/{organisation_id}/trust', 'AdminController@trust')->name('organisation.trust');
+    Route::post('organisations/trust', 'AdminController@trust')->name('organisations.trust.batch');
 });
