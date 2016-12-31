@@ -15,11 +15,11 @@ class Post extends Model
 		$post = new Post($data);
 		$post->save();
 
-		Notification::send($organisation_id);
+		Notification::post($data['organisation_id'], 'organisation');
 	}
 
 	protected function getByUser($user_id, $offset = false) {
-		$query = self::join('organisation_roles', 'organisation_roles.organisation_id', '=', 'posts.organisation_id')
+		$query = self::select('posts.*')->join('organisation_roles', 'organisation_roles.organisation_id', '=', 'posts.organisation_id')
 					->where('organisation_roles.user_id', $user_id)->orderBy('posts.created_at', 'desc');
 
 		if ($offset) {
@@ -36,12 +36,33 @@ class Post extends Model
 	}
 
 	protected function feed($id = false) {
-		if ($id !== false) { return self::where('organisation_id', $id)->orderBy('created_at', 'desc')->limit(15)->get(); }
+		if ($id !== false) {
+		    $posts = self::where('organisation_id', $id)->orderBy('created_at', 'desc')->limit(15)->get();
+
+		    foreach ($posts as $post) {
+		        $post->organisation = Organisation::find($id);
+            }
+
+            return $posts;
+		}
 		else { return self::getByUser(Auth::user()->id); }
 	}
 
 	protected function feedExpand($id, $offset) {
-		if ($id !== false) { return self::where('organisation_id', $id)->latest()->offset($offset*15)->limit(15)->get(); }
+		if ($id !== false) {
+		    $orgs = self::where('organisation_id', $id)->latest()->offset($offset*15)->limit(15)->get();
+		}
 		else { return self::getByUser(Auth::user()->id); }
 	}
+
+	protected function canExpand($offset, $org_id = false) {
+	    $result = false;
+        if ($org_id) {
+            $result = self::select('id')->where('organisation_id', $org_id)->limit($offset*15)->get();
+        } else {
+            $result = self::select('posts.id')->join('organisation_roles', 'organisation_roles.organisation_id', '=', 'posts.organisation_id')
+                ->where('organisation_roles.user_id', Auth::user()->id)->orderBy('posts.created_at', 'desc');
+        }
+	    return (count($result) > ($offset-1)*15) ? 1 : 0;
+    }
 }

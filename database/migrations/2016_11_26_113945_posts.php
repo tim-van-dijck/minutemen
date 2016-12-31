@@ -15,7 +15,7 @@ class Posts extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('content');
+            $table->text('content');
             $table->integer('organisation_id')->unsigned();
             $table->timestamps();
 

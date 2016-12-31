@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Auth;
+use Session;
 
 use App\Event;
 use App\General;
@@ -20,7 +21,7 @@ class EventController extends Controller
 	 */
 	public function index()
 	{
-		$events = Event::where('ends_at', '>', date('Y-m-d H:i:s'))->get();
+		$events = Event::where('ends_at', '>', date('Y-m-d H:i:s'))->orderBy('starts_at')->get();
 		return view('events.index')->with(['events' => $events]);
 	}
 
@@ -62,7 +63,8 @@ class EventController extends Controller
 		$event = new Event($input);
 		$event->save();
 
-		return redirect(route('organisations.show', ['id' => $organisation_id]));
+		Session::flash('success', 'Successfully created "'.$event->title.'"');
+		return redirect(route('events.show', ['id' => $event->id]));
 	}
 
 	/**
@@ -125,7 +127,8 @@ class EventController extends Controller
 
 		$event->save();
 
-		return redirect(route('organisations.show', ['id' => $event->organisation_id]));
+        Session::flash('success', 'Successfully updated '.$event->title);
+		return redirect(route('events.show', ['id' => $event->id]));
 	}
 
 	/**

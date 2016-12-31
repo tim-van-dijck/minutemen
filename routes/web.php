@@ -13,9 +13,10 @@
 
 Auth::routes();
 
-Route::get('/', 'HomeController@index');
-Route::get('about', 'HomeController@about');
-Route::get('search', 'HomeController@search');
+Route::get('/', 'HomeController@index')->name('home');
+Route::get('about', 'HomeController@about')->name('about');
+Route::get('search', 'HomeController@search')->name('search');
+Route::get('sitemap', 'HomeController@sitemap')->name('sitemap');
 
 // Users
 Route::group(['prefix' => 'users'], function () {
@@ -27,6 +28,9 @@ Route::group(['prefix' => 'users'], function () {
 // Routes requiring login
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('/dashboard', 'HomeController@home');
+	Route::get('/my-teams', 'HomeController@home');
+	Route::get('/my-subscriptions', 'OrganisationController@mySubscriptions');
+	Route::get('/my-organisations', 'OrganisationController@mine');
 
 	// Users
 	Route::get('settings', 'UserController@edit')->name('settings');
@@ -46,7 +50,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('teams', 'TeamController', ['except' => ['edit', 'show', 'index']]);
 
 	// Teams
-	Route::resource('organisations', 'OrganisationController', ['except' => ['index']]);
+	Route::resource('organisations', 'OrganisationController', ['except' => ['index', 'show']]);
 	
 	// Events
 	Route::resource('events', 'EventController', ['only' => ['edit', 'update', 'delete']]);
@@ -72,6 +76,7 @@ Route::group(['prefix' => 'teams'], function() {
 // Organisations
 Route::group(['prefix' => 'organisations'], function() {
 	Route::get('/', 'OrganisationController@index')->name('organisations.index');
+	Route::get('/{id}', 'OrganisationController@show')->name('organisations.show');
 	Route::get('/{id}/add-event', 'EventController@create')->name('events.create');
 	Route::post('/{id}/add-event', 'EventController@store')->name('events.store');
 });
@@ -93,6 +98,8 @@ Route::group(['middleware' => 'ajax', 'prefix' => 'ajax'], function () {
 	Route::group(['middleware' => 'auth'], function () {
 		Route::get('notifications/count', 'AjaxController@notificationCount');
 		Route::get('feed/{id?}', 'AjaxController@feed')->name('ajax.feed.get');
+		Route::get('feed/extend/{id?}', 'AjaxController@feedExtend')->name('ajax.feed.extend');
+		Route::get('feed/can-expand/{id?}', 'AjaxController@canExpandFeed')->name('ajax.feed.can-expand');
 
 		Route::get('lfg', 'AjaxController@toggleLfg')->name('ajax.lfg');
 
@@ -121,4 +128,6 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function 
     Route::get('/', 'AdminController@index');
     Route::post('organisation/{organisation_id}/trust', 'AdminController@trust')->name('organisation.trust');
     Route::post('organisations/trust', 'AdminController@trust')->name('organisations.trust.batch');
+
+    Route::get('ajax/organisations/find', 'AdminController@getOrganisations');
 });

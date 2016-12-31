@@ -35,14 +35,12 @@ class User extends Authenticatable
 	}
 
 	public function subscriptions() {
-		return Organisation::select('*')->join('organisation_roles', 'organisation_roles.user_id', '=', 'organisations.id')
+		return Organisation::select('organisations.*')->join('organisation_roles', 'organisation_roles.organisation_id', '=', 'organisations.id')
 					->where('organisation_roles.user_id', $this->id)
 					->where('organisation_roles.role', 'subscriber')
 					->orderBy('name')
 					->get();
 	}
-
-	public function commendations() { return Commendation::count($this->id); }
 
 	public function friends() { return Friendship::getFriends($this->id); }
 

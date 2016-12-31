@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Auth;
+use Session;
 use Storage;
 
 use App\General;
@@ -63,6 +64,7 @@ class TeamController extends Controller
 		Team::join($team->id, Auth::user()->id, false, true);
 		Auth::user()->nlfg();
 
+		Session::flash('success', 'Successfully created '.$team->name);
 		return redirect('teams');
 	}
 
@@ -122,6 +124,7 @@ class TeamController extends Controller
 
 		$team->save();
 
+		Session::flash('success', 'Successfully updated '.$team->name);
 		return redirect()->back();
 	}
 

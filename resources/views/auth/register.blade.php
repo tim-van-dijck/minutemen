@@ -9,14 +9,14 @@
 
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
-				<div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
+				<div class="form-group{{ $errors->has('r_username') ? ' has-error' : '' }}">
 					<div class="col-md-12">
 						<label for="username" class="control-label">Username</label><br>
-						<input id="username" type="text" class="form-control" name="username" value="{{ old('username') }}" required autofocus>
+						<input id="username" type="text" class="form-control" name="r_username" value="{{ old('r_username') }}" required autofocus>
 
 						@if ($errors->has('username'))
 							<span class="help-block">
-								<strong>{{ $errors->first('username') }}</strong>
+								<strong>{{ $errors->first('r_username') }}</strong>
 							</span>
 						@endif
 					</div>
@@ -35,14 +35,14 @@
 						@endif
 					</div>
 				</div>
-				<div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+				<div class="form-group{{ $errors->has('r_password') ? ' has-error' : '' }}">
 					<div class="col-md-12">
 						<label for="password" class="control-label">Password</label>
-						<input id="password" type="password" class="form-control" name="password" required>
+						<input id="password" type="password" class="form-control" name="r_password" required>
 
 						@if ($errors->has('password'))
 							<span class="help-block">
-								<strong>{{ $errors->first('password') }}</strong>
+								<strong>{{ $errors->first('r_password') }}</strong>
 							</span>
 						@endif
 					</div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use Session;
 use Storage;
 
 use App\Event;
@@ -61,6 +62,7 @@ class OrganisationController extends Controller
 
 		$organisation->makeAdmin(Auth::user()->id);
 
+		Session::flash('success', 'Successfully created '.$organisation->name);
 		return redirect('organisations');
 	}
 
@@ -127,6 +129,7 @@ class OrganisationController extends Controller
 
 		$organisation->save();
 
+		Session::flash('success', 'Successfully updated '.$organisation->name);
 		return redirect(route('organisations.show', ['id' => $id]));
 	}
 
@@ -157,4 +160,12 @@ class OrganisationController extends Controller
 	public function subscribe($organisation_id) { Organisation::subscribe($organisation_id); }
 
 	public function unsubscribe($organisation_id) { Organisation::unsubscribe($organisation_id); }
+
+	public function mine() {
+	    return view('organisations.index')->with(['organisations' => Auth::user()->organisations()]);
+    }
+
+	public function mySubscriptions() {
+	    return view('organisations.index')->with(['organisations' => Auth::user()->subscriptions()]);
+    }
 }

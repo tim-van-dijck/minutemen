@@ -3,32 +3,62 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Auth;
 
 class Notification extends Model
 {
-	protected $fillable = ['content', 'seen', 'organisation_id', 'user_id'];
+	protected $fillable = ['content', 'seen', 'user_id', 'created_at', 'updated_at'];
 
-    protected function send($organisation_id) {
-		$subscribers = User::select('*')
-							->join('organisation_roles', 'users.id', '=', 'organisation_roles.user_id')
-							->where('organisation_roles.organisation_id', $organisation_id)
-							->get();
+    protected function post($entity_id, $entity) {
+        switch ($entity) {
+            case 'event':
+                $table = 'participations';
+                $id = 'event_id';
+                break;
+            case 'team':
+                $table = 'team_users';
+                $id = 'team_id';
+                break;
+            case 'organisation':
+                $table = 'organisation_roles';
+                $id = 'organisation_id';
+                break;
+            default:
+                break;
+        }
+
+        $subscribers = User::select('users.*')
+                            ->join($table, 'users.id', '=', $table.'.user_id')
+                            ->where([
+                                [$table.'.'.$id, '=', $entity_id],
+                                [$table.'.user_id', '!=', Auth::user()->id]
+                            ])->get();
 
 		foreach ($subscribers as $subscriber) {
 			self::insert([
-				'content'			=> 'posted an update',
+				'content'			=> ' has a new post',
 				'seen'				=> 0,
-				'organisation_id'	=> $organisation_id,
 				'user_id'			=> $subscriber->id,
+                'entity_name'       => $entity,
+                'entity_id'         => $entity_id
 			]);
 		}
 	}
 
-	protected function getExtended($user_id) {
-		$notifications = self::where('user_id', $user_id)->get();
-		foreach ($notifications as $notification) {
-			$organisation = Organisation::find($notification->organisation_id);
-			$notification->content = $organisation->name .= ' '.$notification->content;
-		}
-	}
+	public function entity() {
+        switch ($this->entity) {
+            case 'team':
+                return Team::find($this->entity_id);
+                break;
+            case 'organisation':
+                return Organisation::find($this->entity_id);
+                break;
+            case 'event':
+                return Event::find($this->entity_id);
+                break;
+            default:
+                return null;
+                break;
+        }
+    }
 }

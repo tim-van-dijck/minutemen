@@ -43,7 +43,7 @@
 										<a href="{{ route('events.show', ['id' => $event->id]) }}">
 											<div class="banner"><img src="{{ $event->banner or 'img/event.png' }}" alt="{{ $event->title }}"></div>
 											<h5 class="text-center">{{ $event->title }}</h5>
-											<p class="period text-center">{{ $event->starts_at }}</p>
+											<p class="period text-center">{{ date('F dS \a\t H:i', strtotime($event->starts_at)) }}</p>
 										</a>
 									</div>
 								</div>
@@ -67,25 +67,26 @@
 			</div>
 		</div>
 		<div class="col-md-7">
-			@if($organisation->isAdmin(Auth::user()->id))
+			<h3>News</h3>
+			@if(Auth::check() && $organisation->isAdmin(Auth::user()->id))
 				<div class="row">
 					<div class="col-md-12">
 						<form id="post-form" action="{{ route('ajax.organisations.post', ['id' => $organisation->id]) }}" method="POST">
 							{{ csrf_field() }}
+							<button type="submit" class="btn btn-primary">Post</button>
 							<textarea name="post" class="form-control" required></textarea>
-							<button type="submit" class="btn btn-primary pull-right">Post</button>
 						</form>
 					</div>
 				</div>
 			@endif
-			<div id="feed" data-id="{{ $organisation->id }}">
+			<div id="feed" data-organisation="{{ $organisation->id }}">
 				@forelse($organisation->posts() as $post)
 					<div class="col-md-12 post">
 						<div class="header">{{ $organisation->name or 'This Organisation' }}</div>
 						<div class="content">
 							{!! $post->content !!}
 						</div>
-						<div class="footer">{{ $post->updated_at }}</div>
+						<div class="footer">{{ $post->updated_at or $post->created_at }}</div>
 					</div>
 				@empty
 					<div class="col-md-12">

@@ -50,9 +50,9 @@ class RegisterController extends Controller
 	protected function validator(array $data)
 	{
 		return Validator::make($data, [
-			'username'	=> 'required|max:255|unique:users|profanity-filter',
+			'r_username'	=> 'required|max:255|unique:users,username|profanity-filter',
 			'email'		=> 'required|email|max:255|unique:users',
-			'password'	=> 'required|min:6|confirmed',
+			'r_password'	=> 'required|min:6|confirmed',
 		]);
 	}
 
@@ -66,14 +66,12 @@ class RegisterController extends Controller
 	{
 		if (isset($data['img'])) { $img = General::uploadImg($data['img'], 'users', true); }
 		else { $img = null; }
-
-		$coords = explode(';', $data['coords']);
 		
 		return User::create([
-			'username'	=> $data['username'],
+			'username'	=> $data['r_username'],
 			'slug'		=> General::sluggify($data['username'], 'users'),
 			'email'		=> $data['email'],
-			'password'	=> bcrypt($data['password']),
+			'password'	=> bcrypt($data['r_password']),
 		]);
 	}
 }

@@ -87,14 +87,14 @@
 		</div>
 		<div class="row">
 			<div class="col-md-6">
-				<div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+				<div class="form-group{{ $errors->has('s_password') ? ' has-error' : '' }}">
 					<div class="col-md-8 col-md-offset-2">
 						<label for="password" class="control-label">Password</label>
-						<input id="password" type="password" class="form-control" name="password">
+						<input id="password" type="password" class="form-control" name="s_password">
 
 						@if ($errors->has('password'))
 							<span class="help-block">
-								<strong>{{ $errors->first('password') }}</strong>
+								<strong>{{ $errors->first('s_password') }}</strong>
 							</span>
 						@endif
 					</div>
@@ -104,8 +104,8 @@
 			<div class="col-md-6">
 				<div class="form-group">
 					<div class="col-md-8 col-md-offset-2">
-						<label for="password-confirm" class="control-label">Confirm Password</label>
-						<input id="password-confirm" type="password" class="form-control" name="password_confirmation">
+						<label for="s_password-confirm" class="control-label">Confirm Password</label>
+						<input id="s_password-confirm" type="password" class="form-control" name="password_confirmation">
 					</div>
 				</div>
 			</div>

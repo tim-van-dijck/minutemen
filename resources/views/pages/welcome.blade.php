@@ -4,22 +4,24 @@
 @section('content')
 	<h2>Upcoming</h2>
 	<div class="row blocklink-wrapper">
-		@forelse($events as $i => $event)
-			<div class="col-md-4 blocklink">
-				<a href="{{ route('events.show', ['id' => $event->id]) }}">
-					<div class="banner"><img src="{{ $event->banner or 'img/event.png' }}" alt="{{ $event->title }}"></div>
-					<h4 class="text-center">{{ $event->title }}</h4>
-					<p class="text-center">{{ date("F dS H:i", strtotime($event->starts_at)) }}</p>
-				</a>
-			</div>
-			@if ($i != 0 && $i % 3 == 0)
-				</div><div class="row">
-			@endif
-		@empty
+		@if (!$events->isEmpty())
+			@for($i = 0; $i < count($events); $i++)
+				<div class="col-md-3 blocklink">
+					<a href="{{ route('events.show', ['id' => $events[$i]->id]) }}">
+						<div class="banner"><img src="{{ $events[$i]->banner or 'img/event.png' }}" alt="{{ $events[$i]->title }}"></div>
+						<h4 class="text-center">{{ $events[$i]->title }}</h4>
+						<p class="text-center">{{ date("F dS H:i", strtotime($events[$i]->starts_at)) }}</p>
+					</a>
+				</div>
+			@endfor
+				<div class="col-md-3 blocklink">
+					<a href="{{ route('events.index') }}">See more &raquo;</a>
+				</div>
+	@else
 			<div class="col-md-12 text-center">
 				There are no events available at this time
 			</div>
-		@endforelse
+		@endif
 	</div>
 	<h2>Popular Organisations</h2>
 	<div class="row blocklink-wrapper">

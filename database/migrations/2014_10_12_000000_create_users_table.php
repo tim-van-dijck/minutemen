@@ -17,18 +17,18 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('username')->unique();
             $table->string('slug')->unique();
-            $table->string('firstname');
-            $table->string('lastname');
+            $table->string('firstname')->nullable();
+            $table->string('lastname')->nullable();
 
             $table->string('email')->unique();
             $table->string('password');
             
-            $table->string('street');
-            $table->string('number');
-            $table->string('zip');
-            $table->string('city');
-            $table->string('lat');
-            $table->string('long');
+            $table->string('street')->nullable();
+            $table->string('number')->nullable();
+            $table->string('zip')->nullable();
+            $table->string('city')->nullable();
+            $table->string('lat')->nullable();
+            $table->string('long')->nullable();
 
             $table->string('img')->nullable();
             $table->boolean('lfg')->default(false);

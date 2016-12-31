@@ -8,9 +8,12 @@
     <h2>Why "Minutemen"?</h2>
     <p>
         Historically, minutemen were a kind of militia that would be ready to defend their homes "at a minute's notice".
-        They were civilian colonists who independently organized to form well-prepared militia companies self-trained
-        in weaponry, tactics, and military strategies from the American colonial partisan militia during
-        the American Revolutionary War.
+        <blockquote cite="https://en.wikipedia.org/wiki/Minutemen">
+            <i>They were civilian colonists who independently organized to form well-prepared militia companies self-trained
+            in weaponry, tactics, and military strategies from the American colonial partisan militia during
+            the American Revolutionary War.</i>
+            <footer><cite title="Source Title">Wikipedia</cite></footer>
+        </blockquote>
     </p>
-    <p>We found this to be a fitting comparison with our own eagerness to do battle whenever, with whomever.</p>
+    <p>We found this to be a fitting comparison with our own eagerness to do battle whenever, with whomever dare challenge us.</p>
 @stop

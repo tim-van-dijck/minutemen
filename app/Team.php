@@ -66,7 +66,10 @@ class Team extends Model
 	}
 
 	public function isAdmin($user_id = false) {
-		if (!$user_id) { $user_id = Auth::user()->id; }
+		if (!$user_id) {
+		    if (Auth::check()) { $user_id = Auth::user()->id; }
+            else { return false; }
+		}
 		$admin = User::select('users.*', 'team_users.created_at AS joined')
 					->join('team_users', 'team_users.user_id', '=', 'users.id')
 					->join('teams', 'teams.id', '=', 'team_users.team_id')
@@ -81,7 +84,10 @@ class Team extends Model
 	}
 
 	public function isMember($user_id = false) {
-		if (!$user_id) { $user_id = Auth::user()->id; }
+        if (!$user_id) {
+            if (Auth::check()) { $user_id = Auth::user()->id; }
+            else { return false; }
+        }
 		$member = User::select('users.*', 'team_users.created_at AS joined')
 					->join('team_users', 'team_users.user_id', '=', 'users.id')
 					->join('teams', 'teams.id', '=', 'team_users.team_id')
@@ -95,7 +101,10 @@ class Team extends Model
 	}
 
 	public function isInvited($user_id = false) {
-        if (!$user_id) { $user_id = Auth::user()->id; }
+        if (!$user_id) {
+            if (Auth::check()) { $user_id = Auth::user()->id; }
+            else { return false; }
+        }
         $member = User::select('users.*', 'team_users.created_at AS joined')
             ->join('team_users', 'team_users.user_id', '=', 'users.id')
             ->join('teams', 'teams.id', '=', 'team_users.team_id')

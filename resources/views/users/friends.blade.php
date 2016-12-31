@@ -4,7 +4,7 @@
 @section('content')
 	@if (!$requests->isEmpty())
 		<h2>Friend Requests</h2>
-		<div class="row">
+		<div class="row blocklink-wrapper">
 			@foreach($requests as $index => $request)
 				<div class="col-md-2 blocklink user request">
 					<a href="{{ route('users.show', ['slug' => $request->slug]) }}">
@@ -21,13 +21,13 @@
 					</div>
 				</div>
 				@if ($index != 0 && $index % 6 == 0)
-					</div><div class="row">
+					</div><div class="row blocklink-wrapper">
 				@endif
 			@endforeach
 		</div>
 	@endif
 	<h1>Friends</h1>
-	<div class="row">
+	<div class="row blocklink-wrapper">
 		@forelse($friends as $index => $friend)
 			<div class="col-md-2 blocklink user">
 				<a href="{{ route('users.show', ['slug' => $friend->slug]) }}">
@@ -36,7 +36,7 @@
 				</a>
 			</div>
 			@if ($index != 0 && $index % 6 == 0)
-				</div><div class="row">
+				</div><div class="row blocklink-wrapper">
 			@endif
 		@empty
 			<li>

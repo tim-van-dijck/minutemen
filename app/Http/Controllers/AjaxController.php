@@ -17,6 +17,8 @@ class AjaxController extends Controller
 
 	public function feed($id = false) { return json_encode(Post::feed($id)); }
 
+	public function feedExtend(Request $request, $id) { return json_encode(Post::feedExpand($id, $request->input('offset'))); }
+
 	public function joinTeam(int $team_id) { return Team::join($team_id, Auth::user()->id, false); }
 
 	public function leaveTeam($team_id) { Team::deleteMember($team_id, Auth::user()->id); }
@@ -34,4 +36,6 @@ class AjaxController extends Controller
 	public function toggleLfg() { Auth::user()->lfgToggle(); }
 
 	public function setGameWinner(Request $request, $game_id) { Game::setWinner($game_id, $request->input('winner')); }
+
+	public function canExpandFeed(Request $request, $id = false) { Post::canExpand($request->input('offset'), $id); }
 }

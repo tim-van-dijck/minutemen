@@ -62,6 +62,11 @@ class AdminController extends Controller
         }
     }
 
+    public function getOrganisations(Request $request) {
+        $query = $request->input('q');
+        return json_encode(Organisation::where('name', 'LIKE', '%'.$query.'%')->limit(10)->get());
+    }
+
     /**
      * Remove the specified resource from storage.
      *

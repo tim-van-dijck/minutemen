@@ -11,15 +11,16 @@
 		</div>
 	@else
 		@foreach ($results as $index => $list)
-			<div class="row {{ $index }}">
+            <?php $number = ($index != 'events') ? 6 : 3 ?>
+			<div class="row blocklink-wrapper {{ $index }}">
 				<div class="col-md-12">
 					<h2>{{ ucfirst($index) }}</h2>
-					<div class="row">
+					<div class="row blocklink-wrapper">
 						@foreach ($list as $i => $item)
-							<div class="col-md-{{ ($index != 'events') ? 2 : 4 }} blocklink {{ substr($index,0,-1) }}">
+							<div class="col-md-{{ 12/$number }} blocklink {{ substr($index,0,-1) }}">
 								<?php
 									$args = [];
-									if ($index == 'organisations') { $args['id'] = $item->id; }
+									if ($index == 'organisations' || $index == 'events') { $args['id'] = $item->id; }
 									else { $args['slug'] = $item->slug; }
 								?>
 								<a href="{{ route($index.'.show', $args) }}">
@@ -46,9 +47,9 @@
 									@endif
 								</a>
 							</div>
-							
-							@if ($i != 0 && $i % 6 == 0)
-								</div><div class="row">
+
+							@if ($i != 0 && ($i+1) % $number == 0)
+								</div><div class="row blocklink-wrapper">
 							@endif
 						@endforeach
 					</div>

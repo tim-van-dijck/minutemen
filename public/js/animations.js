@@ -1,4 +1,5 @@
 $(function () {
+	if (!$('.row.login').hasClass('hidden')) { $('.alert-danger').closest('.row').hide(); }
 
 	$('.navbar-nav a.login').click(function(e) {
 		e.preventDefault();

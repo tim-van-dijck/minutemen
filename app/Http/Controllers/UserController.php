@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Auth;
 use DB;
+use Session;
 use Storage;
 
 use App\Commendation;
@@ -61,7 +62,7 @@ class UserController extends Controller
 			'zip'			=> 'max:10',
 			'city'			=> 'max:255',
 			'passworld_old'	=> 'required_with:password',
-			'password'		=> 'min:6|confirmed',
+			's_password'		=> 'min:6|confirmed',
 		]);
 
 		$user = User::find(Auth::user()->id);
@@ -80,12 +81,15 @@ class UserController extends Controller
 		} else { unset($input['img']); }
 
 		foreach ($input as $field => $value) {
-		    if ($value != null && $value != '')
-			$user->{$field} = $value;
+		    if ($value != null && $value != '') {
+                if ($field == 's_password') { $user->password = bcrypt($input['s_password']); }
+                else { $user->{$field} = $value; }
+            }
 		}
 		
 		$user->save();
 
+		Session::flash('success', 'Successfully updated profile');
 		return redirect()->back();
 	}
 

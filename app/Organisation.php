@@ -120,5 +120,5 @@ class Organisation extends Model
 
 	public function events() { return Event::where('organisation_id', $this->id)->get(); }
 	
-	public function posts() { return Post::where('organisation_id', $this->id)->get(); }
+	public function posts() { return Post::where('organisation_id', $this->id)->orderBy('created_at', 'desc')->get(); }
 }

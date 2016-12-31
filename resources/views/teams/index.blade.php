@@ -7,7 +7,7 @@
 	@endif
 
 	<h1>Teams</h1>
-	<div class="row teams">
+	<div class="row blocklink-wrapper">
 		@forelse($teams as $i => $team)
 			<div class="col-md-2 blocklink team">
 				<a href="{{ route('teams.show', ['slug' => $team->slug]) }}">
@@ -15,8 +15,8 @@
 					<p>{{$team->name}}</p>
 				</a>
 			</div>
-			@if ($i != 0 && $i % 6 == 0)
-				</div><div class="row">
+			@if ($i != 0 && ($i+1) % 6 == 0)
+				</div><div class="row blocklink-wrapper">
 			@endif
 		@empty
 			<p>There are no teams yet.</p>

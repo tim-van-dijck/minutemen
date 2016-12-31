@@ -166,7 +166,8 @@ return [
         /*
          * Package Service Providers...
          */
-         Intervention\Image\ImageServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
+        Watson\Sitemap\SitemapServiceProvider::class,
 
         //
 
@@ -229,5 +230,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Image' => Intervention\Image\Facades\Image::class,
+        'Sitemap' => Watson\Sitemap\Facades\Sitemap::class,
     ],
 ];

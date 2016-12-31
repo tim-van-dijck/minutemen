@@ -1,8 +1,8 @@
-@if(Session::has('flash_message'))
+@if(Session::has('success'))
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
 			<div class="alert alert-success">
-				<p>{{ Session::get('flash_message') }}</p>
+				<p>{{ Session::get('success') }}</p>
 			</div>
 		</div>
 	</div>

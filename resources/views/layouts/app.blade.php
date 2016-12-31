@@ -28,11 +28,13 @@
 
 	<!-- Styles -->
 	<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css" rel="stylesheet">
 	<link href="/css/app.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
 	<link href="/css/libs/croppie.css" rel="stylesheet">
 	<link href="/css/libs/sweetalert.css" rel="stylesheet">
+	<link href="/css/libs/menu_sideslide.css" rel="stylesheet">
 	<link href="/css/style.css" rel="stylesheet">
 
 	<!-- Scripts -->
@@ -44,84 +46,85 @@
 </head>
 <body>
 	<div id="app">
+		<div class="menu-shadow"></div>
+		<div class="menu-wrap">
+			<nav class="menu">
+				<div class="icon-list">
+					<form id="search" action="search" method="GET">
+						<button type="submit" class="pull-right btn btn-primary"><i class="fa fa-search"></i></button>
+						<input class="pull-right" type="text" name="q" placeholder="Search Minutemen">
+					</form>
+					@if (Auth::guest())
+						<a data-toggle="modal" data-target="#login-modal">Login</a>
+						<a href="{{ url('/register') }}">Register</a>
+					@else
+						<div class="block">
+							<label class="switch pull-right">
+								<input id="lfg" type="checkbox" name="lfg" data-toggle="toggle" {{ (Auth::user()->lfg) ? 'checked' : '' }}>
+								<div class="slider"></div>
+							</label>
+							<span>Looking For Group</span>
+						</div>
+						<a href="/dashboard"><i class="fa fa-dashboard"></i>Dashboard</a>
+						<a href="{{ route('users.profile') }}"><i class="fa fa-user"></i>Profile</a>
+						<a href="{{ route('users.friends') }}">
+							<div class="abs-wrapper">
+								<div class="notification-bubble"></div>
+							</div>
+							<i class="fa fa-users"></i>Friends
+						</a>
+						<div class="lists">
+							<div class="item">
+								<h5>Subscriptions</h5>
+								@foreach(Auth::user()->teams() as $team)
+									<a href="{{ route('teams.show', ['slug' => $team->slug]) }}">
+										<img src="{{ $team->emblem or 'img/emblem.png' }}" alt="{{ $team->name }}" class="tiny-thumb">{{ $team->name }}
+									</a>
+								@endforeach
+								<a href="/my-teams">More...</a>
+							</div>
+							<div class="item">
+								<h5>Teams</h5>
+								@foreach(Auth::user()->teams() as $team)
+									<a href="{{ route('teams.show', ['slug' => $team->slug]) }}">
+										<img src="{{ $team->emblem or 'img/emblem.png' }}" alt="{{ $team->name }}" class="tiny-thumb">{{ $team->name }}
+									</a>
+								@endforeach
+								<a href="/my-teams">More...</a>
+							</div>
+							<div class="item">
+								<h5>Organisations</h5>
+								@foreach(Auth::user()->organisations() as $org)
+									<a href="{{ route('organisations.show', ['id' => $org->id]) }}">
+										<img src="{{ $org->thumb or 'img/organisation.png' }}" alt="{{ $org->name }}" class="tiny-thumb">{{ $team->name }}
+									</a>
+								@endforeach
+								<a href="/my-organisations">More...</a>
+							</div>
+						</div>
+						<a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-power-off"></i>Logout</a>
+						<form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
+					@endif
+				</div>
+			</nav>
+			<button class="close-button" id="close-button">Close Menu</button>
+		</div>
+		<button class="menu-button" id="open-button"><i class="fa fa-bars"></i></button>
 		<nav class="navbar navbar-default navbar-static-top">
 			<div class="container">
 				<div class="navbar-header">
-
-					<!-- Collapsed Hamburger -->
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
-						<span class="sr-only">Toggle Navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
 
 					<!-- Branding Image -->
 					<a id="logo" class="navbar-brand" href="{{ url('/') }}">
 						{!! file_get_contents('img/logo.svg') !!}
 					</a>
 				</div>
-
-				<div class="collapse navbar-collapse" id="app-navbar-collapse">
-					<!-- Left Side Of Navbar -->
-					<ul id="search" class="nav navbar-nav">
-						<li>
-							<form action="search" method="GET">
-								<input class="pull-left" type="text" name="q" placeholder="Search Minutemen">
-								<button type="submit"><i class="fa fa-search"></i></button>
-							</form>
-						</li>
-					</ul>
-
-					<!-- Right Side Of Navbar -->
-					<ul class="nav navbar-nav navbar-right">
-						<!-- Authentication Links -->
-						@if (Auth::guest())
-							<li><a class="login" href="{{ url('/login') }}">Login</a></li>
-							<li><a href="{{ url('/register') }}">Register</a></li>
-						@else
-							<li><a href="{{ route('teams.index') }}">Teams</a></li>
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-									<div class="abs-wrapper">
-										<div class="notification-bubble"></div>
-									</div>
-									{{ Auth::user()->username }} <span class="caret"></span>
-								</a>
-
-								<ul class="dropdown-menu" role="menu">
-									<li><a href="{{ url('dashboard') }}">Dashboard</a></li>
-									<li>
-										<div class="block">
-											<label class="switch pull-right">
-												<input id="lfg" type="checkbox" name="lfg" data-toggle="toggle" {{ (Auth::user()->lfg) ? 'checked' : '' }}>
-												<div class="slider"></div>
-											</label>
-											<span title="Looking For Group">Looking For Group</span>
-										</div>
-									</li>
-									<li>
-										<a href="{{ route('users.friends') }}">
-											<div class="abs-wrapper">
-												<div class="notification-bubble"></div>
-											</div>
-											Friends
-										</a>
-									</li>
-									<li><a href="{{ route('users.profile') }}">Profile</a></li>
-									<li>
-										<a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-										<form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
-									</li>
-								</ul>
-							</li>
-						@endif
-					</ul>
-				</div>
 			</div>
 		</nav>
-		@include('partial.success')
-		@include('partial.error')
+		@if (app('Illuminate\Http\Response')->status() != 404)
+			@include('partial.success')
+			@include('partial.error')
+		@endif
 		@if (Request::is('/'))
 			<div class="carousel fade-carousel slide" data-ride="carousel" data-interval="4000" id="bs-carousel"&>
 			<!-- Scroll button -->
@@ -190,7 +193,9 @@
 					</div>
 				@endif
 				<div class="col-md-8 {{ (Auth::check()) ? '' : 'col-md-offset-2' }}">
-					@yield('content')
+					<main>
+						@yield('content')
+					</main>
 				</div>
 				
 				@if (Auth::check())
@@ -198,7 +203,7 @@
 						<h5>Subscriptions</h5>
 						<ul>
 							@forelse (Auth::user()->subscriptions() as $sub)
-								<li><a href="{{ route('organisations.show', ['slug' => $sub->organisation_id]) }}">{{ $sub->name }}</a></li>
+								<li><a href="{{ route('organisations.show', ['id' => $sub->id]) }}">{{ $sub->name }}</a></li>
 							@empty
 								<li class="empty">No subscriptions yet.</li>
 							@endforelse
@@ -211,30 +216,47 @@
 		<footer>
 			<div class="container">
 				<div class="row">
-					<div class="col-md-12">
+					<div class="col-md-8 col-md-offset-2">
 						<div class="row">
-							<div class="col-md-3"></div>
-							<div class="col-md-2 col-md-offset-1">
-								<h5>Laser Tag enthusiasts</h5>
-								<p class="about">
-									Minutemen is a community of Laser Tag enthusiasts coming together to compete and connect.
-								</p>
+							<div class="col-md-9">
+								<div class="row">
+									<div class="col-md-12">
+										<span class="title">Laser Tag enthusiasts</span>
+										<p>
+											Minutemen is a community of Laser Tag enthusiasts coming together to make friends and compete.
+										</p>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<span class="title">Contact us</span>
+										<p><a class="contact" href="mailto:info@minutemen.be">info@minutemen.be</a></p>
+									</div>
+								</div>
 							</div>
-							<div class="col-md-3 pull-right">
-								<h5>Contact us</h5>
-								<p><a href="mailto:tim.vandijck.1@student.kdg.be">tim.vandijck.1@student.kdg.be</a></p>
+							<div class="col-md-3 text-right">
+								<div class="row">
+									<div class="col-md-12">
+										<a href="{{ route('about') }}" class="">About us</a>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<a href="sitemap" class="sitemap">Sitemap</a>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<p class="copy">&copy; All rights reserved</p>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-md-4 col-md-offset-4">
-						<a href="sitemap" class="sitemap pull-left">Sitemap</a> | <p class="copy pull-right">&copy; All rights reserved</p>
-					</div>
-				</div>
 			</div>
 		</footer>
-		@if (Auth::guest())
+		@if (Auth::guest() && app('Illuminate\Http\Response')->status() != 404)
 			@include('auth.login')
 		@endif
 	</div>
@@ -243,11 +265,21 @@
 	<script src="js/app.js"></script>
 	<script src="js/libs/sweetalert.min.js"></script>
 	<script src="js/libs/autosize.min.js"></script>
+	<script src="js/libs/classie.js"></script>
+	<script src="js/libs/main.js"></script>
 	<script src="js/animations.js"></script>
 	@if (Auth::check())
 		<script src="js/notifications.js"></script>
 		<script src="js/interactions.js"></script>
 	@endif
+	<script>
+		$(function() {
+		    var errors = '{{ ($errors->has('username') || $errors->has('password')) ? 'true' : 'false' }}';
+            console.log(errors);
+            errors = (errors === 'true');
+			if (errors) { $('#login-modal').modal('show'); }
+		});
+	</script>
 	@yield('js')
 </body>
 </html>

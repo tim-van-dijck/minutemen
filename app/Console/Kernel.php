@@ -28,6 +28,11 @@ class Kernel extends ConsoleKernel
     {
         $schedule->call(function() { Leaderboard::createOrUpdateAll(); })
                  ->everyMinute();
+
+        $schedule->call(function() {
+            $imgs = scandir('img/users');
+            return $imgs;
+        })->hourly();
     }
 
     /**
