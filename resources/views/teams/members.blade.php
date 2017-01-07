@@ -1,22 +1,22 @@
 @extends('layouts.app')
 
-@section('title', $team->name)
+@section('title', 'Members - '.$team->name)
 @section('content')
-	@if(Auth::check() && $team->isAdmin())
-		<a href="{{ route('teams.edit', ['slug' => $team->slug]) }}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> edit</a>
-	@else
+	@if(Auth::check() && !$team->isMember())
 		<a id="join" href="{{ (Auth::check() && $team->isMember()) ? route('ajax.team.leave', ['team_id' => $team->id]) : route('ajax.team.join', ['team_id' => $team->id]) }}" class="btn btn-primary pull-right" data-href="{{ (Auth::guest() || !$team->isMember()) ? route('ajax.team.leave', ['team_id' => $team->id]) : route('ajax.team.join', ['team_id' => $team->id]) }}">{{ (Auth::check() && $team->isMember()) ? 'Leave' : 'Join' }} team</a>
 	@endif
 	<h2>{{ $team->name }} - [{{ $team->tag }}]</h2>
 	<div class="row">
 		<div class="col-md-12">
 			<h3>Members</h3>
-
+			<h4>Invite users</h4>
 			@if (Auth::check() && $team->isAdmin())
-			<div id="autocomplete" class="ui-widget">
-				<label for="users">Users: </label>
-				<input id="users" class="form-control">
-			</div>
+				<a href="#" class="btn btn-primary btn-lfg" data-toggle="modal" data-target="#invite-lfg">Looking for Group</a>
+				<form id="users-find-form" action="{{ route('ajax.team.invite.batch', ['team_id' => $team->id]) }}" method="POST">
+					{{ csrf_field() }}
+					<select name="invite[]" id="user-find" multiple="multiple"></select>
+					<button class="btn btn-load" type="submit">Invite selected</button>
+				</form>
 			@endif
 			@if(!$team->requests()->isEmpty())
 				<div class="requests">
@@ -49,11 +49,27 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-12 admins">
 			<h4>Admins</h4>
-			<div class="blocklink-wrapper">
+			<div class="row blocklink-wrapper">
 				@foreach($team->admins() as $index => $admin)
 					<div class="col-md-2 blocklink user">
+						@if (Auth::check() && $team->isAdmin() && $admin->id != Auth::user()->id)
+							<div class="dropdown">
+								<button class="btn btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown">
+									<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu">
+									<li><a href="{{ route('ajax.team.admin.delete', ['team_id' => $team->id, 'user_id' => $admin->id]) }}"
+										   data-href="{{ route('ajax.team.admin.make', ['team_id' => $team->id, 'user_id' => $admin->id]) }}"
+										   class="ajax-button admin-delete" data-id="{{ $admin->id }}">
+											Delete admin
+										</a>
+									</li>
+									<li><a href="#" class="kick" data-toggle="modal" data-target="#kick" data-id="{{ $admin->id }}">Kick</a></li>
+								</ul>
+							</div>
+						@endif
 						<a href="{{ route('users.show', ['slug' => $admin->slug]) }}">
 							<div class="profile-img">
 								<img src="{{ $admin->img or 'img/profile.png' }}" alt="{{ $admin->username }}">
@@ -62,24 +78,30 @@
 						</a>
 					</div>
 					@if ($index != 0 && $index % 6 == 0)
-						</div><div class="row">
+						</div><div class="row blocklink-wrapper">
 					@endif
 				@endforeach
 			</div>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-12 members">
 			<h4>Members</h4>
-			<div class="blocklink-wrapper">
+			<div class="row blocklink-wrapper">
 				@forelse($team->onlyMembers() as $index => $member)
 					<div class="col-md-2 blocklink user">
-						@if (Auth::check() && $team->isAdmin())
+						@if (Auth::check() && $team->isAdmin() && $member->id != Auth::user()->id)
 							<div class="dropdown">
 								<button class="btn btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown">
 									<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu">
+									<li><a href="{{ route('ajax.team.admin.make', ['team_id' => $team->id, 'user_id' => $member->id]) }}"
+										   data-href="{{ route('ajax.team.admin.delete', ['team_id' => $team->id, 'user_id' => $member->id]) }}"
+										   class="ajax-button admin-add" data-id="{{ $member->id }}">
+											Make admin
+										</a>
+									</li>
 									<li><a href="#" class="kick" data-toggle="modal" data-target="#kick" data-id="{{ $member->id }}">Kick</a></li>
 								</ul>
 							</div>
@@ -92,7 +114,7 @@
 						</a>
 					</div>
 					@if ($index != 0 && $index % 6 == 0)
-						</div><div class="row">
+						</div><div class="row blocklink-wrapper">
 					@endif
 				@empty
 					<div class="row">
@@ -120,7 +142,7 @@
 						<form id="kick-form" action="{{ route('ajax.team.kick', ['team_id' => $team->id]) }}" method="POST">
 							{{  csrf_field() }}
 							<input type="hidden" name="member_id" id="member_id">
-							<input type="password" name="password" placeholder="********">
+							<input type="password" name="password" placeholder="********" required>
 						</form>
 					</div>
 					<div class="modal-footer">
@@ -131,40 +153,14 @@
 			</div>
 		</div>
 	@endif
+	@include('modals.lfg')
 @stop
 
 @section('js')
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+	<script src="js/forms.js"></script>
 	<script>
-        $( function() {
-            var teamId = {{ $team->id }}
-
-            var autoComp = $("#users").autocomplete({
-                source: "ajax/users/find/" + teamId,
-                minLength: 2,
-                select: function( event, ui ) {
-                    $.post('ajax/teams/'+teamId+'/invite', {_token: Laravel.csrfToken, team_id: teamId});
-                }
-            });
-
-            autoComp.insertAfter($("#autocomplete label"));
-
-            $('.kick').click(function() {
-                console.log($(this).data('id'))
-                $('#member_id').val($(this).data('id'));
-                console.log($('#member_id').val());
-			});
-
-            $('#kick-form').submit(function(e) {
-                e.preventDefault();
-
-                $.post($(this).attr('action'), $(this).serialize(), function(data) {
-                    $('#kick').modal('toggle');
-                    if (data.success != null) {
-                        console.log(data.success);
-                    } else { console.log(data.error); }
-				});
-			});
-        });
+        var teamId = {{ $team->id }}
 	</script>
+	<script src="js/team-manage.js"></script>
 @stop

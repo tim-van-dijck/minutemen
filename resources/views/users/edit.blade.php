@@ -124,14 +124,5 @@
 @section('js')
 	<script src="js/libs/croppie.min.js"></script>
 	<script src="js/forms.js"></script>
-	<script>
-        $(function() {
-            $('#preview-img').hide();
-
-            $('#full-img').change(function() {
-                $('#edit-img').hide();
-                $('#preview-img').show();
-			});
-        });
-	</script>
+	<script src="js/edit-form-img.js"></script>
 @stop

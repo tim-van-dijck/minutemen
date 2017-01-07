@@ -87,9 +87,8 @@
 		<div class="col-md-6">
 			@if (Auth::check() && $event->isAdmin())
 				<a href="{{ route('events.manage', ['id' => $event->id]) }}" class="btn btn-primary">manage tournament</a>
-			@else
-				<a href="{{ route('events.leaderboard', ['id' => $event->id]) }}" class="btn btn-primary">leaderboard</a>
 			@endif
+			<a href="{{ route('events.leaderboard', ['id' => $event->id]) }}" class="btn btn-primary">leaderboard</a>
 		</div>
 	</div>
 @stop

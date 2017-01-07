@@ -47,6 +47,7 @@ function acceptDeny($el) {
 	$request = $el.closest('.request');
 	$.getJSON($el.attr('href'), function (data) {
 		$request.remove();
+		console.log($request);
 		if ($('.requests .request').length < 1) { $('.requests').remove(); }
 	});
 }

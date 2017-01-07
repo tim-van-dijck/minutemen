@@ -46,7 +46,7 @@ class Notification extends Model
 	}
 
 	public function entity() {
-        switch ($this->entity) {
+        switch ($this->entity_name) {
             case 'team':
                 return Team::find($this->entity_id);
                 break;
@@ -60,5 +60,88 @@ class Notification extends Model
                 return null;
                 break;
         }
+    }
+
+    protected function newEvent($organisation_id) {
+        $subscribers = User::select('users.*')
+            ->join('organisation_roles', 'users.id', '=', 'organisation_roles.user_id')
+            ->where([
+                ['organisation_roles.organisation_id', '=', $organisation_id],
+                ['organisation_roles.user_id', '!=', Auth::user()->id]
+            ])->get();
+
+        foreach ($subscribers as $subscriber) {
+            self::insert([
+                'content'			=> ' created a new event',
+                'seen'				=> 0,
+                'user_id'			=> $subscriber->id,
+                'entity_name'       => 'organisation',
+                'entity_id'         => $organisation_id
+            ]);
+        }
+    }
+
+    protected function updatedEvent($event_id) {
+        $subscribers = User::select('users.*')
+            ->join('team_users', 'users.id', '=', 'team_users.user_id')
+            ->join('participations', 'teams.id', '=', 'participations.team_id')
+            ->where([
+                ['participations.event_id', '=', $event_id],
+                ['team_users.pending', '=', false],
+                ['team_users.deleted_at', '=', null],
+            ])->get();
+
+        foreach ($subscribers as $subscriber) {
+            self::updateOrCreate([
+                'content'			=> ' has been updated',
+                'user_id'			=> $subscriber->id,
+                'entity_name'       => 'event',
+                'entity_id'         => $event_id
+            ], ['seen' => 0]);
+        }
+    }
+
+    protected function updatedTeam($team_id) {
+        $subscribers = User::select('users.*')
+            ->join('team_users', 'users.id', '=', 'team_users.user_id')
+            ->where([
+                ['team_users.team_id', '=', $team_id],
+                ['team_users.pending', '=', false],
+                ['team_users.deleted_at', '=', null],
+            ])->get();
+
+        foreach ($subscribers as $subscriber) {
+            self::updateOrCreate([
+                'content'			=> ' has been updated',
+                'user_id'			=> $subscriber->id,
+                'entity_name'       => 'team',
+                'entity_id'         => $team_id
+            ],
+            ['seen' => 0]);
+        }
+    }
+
+    protected function message($message_id, $user_id) {
+        self::insert([
+            'content'			=> 'You have a new message from ',
+            'seen'				=> 0,
+            'user_id'			=> $user_id,
+            'entity_name'       => 'message',
+            'entity_id'         => $message_id
+        ]);
+    }
+
+    protected function friendRequest($user_id, $freq_id) {
+        self::insert([
+            'content'			=> ' wants to be your friend',
+            'seen'				=> 0,
+            'user_id'			=> $user_id,
+            'entity_name'       => 'friend-request',
+            'entity_id'         => $freq_id
+        ]);
+    }
+
+    protected function count() {
+        return count(Notification::select('id')->where(['user_id' => Auth::user()->id, 'seen' => 0])->get());
     }
 }

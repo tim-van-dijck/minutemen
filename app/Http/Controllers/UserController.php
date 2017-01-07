@@ -77,7 +77,7 @@ class UserController extends Controller
 		// Handle img upload
 		if (isset($input['img']) && $input['img'] != 'data:,') {
 			Storage::delete(public_path($user->img));
-			$input['img'] = General::uploadImg($input['img'], 'users');
+			$input['img'] = General::uploadImg($input['img'], 'users', $user->id);
 		} else { unset($input['img']); }
 
 		foreach ($input as $field => $value) {
@@ -139,23 +139,31 @@ class UserController extends Controller
 	}
 
 	// confirm friend request
-	public function confirmFriend($friendship_id)
+	public function confirmFriend(Request $request, $friendship_id)
 	{
 		Friendship::confirm($friendship_id);
-		return redirect()->back();
+
+		if ($request->ajax()) { return json_encode(['success' => 'Successfully confirmed friend']); }
+        else { return redirect()->back(); }
 	}
 
 	// Unfriend / remove friend request
-	public function deleteFriend($friendship_id)
+	public function deleteFriend(Request $request, $friendship_id)
 	{
 		$friendship = Friendship::find($friendship_id);
 		$friendship->delete();
-		return redirect()->back();
+
+		if ($request->ajax()) { return json_encode(['success' => 'Successfully deleted friend']); }
+        else { return redirect()->back(); }
 	}
 
-	public function lfg() { return view('users.lfg')->with(['users' => User::lfg()]); }
+	public function getLfg($team_id) { return json_encode(User::getLfg($team_id)); }
 
 	public function search(Request $request, $team_id) {
-	    return json_encode(User::search($request->input('term'), $team_id));
+	    return json_encode(User::search($request->input('q'), $team_id));
 	}
+
+	public function notifications() {
+	    return view('pages.notifications')->with(['notifications' => Auth::user()->notifications()]);
+    }
 }

@@ -2,8 +2,8 @@
 
 @section('title', 'Dashboard')
 @section('content')
+	<h1>Newsfeed</h1>
 	<div id="feed">
-		<h1>Newsfeed</h1>
 		@forelse($feed as $post)
 			<div class="row blocklink-wrapper">
 				<div class="col-md-12 post">

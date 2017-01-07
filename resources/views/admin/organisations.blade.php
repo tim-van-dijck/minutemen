@@ -51,8 +51,8 @@
                     if (v.thumb == null) { v.thumb = 'img/organisation.png'; }
                     $('main h1').text('Organisations');
                     $('.blocklink-wrapper').append('<div class="col-md-2 blocklink"><div class="check">'+
-                        '<input id="'+v.id+'" type="checkbox" name="trusted[]" value="'+v.id+'">'+
-                        '<label for="'+v.id+'"></label></div><a href="organisations/'+v.id+'">'+
+                        '<input id="org-'+v.id+'" type="checkbox" name="trusted[]" value="'+v.id+'">'+
+                        '<label for="org-'+v.id+'"></label></div><a href="organisations/'+v.id+'">'+
                         '<div class="profile-img"><img src="'+v.thumb+'" alt="'+v.name+'"></div>'+
                         '<p>'+v.name+'</p></a></div>');
                 });

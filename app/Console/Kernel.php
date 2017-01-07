@@ -15,7 +15,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        'App\Console\Commands\imgScrap',
     ];
 
     /**
@@ -29,10 +29,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function() { Leaderboard::createOrUpdateAll(); })
                  ->everyMinute();
 
-        $schedule->call(function() {
-            $imgs = scandir('img/users');
-            return $imgs;
-        })->hourly();
+        $schedule->call('img:scrap')->daily();
     }
 
     /**

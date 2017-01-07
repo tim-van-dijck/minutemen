@@ -1,10 +1,10 @@
-.menu-wrap * {
+.menu-wrap a, .menu-wrap i {
 	color: #b8b7ad;
 }
 
 .menu-wrap a:hover,
 .menu-wrap a:focus {
-	color: #cc4020;
+	color: #cc4020 !important;
 	text-decoration: none;
 }
 
@@ -65,7 +65,7 @@
 
 /* Menu */
 .menu-wrap {
-	position: absolute;
+	position: fixed;
 	z-index: 1001;
 	width: 300px;
 	height: 100%;

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Commendations extends Migration
+class CreateConversationUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class Commendations extends Migration
      */
     public function up()
     {
-        Schema::create('commendations', function (Blueprint $table) {
+        Schema::create('conversation_users', function(Blueprint $table) {
+            $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->integer('commendee_id')->unsigned();
+            $table->integer('conversation_id')->unsigned();
 
+            $table->foreign('conversation_id')->references('id')->on('conversations')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('commendee_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
@@ -29,6 +30,6 @@ class Commendations extends Migration
      */
     public function down()
     {
-        Schema::drop('commendations');
+        Schema::drop('conversation_users');
     }
 }

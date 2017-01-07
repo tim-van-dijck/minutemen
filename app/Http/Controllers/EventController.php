@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Notification;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Auth;
@@ -62,6 +63,8 @@ class EventController extends Controller
 
 		$event = new Event($input);
 		$event->save();
+
+		Notification::newEvent($event->organisation_id);
 
 		Session::flash('success', 'Successfully created "'.$event->title.'"');
 		return redirect(route('events.show', ['id' => $event->id]));
@@ -126,6 +129,8 @@ class EventController extends Controller
 		}
 
 		$event->save();
+
+        Notification::updatedEvent($event->id);
 
         Session::flash('success', 'Successfully updated '.$event->title);
 		return redirect(route('events.show', ['id' => $event->id]));

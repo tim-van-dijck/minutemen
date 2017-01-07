@@ -54,9 +54,9 @@ class General extends Model
         return $hash;
     }
 
-    protected function sluggify($string, $table) {
+    protected function sluggify($string, $table, $id = 0) {
         $slug = preg_replace('/[^A-Za-z0-9\-\_\.]/', '', $string);
-        $col = DB::table($table)->where('slug', $slug)->get();
+        $col = DB::table($table)->where('slug', $slug)->where('id', '!=', $id)->get();
 
         if (!$col->isEmpty()) { $slug .= count($col); }
         

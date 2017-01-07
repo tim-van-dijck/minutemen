@@ -65,6 +65,65 @@ class Team extends Model
 					->get();
 	}
 
+    public function wins($event_id = false) {
+        $first = Game::select(DB::raw('team_1_won as wins'))
+            ->join('rounds', 'rounds.id', '=', 'games.round_id')
+            ->where('team_1_won', 1)
+            ->where('draw', 0)
+            ->where('games.team_1', $this->id);
+
+        if ($event_id) { $first->where('rounds.event_id', $event_id); }
+
+        $first = $first->get();
+
+        $second = Game::select(DB::raw('team_1_won as wins'))
+            ->join('rounds', 'rounds.id', '=', 'games.round_id')
+            ->where('team_1_won', 0)
+            ->where('draw', 0)
+            ->where('games.team_2', $this->id);
+        if ($event_id) { $second->where('rounds.event_id', $event_id); }
+
+        $second = $second->get();
+
+        return count($first) + count($second);
+    }
+
+    public function losses($event_id = false) {
+        $first = Game::select(DB::raw('team_1_won as losses'))
+            ->join('rounds', 'rounds.id', '=', 'games.round_id')
+            ->where('team_1_won', 0)
+            ->where('draw', 0)
+            ->where('games.team_1', $this->id);
+
+        if ($event_id) { $first->where('rounds.event_id', $event_id); }
+        $first = $first->get();
+
+        $second = Game::select(DB::raw('team_1_won as losses'))
+            ->join('rounds', 'rounds.id', '=', 'games.round_id')
+            ->where('team_1_won', 1)
+            ->where('draw', 0)
+            ->where('games.team_2', $this->id);
+        if ($event_id) { $second->where('rounds.event_id', $event_id); }
+        $second = $second->get();
+
+        return count($first) + count($second);
+    }
+
+    public function draws($event_id = false) {
+        $query = Game::select(DB::raw('SUM(draw) as draws'))
+            ->join('rounds', 'rounds.id', '=', 'games.round_id')
+            ->where('draw', 1)
+            ->where('games.team_1', $this->id)
+            ->orWhere('games.team_2', $this->id)
+            ->groupBy();
+
+        if ($event_id) { $query->where('rounds.event_id', $event_id); }
+        $result = $query->pluck('draws')[0];
+        if ($result == null) { return 0; }
+
+        return $result;
+    }
+
 	public function isAdmin($user_id = false) {
 		if (!$user_id) {
 		    if (Auth::check()) { $user_id = Auth::user()->id; }
@@ -126,13 +185,16 @@ class Team extends Model
 	}
 		
 	protected function join($team_id, $user_id, $invite, $admin = false) {
-		DB::table('team_users')->insert([
-			'team_id'	=> $team_id,
-			'user_id'	=> $user_id,
-			'invite'	=> $invite,
-			'admin'		=> $admin,
-			'pending'	=> !$admin
-		]);
+	    $team = Team::find($team_id);
+	    if (!$team->isMember($user_id)) {
+            DB::table('team_users')->insert([
+                'team_id'	=> $team_id,
+                'user_id'	=> $user_id,
+                'invite'	=> $invite,
+                'admin'		=> $admin,
+                'pending'	=> !$admin
+            ]);
+        }
 	}
 
 	protected function addMember($team_id, $user_id) {
@@ -179,63 +241,6 @@ class Team extends Model
 						'user_id'	=> $user_id,
 						'pending'	=> 1
 					])->delete();
-	}
-
-	public function wins($event_id = false) {
-		$first = Game::select(DB::raw('team_1_won as wins'))
-					->join('rounds', 'rounds.id', '=', 'games.round_id')
-					->where('team_1_won', 1)
-					->where('draw', 0)
-					->where('games.team_1', $this->id);
-
-		if ($event_id) { $first->where('rounds.event_id', $event_id); }
-
-		$first = $first->get();
-
-		$second = Game::select(DB::raw('team_1_won as wins'))
-					->join('rounds', 'rounds.id', '=', 'games.round_id')
-					->where('team_1_won', 0)
-					->where('draw', 0)
-					->where('games.team_2', $this->id);
-		if ($event_id) { $second->where('rounds.event_id', $event_id); }
-		
-		$second = $second->get();
-
-		return count($first) + count($second);
-	}
-
-	public function losses($event_id = false) {
-		$first = Game::select(DB::raw('team_1_won as losses'))
-					->join('rounds', 'rounds.id', '=', 'games.round_id')
-					->where('team_1_won', 0)
-					->where('draw', 0)
-					->where('games.team_1', $this->id);
-
-		if ($event_id) { $first->where('rounds.event_id', $event_id); }
-		$first = $first->get();
-
-		$second = Game::select(DB::raw('team_1_won as losses'))
-					->join('rounds', 'rounds.id', '=', 'games.round_id')
-					->where('team_1_won', 1)
-					->where('draw', 0)
-					->where('games.team_2', $this->id);
-		if ($event_id) { $second->where('rounds.event_id', $event_id); }
-		$second = $second->get();
-
-		return count($first) + count($second);
-	}
-
-	public function draws($event_id = false) {
-		$query = Game::select(DB::raw('draw as draws'))
-					->join('rounds', 'rounds.id', '=', 'games.round_id')
-                    ->where('draw', 1)
-                    ->where('games.team_1', $this->id)
-                    ->orWhere('games.team_2', $this->id);
-
-		if ($event_id) { $query->where('rounds.event_id', $event_id); }
-		$result = $query->get();
-
-		return count($result);
 	}
 
 	protected function kick($team_id, $user_id) {

@@ -28,10 +28,12 @@
 
 	<!-- Styles -->
 	<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+
 	<link href="/css/app.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
 	<link href="/css/libs/croppie.css" rel="stylesheet">
 	<link href="/css/libs/sweetalert.css" rel="stylesheet">
 	<link href="/css/libs/menu_sideslide.css" rel="stylesheet">
@@ -46,8 +48,8 @@
 </head>
 <body>
 	<div id="app">
-		<div class="menu-shadow"></div>
-		<div class="menu-wrap">
+		<div class="menu-shadow {{ (Auth::guest()) ? 'menu-hidden' : '' }}"></div>
+		<div class="menu-wrap {{ (Auth::guest()) ? 'menu-hidden' : '' }}">
 			<nav class="menu">
 				<div class="icon-list">
 					<form id="search" action="search" method="GET">
@@ -69,39 +71,56 @@
 						<a href="{{ route('users.profile') }}"><i class="fa fa-user"></i>Profile</a>
 						<a href="{{ route('users.friends') }}">
 							<div class="abs-wrapper">
-								<div class="notification-bubble"></div>
+								<div class="friend-bubble"></div>
+								<i class="fa fa-users"></i>Friends
 							</div>
-							<i class="fa fa-users"></i>Friends
 						</a>
-						<div class="lists">
-							<div class="item">
-								<h5>Subscriptions</h5>
-								@foreach(Auth::user()->teams() as $team)
-									<a href="{{ route('teams.show', ['slug' => $team->slug]) }}">
-										<img src="{{ $team->emblem or 'img/emblem.png' }}" alt="{{ $team->name }}" class="tiny-thumb">{{ $team->name }}
-									</a>
-								@endforeach
-								<a href="/my-teams">More...</a>
+						<a href="{{ route('users.notifications') }}">
+							<div class="abs-wrapper">
+								<div class="notification-bubble"></div>
+								<i class="fa fa-bell"></i>Notifications
 							</div>
-							<div class="item">
-								<h5>Teams</h5>
-								@foreach(Auth::user()->teams() as $team)
-									<a href="{{ route('teams.show', ['slug' => $team->slug]) }}">
-										<img src="{{ $team->emblem or 'img/emblem.png' }}" alt="{{ $team->name }}" class="tiny-thumb">{{ $team->name }}
-									</a>
-								@endforeach
-								<a href="/my-teams">More...</a>
-							</div>
-							<div class="item">
-								<h5>Organisations</h5>
-								@foreach(Auth::user()->organisations() as $org)
-									<a href="{{ route('organisations.show', ['id' => $org->id]) }}">
-										<img src="{{ $org->thumb or 'img/organisation.png' }}" alt="{{ $org->name }}" class="tiny-thumb">{{ $team->name }}
-									</a>
-								@endforeach
-								<a href="/my-organisations">More...</a>
-							</div>
+						</a>
+						<a href="{{ route('settings') }}"><i class="fa fa-cogs"></i>Settings</a>
+						@if (Auth::user()->admin == 1)
+							<a href="{{ route('admin') }}"></a>
+						@else
+							<div class="lists menu-hidden">
+							@if (!Auth::user()->subscriptions()->isEmpty())
+								<div class="item">
+									<h5>Subscriptions</h5>
+									@foreach(Auth::user()->subscriptions() as $org)
+										<a href="{{ route('organisations.show', ['id' => $org->id]) }}">
+											<img src="{{ $org->thumb or 'img/organisation.png' }}" alt="{{ $org->name }}" class="tiny-thumb">{{ $org->name }}
+										</a>
+									@endforeach
+									<a href="/my-teams">More...</a>
+								</div>
+							@endif
+							@if (!Auth::user()->teams()->isEmpty())
+								<div class="item">
+									<h5>Teams</h5>
+									@foreach(Auth::user()->teams() as $team)
+										<a href="{{ route('teams.show', ['slug' => $team->slug]) }}">
+											<img src="{{ $team->emblem or 'img/emblem.png' }}" alt="{{ $team->name }}" class="tiny-thumb">{{ $team->name }}
+										</a>
+									@endforeach
+									<a href="/my-teams">More...</a>
+								</div>
+							@endif
+							@if (!Auth::user()->organisations()->isEmpty())
+								<div class="item">
+									<h5>Organisations</h5>
+									@foreach(Auth::user()->organisations() as $org)
+										<a href="{{ route('organisations.show', ['id' => $org->id]) }}">
+											<img src="{{ $org->thumb or 'img/organisation.png' }}" alt="{{ $org->name }}" class="tiny-thumb">{{ $org->name }}
+										</a>
+									@endforeach
+									<a href="/my-organisations">More...</a>
+								</div>
+							@endif
 						</div>
+						@endif
 						<a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-power-off"></i>Logout</a>
 						<form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
 					@endif
@@ -109,8 +128,14 @@
 			</nav>
 			<button class="close-button" id="close-button">Close Menu</button>
 		</div>
-		<button class="menu-button" id="open-button"><i class="fa fa-bars"></i></button>
+		<button class="menu-button {{ (Auth::guest()) ? 'menu-hidden' : '' }}" id="open-button">
+			<span class="abs-wrapper">
+				<span class="excl-bubble">!</span>
+				<i class="fa fa-bars"></i>
+			</span>
+		</button>
 		<nav class="navbar navbar-default navbar-static-top">
+
 			<div class="container">
 				<div class="navbar-header">
 
@@ -119,6 +144,12 @@
 						{!! file_get_contents('img/logo.svg') !!}
 					</a>
 				</div>
+				@if (Auth::guest())
+					<ul class="nav navbar-nav navbar-right">
+						<li><a data-toggle="modal" data-target="#login-modal">Login</a></li>
+						<li><a href="{{ url('/register') }}">Register</a></li>
+					</ul>
+				@endif
 			</div>
 		</nav>
 		@if (app('Illuminate\Http\Response')->status() != 404)
@@ -263,7 +294,6 @@
 
 	<!-- Scripts -->
 	<script src="js/app.js"></script>
-	<script src="js/libs/sweetalert.min.js"></script>
 	<script src="js/libs/autosize.min.js"></script>
 	<script src="js/libs/classie.js"></script>
 	<script src="js/libs/main.js"></script>
@@ -275,7 +305,6 @@
 	<script>
 		$(function() {
 		    var errors = '{{ ($errors->has('username') || $errors->has('password')) ? 'true' : 'false' }}';
-            console.log(errors);
             errors = (errors === 'true');
 			if (errors) { $('#login-modal').modal('show'); }
 		});

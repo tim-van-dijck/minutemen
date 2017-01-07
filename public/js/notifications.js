@@ -1,9 +1,12 @@
 var offset = 1;
 var id;
+var notifications = freqs = 0;
 
 $(function() {
-	getNotifications();
-	// setInterval(function () { getNotifications(); }, 5000);
+	bubbleHandler();
+	setInterval(function () {
+		bubbleHandler();
+	}, 5000);
 
 	$('#lfg').change(function(e) { $.get('ajax/lfg'); });
 	// if ($('#feed').length > 0) { setInterval(function () { getFeed(); }, 5000); }
@@ -19,26 +22,42 @@ $(function() {
             feedExpand($(this));
         });
     }
+
+    $('.post .content a, .post a.toggleSeen').click(function (e) {
+    	if ($(this).hasClass('toggleSeen')) { e.preventDefault(); }
+    	notificationSeen($(this).closest('.post'));
+    });
     canExpandFeed();
 });
 
-function getNotifications() {
-	$.get('ajax/notifications/count', function (count) {
-		if (parseInt(count) > 0) {
-			$('.notification-bubble')
+function getFreqs() {
+	return $.get('ajax/friend-requests/count', function (count) {
+		freqs = parseInt(count)
+		if (freqs > 0) {
+			$('.friend-bubble')
 				.text(count)
 				.show();
 		} else {
-			$('.notification-bubble').hide();
+			$('.friend-bubble').hide();
 		}
 	});
-	if ($('#feed').length > 0) {
-		// getFeed();
-	}
+}
+
+function getNotifications() {
+    return $.get('ajax/notifications/count', function (count) {
+        notifications = parseInt(count);
+        if (notifications > 0) {
+            $('.notification-bubble')
+                .text(count)
+                .show();
+        } else {
+            $('.notification-bubble').hide();
+        }
+    });
 }
 
 function getFeed() {
-		$.getJSON('ajax/feed'+id, function (posts) {
+	$.getJSON('ajax/feed'+id, function (posts) {
 		$("#feed").empty();
 
 		if (posts.length > 0) {
@@ -85,5 +104,23 @@ function canExpandFeed() {
 	$.get('ajax/feed/can-expand'+id, {offset: offset}, function(canExpand) {
 		canExpand = parseInt(canExpand);
 		if (!canExpand) { $('.load-feed').remove(); }
+	});
+}
+
+function notificationSeen($el) {
+	$.get('ajax/notifications/'+$el.data('notification-id')+'/seen', function() {
+		$el.find('i.fa-circle').removeClass('fa-circle').addClass('fa-circle-o');
+	});
+}
+
+function bubbleHandler() {
+    getFreqs().then(function() {
+		getNotifications().then(function() {
+			if (notifications + freqs > 0) {
+				$('.excl-bubble').show();
+			} else {
+				$('.excl-bubble').hide();
+			}
+		});
 	});
 }

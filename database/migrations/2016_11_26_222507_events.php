@@ -18,6 +18,7 @@ class Events extends Migration
             $table->string('title');
             $table->text('description');
             $table->integer('max_teams')->default(16);
+            $table->integer('max_team_size')->default(4);
             $table->timestamp('starts_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('ends_at')->nullable();
             $table->string('street');

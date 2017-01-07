@@ -3,27 +3,31 @@
 @section('title', 'Friends')
 @section('content')
 	@if (!$requests->isEmpty())
-		<h2>Friend Requests</h2>
-		<div class="row blocklink-wrapper">
-			@foreach($requests as $index => $request)
-				<div class="col-md-2 blocklink user request">
-					<a href="{{ route('users.show', ['slug' => $request->slug]) }}">
-						<div class="profile-img"><img src="{{ $request->img or 'img/profile.png' }}" alt="{{ $request->username }}"></div>
-						<p>{{$request->username}}</p>
-					</a>
-					<div class="accept-deny">
-						<a class="add" href="friends/{{$request->friendship_id}}/confirm">
-							<i class="fa fa-check-circle-o"></i>
-						</a>
-						<a class="delete" href="friends/{{$request->friendship_id}}/delete">
-							<i class="fa fa-remove"></i>
-						</a>
-					</div>
+		<div class="row requests">
+			<div class="col-md-12">
+				<h2>Friend Requests</h2>
+				<div class="row blocklink-wrapper">
+					@foreach($requests as $index => $request)
+						<div class="col-md-2 blocklink user request">
+							<a href="{{ route('users.show', ['slug' => $request->slug]) }}">
+								<div class="profile-img"><img src="{{ $request->img or 'img/profile.png' }}" alt="{{ $request->username }}"></div>
+								<p>{{$request->username}}</p>
+							</a>
+							<div class="accept-deny">
+								<a class="add" href="friends/{{$request->friendship_id}}/confirm">
+									<i class="fa fa-check-circle-o"></i>
+								</a>
+								<a class="delete" href="friends/{{$request->friendship_id}}/delete">
+									<i class="fa fa-remove"></i>
+								</a>
+							</div>
+						</div>
+						@if ($index != 0 && $index+1 % 6 == 0)
+							</div><div class="row blocklink-wrapper">
+						@endif
+					@endforeach
 				</div>
-				@if ($index != 0 && $index % 6 == 0)
-					</div><div class="row blocklink-wrapper">
-				@endif
-			@endforeach
+			</div>
 		</div>
 	@endif
 	<h1>Friends</h1>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Notification;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Auth;
@@ -52,6 +53,7 @@ class TeamController extends Controller
 		$input = $request->all();
 
 		$input['slug'] = General::sluggify($input['name'], 'teams');
+		$input['tag'] = strtoupper($input['img']);
 
 		// Deal with emblem upload
 		if (isset($input['emblem']) && $input['emblem'] != '') {
@@ -109,11 +111,15 @@ class TeamController extends Controller
 
 		$team = Team::find($id);
 		$input = $request->all();
+		unset($input['_token']);
+		unset($input['_method']);
+		unset($input['full-img']);
 
-		$input['slug'] = Team::sluggify($input['name']);
+		$input['slug'] = General::sluggify($input['name'], 'teams', $team->id);
+        $input['tag'] = strtoupper($input['tag']);
 
 		// Deal with emblem upload
-		if (isset($input['emblem']) && $input['emblem'] != '') {
+        if (isset($input['img']) && $input['img'] != 'data:,') {
 			Storage::delete(public_path($team->emblem));
 			$input['emblem'] = General::uploadImg($input['emblem'], 'teams',true);
 		} else { unset($input['emblem']); }
@@ -123,9 +129,10 @@ class TeamController extends Controller
 		}
 
 		$team->save();
+        Notification::updatedTeam($team->id);
 
 		Session::flash('success', 'Successfully updated '.$team->name);
-		return redirect()->back();
+        return redirect('teams/'.$team->slug);
 	}
 
 	/**
@@ -167,5 +174,17 @@ class TeamController extends Controller
         if (User::passwordConfirm($request->input('password'))) {
             return Team::kick($team_id, $request->input('member_id'));
         } else { return json_encode(['error' => 'The password you entered was wrong']); }
+    }
+
+    public function makeAdmin($team_id, $user_id) {
+	    Team::makeAdmin($team_id, $user_id);
+    }
+
+    public function deleteAdmin($team_id, $user_id) {
+	    Team::deleteAdmin($team_id, $user_id);
+    }
+
+    public function mine() {
+	    return view('teams.index')->with(['teams' => Auth::user()->teams()]);
     }
 }

@@ -19,20 +19,22 @@ class Friendship extends Model
 		]);
 	}
 
-	protected function getFriends($id ) {
+	protected function getFriends($id, $confirmed = true) {
 		$first = DB::table('users')->select('users.*')
 									->join('friendships', 'friendships.user_id', '=', 'users.id')
-									->where('friendships.friend_id', $id)
-									->where('confirmed', 1);
+									->where('friendships.friend_id', $id);
+
+		if ($confirmed) { $first->where('confirmed', 1); }
 
 		$second = DB::table('users')->select('users.*')
 									->join('friendships', 'friendships.friend_id', '=', 'users.id')
-									->where('friendships.user_id', $id)
-									->where('confirmed', 1)
-									->union($first)
-									->orderBy('firstname')
-									->get();
-		return $second;
+									->where('friendships.user_id', $id);
+
+        if ($confirmed) { $second->where('confirmed', 1);
+        }
+        return $second->union($first)
+            ->orderBy('firstname')
+            ->get();
 	}
 
 	protected function getRequests() {
@@ -53,8 +55,8 @@ class Friendship extends Model
 				);
 	}
 
-	protected function getFriendsIds($id) {
-		$result = self::getFriends(Auth::user()->id);
+	protected function getFriendsIds($id, $confirmed) {
+		$result = self::getFriends(Auth::user()->id, $confirmed);
 		$friends = [];
 
 		if (!$result->isEmpty()) {
