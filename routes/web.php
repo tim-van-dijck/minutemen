@@ -31,6 +31,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/my-teams', 'TeamController@mine');
 	Route::get('/my-subscriptions', 'OrganisationController@mySubscriptions');
 	Route::get('/my-organisations', 'OrganisationController@mine');
+	Route::resource('messages', 'ConversationController', ['only' => ['index', 'create', 'show']]);
+    Route::resource('lobbies', 'LobbyController', ['except' => ['index', 'edit', 'update']]);
 
 	// Users
 	Route::get('settings', 'UserController@edit')->name('settings');
@@ -102,6 +104,11 @@ Route::group(['middleware' => 'ajax', 'prefix' => 'ajax'], function () {
 		Route::get('notifications/{notification_id}/seen', 'AjaxController@notificationSeen');
 
 		Route::get('friend-requests/count', 'AjaxController@freqCount');
+
+		Route::group(['prefix' => 'conversation'], function() {
+		    Route::post('/{conversation_id}/message/send', 'MessageController@send')->name('ajax.message.send');
+		    Route::get('/{conversation_id}/get', 'MessageController@getByConversation')->name('ajax.conversation.get');
+        });
 
         Route::group(['prefix' => 'feed'], function() {
             Route::get('/{id?}', 'AjaxController@feed')->name('ajax.feed.get');

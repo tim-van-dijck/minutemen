@@ -75,6 +75,12 @@
 								<i class="fa fa-users"></i>Friends
 							</div>
 						</a>
+						<a href="{{ route('messages.index') }}">
+							<div class="abs-wrapper">
+								<div class="message-bubble"></div>
+								<i class="fa fa-comments"></i>Messages
+							</div>
+						</a>
 						<a href="{{ route('users.notifications') }}">
 							<div class="abs-wrapper">
 								<div class="notification-bubble"></div>
