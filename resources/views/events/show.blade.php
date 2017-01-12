@@ -39,14 +39,14 @@
 			<h4>Data</h4>
 			<div class="row">
 				<div class="col-md-1">
-					<p><i class="fa fa-calendar accent"></i></p>
+					<p><i class="fa fa-calendar fa-fw accent"></i></p>
 				</div>
 				<div class="col-md-5">
 					<p>{{ date("F dS H:i", strtotime($event->starts_at)) }} - {{ date("F dS H:i", strtotime($event->ends_at)) }}</p>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-1"><i class="fa fa-map-marker accent"></i></div>
+				<div class="col-md-1"><i class="fa fa-map-marker fa-fw accent"></i></div>
 				<div class="col-md-5"><p>{{ $event->street }} {{ $event->number }},<br>{{ $event->zip }} {{ $event->city }}</p></div>
 			</div>
 		</div>

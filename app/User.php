@@ -28,12 +28,26 @@ class User extends Authenticatable
 	 */
 	protected $hidden = [ 'password', 'remember_token', ];
 
+	// Friends
 	public function isFriend($confirmed = true) {
 		$friends = Friendship::getFriendsIds($this->id, $confirmed);
 		if (in_array($this->id, $friends)) { return true; }
 		return false;
 	}
 
+    public function friends() { return Friendship::getFriends($this->id); }
+
+    public function friendship() {
+        $first = DB::table('friendships')->where('friend_id', $this->id)
+            ->where('user_id', Auth::user()->id);
+
+        return DB::table('friendships')->where('user_id', $this->id)
+            ->where('friend_id', Auth::user()->id)
+            ->union($first)
+            ->first();
+    }
+
+    // Organisations
 	public function subscriptions() {
 		return Organisation::select('organisations.*')->join('organisation_roles', 'organisation_roles.organisation_id', '=', 'organisations.id')
 					->where('organisation_roles.user_id', $this->id)
@@ -42,12 +56,17 @@ class User extends Authenticatable
 					->get();
 	}
 
-	public function friends() { return Friendship::getFriends($this->id); }
+    public function organisations() { return Organisation::mine($this->id); }
 
+    // Teams
 	public function teams() { return Team::mine(); }
 
-	public function organisations() { return Organisation::mine($this->id); }
+    protected function passwordConfirm($pass) {
+        if (Hash::check($pass, Auth::user()->password)) { return true; }
+        return false;
+    }
 
+    // Looking For Group
 	public function lfgToggle() {
 		$this->lfg = !$this->lfg;
 		$this->save();
@@ -80,30 +99,20 @@ class User extends Authenticatable
                     })->get();
 	}
 
-	protected function search($term, int $team_id) {
-	    if ($term == '') { return []; }
-	    $users =  self::select(DB::raw('id, username AS text, img'))->where('username', 'LIKE', '%'.$term.'%')
-                    ->whereNotExists(function($query) use ($team_id) {
-                        $query->select(DB::raw(1))
-                            ->from('team_users')
-                            ->whereRaw('team_users.user_id = users.id')
-                            ->where('team_users.team_id', $team_id);
-                    })
-                    ->limit(10)->get();
-
-        return $users;
-	}
-
-	protected function passwordConfirm($pass) {
-	    if (Hash::check($pass, Auth::user()->password)) { return true; }
-	    return false;
+	// Lobby
+    public function hasLobby() {
+	    $lobby = DB::table('lobby_users')->select('lobby_id')->where('user_id', Auth::user()->id)->first();
+	    if ($lobby == null) { return false; }
+	    return $lobby->lobby_id;
     }
 
+	// Admin
     public function isAdmin() {
 	    if ($this->admin == 1) { return true; }
 	    else { return false; }
     }
 
+    // Other
     public function notifications() {
 	    $notifications = Notification::where('user_id', $this->id)->orderBy('updated_at', 'desc')->orderBy('created_at', 'desc')->get();
 
@@ -140,13 +149,17 @@ class User extends Authenticatable
         return $notifications;
     }
 
-    public function friendship() {
-	    $first = DB::table('friendships')->where('friend_id', $this->id)
-                    ->where('user_id', Auth::user()->id);
+    protected function search($term, int $team_id) {
+        if ($term == '') { return []; }
+        $users =  self::select(DB::raw('id, username AS text, img'))->where('username', 'LIKE', '%'.$term.'%')
+            ->whereNotExists(function($query) use ($team_id) {
+                $query->select(DB::raw(1))
+                    ->from('team_users')
+                    ->whereRaw('team_users.user_id = users.id')
+                    ->where('team_users.team_id', $team_id);
+            })
+            ->limit(10)->get();
 
-        return DB::table('friendships')->where('user_id', $this->id)
-                    ->where('friend_id', Auth::user()->id)
-                    ->union($first)
-                    ->first();
+        return $users;
     }
 }

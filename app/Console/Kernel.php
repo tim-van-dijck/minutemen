@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         'App\Console\Commands\imgScrap',
+        'App\Console\Commands\cleanLobbies',
     ];
 
     /**
@@ -30,6 +31,7 @@ class Kernel extends ConsoleKernel
                  ->everyMinute();
 
         $schedule->call('img:scrap')->daily();
+        $schedule->call('lobbies:clean')->everyMinute();
     }
 
     /**

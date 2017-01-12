@@ -50,26 +50,39 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group{{ $errors->has('location_name') ? ' has-error' : '' }}">
-                    <div class="col-md-8">
-                        <label for="location_name" class="control-label">Location name<i class="fa fa-asterisk"></i></label><br>
-                        <p><em>The name of the game location (eg. local laser tag range)</em></p>
-                        <input id="location_name" type="text" class="form-control" name="location_name" value="{{ old('location_name') }}" placeholder="The local arenae" required autofocus>
-
-                        @if ($errors->has('location_name'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('location_name') }}</strong>
-                            </span>
-                        @endif
-                    </div>
-                    <div class="col-md-4">
+                <div class="form-group">
+                    <div class="col-md-5">
                         <label for="size">Lobby size<i class="fa fa-asterisk"></i></label>
-                        <p><em>Maximum lobby size</em></p>
+                        <p><em>Maximum amount of players</em></p>
                         <input type="text" id="size" placeholder="0" name="size" class="form-control">
 
                         @if ($errors->has('size'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('size') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                    <div class="col-md-3 col-md-offset-4">
+                        <label for="meet_at">Meeting time<i class="fa fa-asterisk"></i></label>
+                        <p><em>&nbsp;</em></p>
+                        <input type="time" id="meet_at" name="meet_at" class="form-control">
+
+                        @if ($errors->has('size'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('meet_at') }}</strong>
+                            </span>
+                        @endif
+                    </div>
+                </div>
+                <div class="form-group{{ $errors->has('location_name') ? ' has-error' : '' }}">
+                    <div class="col-md-12">
+                        <label for="location_name" class="control-label">Location name<i class="fa fa-asterisk"></i></label><br>
+                        <p><em>The name of the game location (eg. local laser tag range)</em></p>
+                        <input id="location_name" type="text" class="form-control" name="location_name" value="{{ old('location_name') }}" placeholder="The local arenae" autofocus>
+
+                        @if ($errors->has('location_name'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('location_name') }}</strong>
                             </span>
                         @endif
                     </div>
@@ -103,7 +116,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <label for="zip" class="control-label">Zip code</label><br>
-                                <input id="zip" type="text" class="form-control" name="zip" value="{{ old('zip') }}" placeholder="Fakopolis" autofocus>
+                                <input id="zip" type="text" class="form-control" name="zip" value="{{ old('zip') }}" placeholder="1207" autofocus>
 
                                 @if ($errors->has('zip'))
                                     <span class="help-block">
@@ -113,7 +126,7 @@
                             </div>
                             <div class="col-md-8">
                                 <label for="city" class="control-label">City</label><br>
-                                <input id="city" type="text" class="form-control" name="city" value="{{ old('city') }}" placeholder="1207" autofocus>
+                                <input id="city" type="text" class="form-control" name="city" value="{{ old('city') }}" placeholder="Fakopolis" autofocus>
 
                                 @if ($errors->has('city'))
                                     <span class="help-block">

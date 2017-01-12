@@ -769,6 +769,12 @@ a.accent:hover, a.accent:focus, a.accent:active {
     .menu-hidden {
       display: block; } }
 
+.menu-shadow {
+  display: none; }
+  @media (min-width: 990px) {
+    .menu-shadow.menu-hidden {
+      display: none !important; } }
+
 #send-message-form #message-input {
   resize: none;
   background-color: rgba(35, 36, 39, 0.5);
@@ -785,5 +791,39 @@ a.accent:hover, a.accent:focus, a.accent:active {
 
 .stealth-mode {
   display: none; }
+
+.progress {
+  background-color: #434548; }
+  .progress .progress-bar {
+    background-color: #cc4020; }
+
+.sweet-alert, .sweet-alert > p, .sweet-alert > h2 {
+  background-color: #434548;
+  border-radius: 0;
+  color: #fff; }
+@keyframes pulseWarning {
+  0% {
+    border-color: #db5b3e; }
+  100% {
+    border-color: #cc4020; } }
+@keyframes pulseWarningIns {
+  0% {
+    background-color: #db5b3e; }
+  100% {
+    background-color: #cc4020; } }
+.sweet-alert .sa-warning {
+  border-color: #cc4020 !important; }
+  .sweet-alert .sa-warning .sa-body, .sweet-alert .sa-warning .sa-dot {
+    background-color: #cc4020 !important; }
+.sweet-alert .sa-success.animate:before, .sweet-alert .sa-success.animate:after, .sweet-alert .sa-success.animate .sa-fix {
+  background-color: #434548; }
+.sweet-alert .sa-success.animate .sa-placeholder {
+  border-color: #a5dc86; }
+.sweet-alert button {
+  border-radius: 0 !important; }
+  .sweet-alert button.cancel {
+    background-color: #777; }
+  .sweet-alert button:not(.cancel) {
+    background-color: #cc4020 !important; }
 
 /*# sourceMappingURL=style.css.map */

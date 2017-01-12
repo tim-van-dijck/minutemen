@@ -27,12 +27,18 @@ Route::group(['prefix' => 'users'], function () {
 
 // Routes requiring login
 Route::group(['middleware' => 'auth'], function () {
+    // My stuff
 	Route::get('/dashboard', 'HomeController@home');
 	Route::get('/my-teams', 'TeamController@mine');
 	Route::get('/my-subscriptions', 'OrganisationController@mySubscriptions');
 	Route::get('/my-organisations', 'OrganisationController@mine');
+
+	// Messages
 	Route::resource('messages', 'ConversationController', ['only' => ['index', 'create', 'show']]);
+
+	// Lobbies
     Route::resource('lobbies', 'LobbyController', ['except' => ['index', 'edit', 'update']]);
+    Route::delete('lobbies/{id}/leave', 'LobbyController@leave')->name('lobbies.leave');
 
 	// Users
 	Route::get('settings', 'UserController@edit')->name('settings');
@@ -100,27 +106,40 @@ Route::group(['prefix' => 'events'], function () {
 // Ajax
 Route::group(['middleware' => 'ajax', 'prefix' => 'ajax'], function () {
 	Route::group(['middleware' => 'auth'], function () {
+	    // ajax/notifications
 		Route::get('notifications/count', 'AjaxController@notificationCount');
 		Route::get('notifications/{notification_id}/seen', 'AjaxController@notificationSeen');
 
+		// ajax/friend-requests
 		Route::get('friend-requests/count', 'AjaxController@freqCount');
 
+		// ajax/conversation
 		Route::group(['prefix' => 'conversation'], function() {
 		    Route::post('/{conversation_id}/message/send', 'MessageController@send')->name('ajax.message.send');
 		    Route::get('/{conversation_id}/get', 'MessageController@getByConversation')->name('ajax.conversation.get');
         });
 
+		// ajax/feed/
         Route::group(['prefix' => 'feed'], function() {
             Route::get('/{id?}', 'AjaxController@feed')->name('ajax.feed.get');
             Route::get('/extend/{id?}', 'AjaxController@feedExtend')->name('ajax.feed.extend');
             Route::get('/can-expand/{id?}', 'AjaxController@canExpandFeed')->name('ajax.feed.can-expand');
         });
 
+        // ajax/lfg
         Route::get('lfg', 'AjaxController@toggleLfg')->name('ajax.lfg');
 
+        // ajax/lobby
+        Route::group(['prefix' => 'lobby'], function () {
+            Route::get('/{lobby_id}/player-count', 'AjaxController@getLobbyPlayerCount')->name('ajax.lobby.get-player-count');
+            Route::get('/{lobby_id}/get-players', 'AjaxController@getLobbyPlayers')->name('ajax.lobby.get-players');
+        });
+
+        // ajax/orgnaisations
 		Route::get('organisations/{organisation_id}/sub', 'OrganisationController@subscribe')->name('ajax.sub');
 		Route::get('organisations/{organisation_id}/unsub', 'OrganisationController@unsubscribe')->name('ajax.unsub');
 
+		// ajax/team
         Route::group(['prefix' => 'team'], function() {
             Route::get('/{team_id}/join', 'AjaxController@joinTeam')->name('ajax.team.join');
             Route::get('/{team_id}/leave', 'AjaxController@leaveTeam')->name('ajax.team.leave');
@@ -137,10 +156,12 @@ Route::group(['middleware' => 'ajax', 'prefix' => 'ajax'], function () {
             Route::get('/{team_id}/delete-admin/{user_id}', 'TeamController@deleteAdmin')->name('ajax.team.admin.delete');
         });
 
+        // ajax/users
         Route::get('users/find/{team_id?}', 'UserController@search')->name('ajax.users.search');
         Route::get('users/lfg/get/{team_id}', 'UserController@getLfg')->name('ajax.users.lfg.get');
+        Route::get('lfg/find-lobby', 'AjaxController@findLobby')->name('ajax.lobby.find');
 
-
+        // ajax/game
         Route::post('game/{game_id}/set-winner', 'AjaxController@setGameWinner')->name('ajax.game.winner');
 	});
 	

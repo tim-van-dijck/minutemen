@@ -3,10 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
+
+use App\Lobby;
+use App\User;
 
 class LobbyController extends Controller
 {
     public function create() {
+        $lobby_id = Auth::user()->hasLobby();
+        if ($lobby_id) { return redirect()->route('lobbies.show', ['id' => $lobby_id]); }
         return view('lobbies.create');
     }
 
@@ -14,22 +20,52 @@ class LobbyController extends Controller
         $this->validate($request, [
             'location_name' => 'required|profanity-filter',
             'passphrase'    => 'required_if:stealth,1|profanity-filter',
-            'passphrase'    => 'profanity-filter',
+            'answer'        => 'profanity-filter',
             'stealth'       => 'required|boolean',
-            'size'          => 'required|min:1|integer'
+            'size'          => 'required|min:1|integer',
+            'meet_at'       => 'required:date_format:H:i'
         ]);
 
-        $input = $request->all();
+        $input = $request->except(['meet_at', 'coords']);
+        $input['host_id'] = Auth::user()->id;
+        $input['address'] = $input['street'].' '.$input['number'].' '.$input['zip'].' '.$input['city'];
+
+        if ($request->input('coords')) {
+            $coords = explode(';', $request->input('coords'));
+            $input['lat'] = $coords[0];
+            $input['lng'] = $coords[1];
+        }
+
+        $meet_at = date('Y-m-d H:i:s', strtotime($request->input('meet_at')));
+        if ($meet_at <= date('Y-m-d H:i:s')) { $meet_at = date('Y-m-d H:i:s', strtotime($meet_at) + 86400); }
 
         $lobby = new Lobby($input);
+        $lobby->meet_at = $meet_at;
         $lobby->save();
+
+        $lobby->joinLobby(Auth::user()->id);
 
         return redirect()->route('lobbies.show', ['id' => $lobby->id]);
     }
 
     public function show($id) {
-        return view('lobbies.show')->with(['lobby' => Lobby::find($id)]);
+        $lobby = Lobby::findOrFail($id);
+        if (!$lobby->hasPlayer(Auth::user()->id)) { return redirect('dashboard'); }
+        $lobby->host = User::find($lobby->host_id);
+        return view('lobbies.show')->with(['lobby' => $lobby]);
     }
 
-    public function destroy($id) { Lobby::destroy($id); }
+    public function leave($id) {
+        Lobby::find($id)->leaveLobby(Auth::user()->id);
+        return redirect('/dashboard');
+    }
+
+    public function destroy($id) {
+        Lobby::destroy($id);
+        return redirect('/dashboard');
+    }
+
+    public function invite($id, $user_id) {
+        Lobby::find($id)->invite($user_id);
+    }
 }

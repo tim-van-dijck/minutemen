@@ -1,4 +1,4 @@
-<div class="modal fade {{ ($errors->has('username') || $errors->has('password')) ? 'in' : '' }}" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
+<div class="modal fade {{ (isset($errors) && $errors->any() && ($errors->has('username') || $errors->has('password'))) ? 'in' : '' }}" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -13,12 +13,12 @@
 						<form id="login-form" class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
 							{{ csrf_field() }}
 
-							<div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
+							<div class="form-group{{ (isset($errors) && $errors->any() && $errors->has('username')) ? ' has-error' : '' }}">
 								<label for="username" class="col-md-2 control-label"><i class="fa fa-user"></i></label>
 								<div class="col-md-9">
 									<input id="username" type="text" class="form-control" name="username" value="{{ old('username') }}" placeholder="Username" required autofocus>
 
-									@if ($errors->has('username'))
+									@if (isset($errors) && $errors->any() && $errors->has('username'))
 										<span class="help-block">
 											<strong>{{ $errors->first('username') }}</strong>
 										</span>
@@ -26,12 +26,12 @@
 								</div>
 							</div>
 
-							<div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+							<div class="form-group{{ (isset($errors) && $errors->any() && $errors->has('password')) ? ' has-error' : '' }}">
 								<label for="password" class="col-md-2 control-label"><i class="fa fa-lock"></i></label>
 								<div class="col-md-9">
 									<input id="password" type="password" class="form-control" name="password" placeholder="Password" required>
 
-									@if ($errors->has('password'))
+									@if (isset($errors) && $errors->any() && $errors->has('password'))
 										<span class="help-block">
 											<strong>{{ $errors->first('password') }}</strong>
 										</span>

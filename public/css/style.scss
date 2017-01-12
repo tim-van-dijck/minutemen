@@ -483,6 +483,12 @@ a.accent:hover, a.accent:focus, a.accent:active { color: $accent; }
 	display: none;
 	@media #{$mobile-bootstrap} { display: block; }
 }
+.menu-shadow {
+	display: none;
+	&.menu-hidden {
+		@media #{$tablet-bootstrap} { display: none !important; }
+	}
+}
 
 #send-message-form {
 	#message-input {
@@ -493,3 +499,33 @@ a.accent:hover, a.accent:focus, a.accent:active { color: $accent; }
 #message-box { height: 18em; background-color: $nav-color; overflow-y: scroll; padding: 1em; overflow-x: hidden; }
 
 .stealth-mode { display: none; }
+
+.progress {
+	background-color: $bgc;
+	.progress-bar { background-color: $accent; }
+}
+
+.sweet-alert {
+	&, &>p, &>h2 { background-color: $bgc; border-radius: 0; color: #fff; }
+	@keyframes pulseWarning {
+		0% { border-color: #db5b3e; }
+		100% { border-color: $accent; }
+	}
+	@keyframes pulseWarningIns {
+		0% { background-color: #db5b3e; }
+		100% { background-color: $accent; }
+	}
+	.sa-warning {
+		border-color: $accent !important;
+		.sa-body, .sa-dot { background-color: $accent !important;}
+	}
+	.sa-success.animate {
+		&:before, &:after, .sa-fix { background-color: $bgc; }
+		.sa-placeholder { border-color: #a5dc86; }
+	}
+	button {
+		border-radius: 0 !important;
+		&.cancel { background-color: #777; }
+		&:not(.cancel) { background-color: $accent !important; }
+	}
+}

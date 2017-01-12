@@ -16,9 +16,13 @@ class CreateLobbiesTable extends Migration
         Schema::create('lobbies', function (Blueprint $table) {
             $table->increments('id');
             $table->string('location_name');
-            $table->string('address');
-            $table->string('coords');
+            $table->string('address')->nullable();
+            $table->string('lat')->nullable();
+            $table->string('lng')->nullable();
+            $table->timestamp('meet_at');
+            $table->string('stealth')->nullable();
             $table->string('passphrase');
+            $table->string('answer')->nullable();
             $table->integer('size');
             $table->integer('host_id')->unsigned();
 

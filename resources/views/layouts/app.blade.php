@@ -48,6 +48,7 @@
 </head>
 <body>
 	<div id="app">
+		<?php if (app('Illuminate\Http\Response')->status() !== 200) { $errors = []; } ?>
 		<div class="menu-shadow {{ (Auth::guest()) ? 'menu-hidden' : '' }}"></div>
 		<div class="menu-wrap {{ (Auth::guest()) ? 'menu-hidden' : '' }}">
 			<nav class="menu">
@@ -158,10 +159,10 @@
 				@endif
 			</div>
 		</nav>
-		@if (app('Illuminate\Http\Response')->status() != 404)
-			@include('partial.success')
-			@include('partial.error')
-		@endif
+
+		@include('partial.success')
+		@include('partial.error')
+
 		@if (Request::is('/'))
 			<div class="carousel fade-carousel slide" data-ride="carousel" data-interval="4000" id="bs-carousel"&>
 			<!-- Scroll button -->
@@ -293,7 +294,7 @@
 				</div>
 			</div>
 		</footer>
-		@if (Auth::guest() && app('Illuminate\Http\Response')->status() != 404)
+		@if (Auth::guest() && isset($errors))
 			@include('auth.login')
 		@endif
 	</div>
@@ -302,19 +303,64 @@
 	<script src="js/app.js"></script>
 	<script src="js/libs/autosize.min.js"></script>
 	<script src="js/libs/classie.js"></script>
+	<script src="js/libs/sweetalert.min.js"></script>
 	<script src="js/libs/main.js"></script>
 	<script src="js/animations.js"></script>
+	<script>
+        var base_url = '{{ asset('/') }}';
+	</script>
 	@if (Auth::check())
 		<script src="js/notifications.js"></script>
 		<script src="js/interactions.js"></script>
+	@elseif(isset($errors) && $errors->any())
+		<script>
+			$(function() {
+				var errors = '{{ ($errors->has('username') || $errors->has('password')) ? 'true' : 'false' }}';
+				errors = (errors === 'true');
+				if (errors) { $('#login-modal').modal('show'); }
+			});
+		</script>
 	@endif
-	<script>
-		$(function() {
-		    var errors = '{{ ($errors->has('username') || $errors->has('password')) ? 'true' : 'false' }}';
-            errors = (errors === 'true');
-			if (errors) { $('#login-modal').modal('show'); }
-		});
-	</script>
+	@if (Auth::check() && Auth::user()->lfg)
+		<script>
+			findLobby();
+
+			function findLobby() {
+				$.getJSON('ajax/lfg/find-lobby', function(data) {
+				    console.log(data);
+				    if (data.success != null) {
+				        swal(
+							{
+								title: "We found you a lobby!",
+								text: 'If you click "ok" we\'ll whisk you away to your new playmates',
+								type: "success"
+							}, function() {
+                                window.location.replace(data.link);
+							}
+						);
+					} else {
+				        swal(
+                            {
+                                title: "Whoopsie daisy!",
+                                text: data.error+'\nDo you want to make a new lobby?',
+                                type: "error",
+                                showCancelButton: true,
+                                confirmButtonColor: "#DD6B55",
+                                confirmButtonText: "Yes, let's go for it",
+                                closeOnConfirm: true
+                            }, function() {
+                                $.get('ajax/lfg', function() {
+                                    window.location.replace(base_url+'lobbies/create');
+                                });
+                            }, function() {
+                                setTimeout(findLobby, 10000);
+							}
+						)
+					}
+				});
+			}
+		</script>
+	@endif
 	@yield('js')
 </body>
 </html>
