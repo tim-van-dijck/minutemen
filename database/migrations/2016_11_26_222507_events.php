@@ -25,7 +25,8 @@ class Events extends Migration
             $table->string('number');
             $table->string('zip');
             $table->string('city');
-            $table->string('coords');
+            $table->double('lat', 9, 6);
+            $table->double('long', 9, 6);
             $table->string('banner')->nullable();
             $table->string('type')->default('round-robin');
             $table->integer('organisation_id')->unsigned();

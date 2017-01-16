@@ -23,10 +23,12 @@ $(function() {
         });
     }
 
-    $('.post .content a, .post a.toggleSeen').click(function (e) {
-    	if ($(this).hasClass('toggleSeen')) { e.preventDefault(); }
+    $('.post a.toggleSeen').click(function (e) {
+    	e.preventDefault();
     	notificationSeen($(this).closest('.post'));
     });
+
+    $('.post .content a').click(function (e) { notificationSeen($(this).closest('.post')); });
     canExpandFeed();
 });
 

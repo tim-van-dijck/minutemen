@@ -17,8 +17,8 @@ class CreateLobbiesTable extends Migration
             $table->increments('id');
             $table->string('location_name');
             $table->string('address')->nullable();
-            $table->string('lat')->nullable();
-            $table->string('lng')->nullable();
+            $table->double('lat', 9, 6);
+            $table->double('long', 9, 6);
             $table->timestamp('meet_at');
             $table->string('stealth')->nullable();
             $table->string('passphrase');

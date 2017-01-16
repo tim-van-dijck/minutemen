@@ -54,6 +54,7 @@
             </div>
         </div>
         @if (!$lobby->stealth)
+            <a class="pull-right" data-toggle="modal" data-target="#invite-players"><i class="fa fa-plus"></i> invite players</a>
             <h4>Players</h4>
             <div class="col-md-5 players">
                 @foreach($lobby->players() as $player)
@@ -90,72 +91,17 @@
             </div>
         </div>
     @endif
+    @include('modals.invite-players')
 @stop
 
 @section('js')
-    <script src="js/ckeditor/ckeditor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
     <script src="js/forms.js"></script>
     <script>
         var playerCount = parseInt({{ $lobby->playerCount() }});
         var lobbyId = parseInt({{ $lobby->id }});
         var hostId = parseInt({{ $lobby->host->id }});
         var size = parseInt({{ $lobby->size }});
-
-        $(function() {
-            $('input[name="stealth"]').change(function() {
-                if ($(this).val() == 1) { $('.stealth-mode').slideDown(); }
-                else { $('.stealth-mode').slideUp(); }
-            });
-
-            getPlayers();
-            setInterval(function() { getPlayers(); }, 10000);
-        });
-
-        function getPlayers() {
-
-            $.getJSON('ajax/lobby/'+lobbyId+'/player-count', function (data) {
-                if (data.error == 'deleted') {
-                    swal(
-                        {
-                            title: "Whoops, the lobby's gone!",
-                            text: "Seems the host deleted this lobby",
-                            type: "warning"
-                        }, function() {
-                            window.location.replace(base_url+"dashboard");
-                        }
-                    );
-                }
-                else if (data.count != playerCount) {
-                    playerCount = data.count;
-                    $.getJSON('ajax/lobby/'+lobbyId+'/get-players', function (data) {
-                        $('.players').empty();
-                        $.each(data, function(i,v) {
-                            var img;
-
-                            if (v.img != null) { img = v.img; }
-                            else { img = 'img/profile.png'; }
-
-                            var host = hostId == v.id
-
-                            $player =   '<div class="row blocklink-wrapper">'+
-                                        '<div class="col-md-12 blocklink"><a href="users/'+v.slug+'">'+
-                                        '<div class="col-md-3"><div class="profile-img">'+
-                                        '<img src="'+img+'" alt="'+v.username+'">'+
-                                        '</div></div><div class="col-md-9">'+
-                                        '<h5>'+v.username;
-
-                            if (host) { $player += ' (host)'; }
-
-                            $player += '</h5></div></a></div></div>';
-                            $('.players').append($player);
-                        });
-                    });
-
-                    $('.progress-bar').css('width', (data.count / size * 100)+'%');
-                    $('.progress-bar .sr-only').text((data.count / size * 100)+'% full');
-                    $('.progress-bar .ratio').text(data.count+'/'+size);
-                }
-            });
-        }
     </script>
+    <script src="js/lobbies.js"></script>
 @stop

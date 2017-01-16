@@ -58,15 +58,16 @@ class AjaxController extends Controller
 	public function toggleLfg() { Auth::user()->lfgToggle(); }
 
 	public function findLobby() {
-	    $lobbies = DB::table('lobbies')->select('lobbies.*', DB::raw('COUNT(lobby_users.lobby_id) AS players'))
-                        ->join('lobby_users', 'lobby_users.lobby_id', '=', 'lobbies.id')
-                        ->groupBy('lobby_users.lobby_id')
-                        ->havingRaw('players < size')
-                        ->orderBy('players')
-	                    ->get();
-
-//        SELECT lobbies.*, COUNT(lobby_users.lobby_id) AS players FROM lobbies
-//        JOIN lobby_users ON lobby_users.lobby_id = lobbies.id GROUP BY lobby_users.lobby_id HAVING players < size;
+        $lobbies = Lobby::select('lobbies.*',
+                DB::raw('ROUND(6353 * 2 * ASIN(SQRT(POWER(SIN(('.Auth::user()->lat.' - abs(`lat`))
+				* pi()/180 / 2),2) + COS('.Auth::user()->lat.' * pi()/180 ) * COS(abs(`lat`) *  pi()/180)
+				* POWER(SIN(('.Auth::user()->long.' - `long`) *  pi()/180 / 2), 2) )), 2) AS distance'),
+                DB::raw('COUNT(lobby_users.lobby_id) AS players'))
+            ->join('lobby_users', 'lobby_users.lobby_id', '=', 'lobbies.id')
+            ->groupBy('lobby_users.lobby_id')
+            ->having('distance', '<', Auth::user()->range)
+            ->havingRaw('players < size')
+            ->get();
 
         if ($lobbies->isEmpty()) { return json_encode(['error' => 'No suitable lobby could be found']); }
 

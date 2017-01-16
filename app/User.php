@@ -101,7 +101,7 @@ class User extends Authenticatable
 
 	// Lobby
     public function hasLobby() {
-	    $lobby = DB::table('lobby_users')->select('lobby_id')->where('user_id', Auth::user()->id)->first();
+	    $lobby = DB::table('lobby_users')->select('lobby_id')->where(['user_id' => Auth::user()->id, 'confirmed' => 1])->first();
 	    if ($lobby == null) { return false; }
 	    return $lobby->lobby_id;
     }
@@ -144,12 +144,14 @@ class User extends Authenticatable
                     $notification->content = '<a href="'.route('organisations.show', ['id' => $org->id]).'">'
                                                 .$org->name.'</a>'.$notification->content;
                     break;
+                default:
+                    break;
             }
         }
         return $notifications;
     }
 
-    protected function search($term, int $team_id) {
+    protected function search($term, $team_id) {
         if ($term == '') { return []; }
         $users =  self::select(DB::raw('id, username AS text, img'))->where('username', 'LIKE', '%'.$term.'%')
             ->whereNotExists(function($query) use ($team_id) {
@@ -161,5 +163,40 @@ class User extends Authenticatable
             ->limit(10)->get();
 
         return $users;
+    }
+
+    public function searchAcquaintances($term) {
+        $teams = Team::select('id')
+                        ->join('team_users', 'team_users.team_id', '=', 'teams.id')
+                        ->where('team_users.user_id', $this->id)->get();
+
+        $first = DB::table('users')->select(DB::raw('users.id, users.username AS text, users.img'))
+            ->join('friendships', 'friendships.user_id', '=', 'users.id')
+            ->where('friendships.friend_id', $this->id)
+            ->where('confirmed', 1)
+            ->where('users.id', '!=', Auth::user()->id)
+            ->where('username', 'LIKE', '%'.$term.'%');
+
+        $second = DB::table('users')->select(DB::raw('users.id, users.username AS text, users.img'))
+            ->join('friendships', 'friendships.friend_id', '=', 'users.id')
+            ->where('friendships.user_id', $this->id)
+            ->where('confirmed', 1)
+            ->where('users.id', '!=', Auth::user()->id)
+            ->where('username', 'LIKE', '%'.$term.'%');
+
+        $result = User::select(DB::raw('id, username AS text, img'))
+                    ->join('team_users', 'team_users.user_id', '=', 'users.id')
+                    ->where('username', 'LIKE', '%'.$term.'%')
+                    ->where('users.id', '!=', Auth::user()->id);
+
+        foreach ($teams as $index => $team) {
+            if ($index == 0) {
+                $result->where('team_id', $team->id);
+            } else {
+                $result->orWhere('team_id', $team->id);
+            }
+        }
+
+        return $result->union($first)->union($second)->groupBy('users.id')->get();
     }
 }

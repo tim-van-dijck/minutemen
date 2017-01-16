@@ -74,6 +74,12 @@ class UserController extends Controller
 		unset($input['_method']);
 		unset($input['full-img']);
 
+		$coords = explode(';', $input['coords']);
+		unset($input['coords']);
+
+		$input['lat'] = $coords[0];
+		$input['long'] = $coords[1];
+
 		// Handle img upload
 		if (isset($input['img']) && $input['img'] != 'data:,') {
 			Storage::delete(public_path($user->img));
@@ -165,5 +171,9 @@ class UserController extends Controller
 
 	public function notifications() {
 	    return view('pages.notifications')->with(['notifications' => Auth::user()->notifications()]);
+    }
+
+    public function findAcquaintances(Request $request) {
+	    return json_encode(Auth::user()->searchAcquaintances($request->input('term')));
     }
 }

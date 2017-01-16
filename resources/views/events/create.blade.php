@@ -185,8 +185,8 @@
 
 @section('js')
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjI_a7-CJA5anDE0q3NSBHoccjlL31Dmk"></script>
-	<script src="js/ckeditor/ckeditor.js"></script>
 	<script src="js/forms.js"></script>
+	<script src="js/ckeditor/ckeditor.js"></script>
 	<script>
 		CKEDITOR.replace('description');
 	</script>

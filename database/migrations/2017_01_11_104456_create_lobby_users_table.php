@@ -17,6 +17,7 @@ class CreateLobbyUsersTable extends Migration
             $table->increments('id');
             $table->integer('lobby_id')->unsigned();
             $table->integer('user_id')->unsigned();
+            $table->boolean('confirmed')->default(0);
 
             $table->foreign('lobby_id')->references('id')->on('lobbies')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');

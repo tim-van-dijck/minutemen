@@ -22,7 +22,8 @@ class EventsTableSeeder extends Seeder
 				'number'			=> '82',
 				'zip'				=> '2140',
 				'city'				=> 'Borgerhout',
-				'coords'			=> '51.2173587;4.4313724',
+                'lat'	            => 51.2173587,
+                'long'              => 4.4313724,
 				'banner'			=> null,
                 'type'              => 'elimination',
 				'organisation_id'	=> 1
@@ -37,7 +38,8 @@ class EventsTableSeeder extends Seeder
 				'number'			=> '82',
 				'zip'				=> '2140',
 				'city'				=> 'Borgerhout',
-				'coords'			=> '51.2173587;4.4313724',
+                'lat'	            => 51.2173587,
+                'long'              => 4.4313724,
 				'banner'			=> null,
                 'type'              => 'round-robin',
 				'organisation_id'	=> 1
@@ -52,7 +54,8 @@ class EventsTableSeeder extends Seeder
 				'number'			=> '82',
 				'zip'				=> '2140',
 				'city'				=> 'Borgerhout',
-				'coords'			=> '51.2173587;4.4313724',
+                'lat'	            => 51.2173587,
+                'long'              => 4.4313724,
 				'banner'			=> null,
                 'type'              => 'elimination',
 				'organisation_id'	=> 1

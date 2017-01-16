@@ -160,16 +160,6 @@ class TeamController extends Controller
 		return view('teams.members')->with(['team' => $team]);
 	}
 
-    public function lfg($slug)
-    {
-        $team = Team::where('slug', $slug)->first();
-        return view('teams.lfg')->with([
-            'team'      => $team,
-            'requests'  => $team->requests(),
-            'users'     => User::getLfg()
-        ]);
-    }
-
     public function kick(Request $request, $team_id) {
         if (User::passwordConfirm($request->input('password'))) {
             return Team::kick($team_id, $request->input('member_id'));

@@ -55,15 +55,6 @@ $( function() {
         }, 'json');
     });
 
-    $('#invite-lfg-form').submit(function(e) {
-        e.preventDefault();
-
-        $.post('ajax/team/'+teamId+'/invite-batch', $(this).serialize(), function(data) {
-            $('#invite-lfg').modal('toggle');
-            getLFG();
-        });
-    });
-
     $('a.ajax-button').click(function (e) {
         e.preventDefault();
         $el = $(this);
@@ -93,43 +84,7 @@ $( function() {
         });
     });
 
-    $('.load-lfg').click(function (e) { e.preventDefault(); getLFG(); });
-
-    getLFG();
 });
-
-function getLFG() {
-    $.getJSON('ajax/users/lfg/get/'+teamId, {offset: offset}, function(data) {
-        if (data.length > 0) {
-            $.each(data, function (i,v) {
-                var img = (v.img != null) ? v.img : 'img/profile.png';
-                var user =	'<div class="col-md-2 blocklink user">'+
-                    '<div class="check">'+
-                    '<input id="lfg-'+v.id+'" type="checkbox" name="invite[]" value="'+v.id+'">'+
-                    '<label for="lfg-'+v.id+'"></label>'+
-                    '</div>'+
-                    '<a href="users/'+v.slug+'">'+
-                    '<div class="profile-img">'+
-                    '	<img src="'+img+'" alt="'+v.username+'">'+
-                    '</div>'+
-                    '<p>'+v.username+'</p>'+
-                    '</a>'+
-                    '</div>';
-                if ($('#invite-lfg .lfg .row:last-child > .blocklink').length == 6) {
-                    $('#invite-lfg .lfg').append($('<div/>').addClass('row').addClass('blocklink-wrapper'));
-                }
-                $('#invite-lfg .lfg .row:last-child').append(user);
-                getInvited();
-            });
-            offset++;
-        } else {
-            var empty = '<div class="row blocklink-wrapper"><div class="col-md-12">'+
-                '<p class="text-center">No players looking for a groop at the moment</p></div></div>';
-            $('#invite-lfg .lfg').empty().append(empty);
-        }
-        if (data.length < 6) { $('#invite-lfg .btn-load').remove(); }
-    })
-}
 
 function getInvited() {
 

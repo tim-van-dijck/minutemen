@@ -11,7 +11,6 @@
 			<h3>Members</h3>
 			<h4>Invite users</h4>
 			@if (Auth::check() && $team->isAdmin())
-				<a href="#" class="btn btn-primary btn-lfg" data-toggle="modal" data-target="#invite-lfg">Looking for Group</a>
 				<form id="users-find-form" action="{{ route('ajax.team.invite.batch', ['team_id' => $team->id]) }}" method="POST">
 					{{ csrf_field() }}
 					<select name="invite[]" id="user-find" multiple="multiple"></select>
@@ -153,7 +152,6 @@
 			</div>
 		</div>
 	@endif
-	@include('modals.lfg')
 @stop
 
 @section('js')

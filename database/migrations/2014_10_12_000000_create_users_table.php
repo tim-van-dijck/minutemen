@@ -11,6 +11,7 @@ class CreateUsersTable extends Migration
      *
      * @return void
      */
+
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
@@ -27,11 +28,12 @@ class CreateUsersTable extends Migration
             $table->string('number')->nullable();
             $table->string('zip')->nullable();
             $table->string('city')->nullable();
-            $table->string('lat')->nullable();
-            $table->string('long')->nullable();
+            $table->double('lat', 9, 6)->nullable();
+            $table->double('long', 9, 6)->nullable();
 
             $table->string('img')->nullable();
             $table->boolean('lfg')->default(false);
+            $table->integer('range')->default(10);
 
             $table->boolean('admin')->default(0);
 

@@ -144,6 +144,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <div class="col-md-2 col-md-offset-5">
+                        <input id="coords" type="hidden" name="coords">
                         <button type="submit" class="btn btn-primary">
                             Save
                         </button>
@@ -155,7 +156,7 @@
 @stop
 
 @section('js')
-    <script src="js/ckeditor/ckeditor.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjI_a7-CJA5anDE0q3NSBHoccjlL31Dmk"></script>
     <script src="js/forms.js"></script>
     <script>
         $(function() {
