@@ -57,7 +57,7 @@ class TeamController extends Controller
 
 		// Deal with emblem upload
 		if (isset($input['emblem']) && $input['emblem'] != '') {
-			$input['emblem'] = General::uploadImg($input['emblem'], 'teams',true);
+            $input['emblem'] = General::uploadImg($input['emblem'], 'teams',true);
 		} else { unset($input['emblem']); }
 
 		$team = new Team($input);
@@ -120,7 +120,7 @@ class TeamController extends Controller
 
 		// Deal with emblem upload
         if (isset($input['img']) && $input['img'] != 'data:,') {
-			Storage::delete(public_path($team->emblem));
+            if (isset($team->emblem)) { \unlink(public_path($team->emblem)); }
 			$input['emblem'] = General::uploadImg($input['emblem'], 'teams',true);
 		} else { unset($input['emblem']); }
 

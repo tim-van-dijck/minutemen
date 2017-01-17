@@ -56,6 +56,14 @@ class EventController extends Controller
 
 		$input = $request->all();
 		$input['organisation_id'] = $organisation_id;
+
+        if ($input['coords'] != '') {
+            $coords = explode(';', $input['coords']);
+
+            $input['lat'] = $coords[0];
+            $input['long'] = $coords[1];
+        }
+        unset($input['coords']);
 		
 		if (isset($input['banner']) && $input['banner'] != '') {
 			$input['banner'] = General::uploadImg($input['banner'], 'events', true);
@@ -117,6 +125,15 @@ class EventController extends Controller
 		$input = $request->all();
 		unset($input['_method']);
 		unset($input['_token']);
+
+        if ($input['coords'] != '') {
+            $coords = explode(';', $input['coords']);
+
+            $input['lat'] = $coords[0];
+            $input['long'] = $coords[1];
+        }
+        unset($input['coords']);
+
 		$event = Event::find($id);
 		
 		if (isset($input['banner']) && $input['banner'] != '') {

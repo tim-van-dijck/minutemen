@@ -9,22 +9,24 @@
 
 		<div class="row">
 			<div class="col-md-6 pull-right">
-				<div class="form-group{{ $errors->has('img') ? ' has-error' : '' }}">
-					<div class="col-md-8 col-md-offset-2">
-						<label class="control-label">Profile picture</label><br>
-						<input id="img" type="hidden" name="img">
-						<img id="edit-img" src="{{ $user->img or 'img/profile.png' }}" alt="{{ $user->username }}">
-						<div id="preview-img">
-						</div>
-						<label for="full-img" class="form-control img-label">
-							<span>Browse</span> <input id="full-img" type="file" class="hidden" name="full-img" value="{{ old('img') }}" accept="image/*">
-						</label>
+				<div class="col-md-12">
+					<div class="form-group{{ $errors->has('img') ? ' has-error' : '' }}">
+						<div class="col-md-8 col-md-offset-2">
+							<label class="control-label">Profile picture</label><br>
+							<input id="img" type="hidden" name="img">
+							<img id="edit-img" src="{{ $user->img or 'img/profile.png' }}" alt="{{ $user->username }}">
+							<div id="preview-img">
+							</div>
+							<label for="full-img" class="form-control img-label">
+								<span>Browse</span> <input id="full-img" type="file" class="hidden" name="full-img" value="{{ old('img') }}" accept="image/*">
+							</label>
 
-						@if ($errors->has('img'))
-							<span class="help-block">
+							@if ($errors->has('img'))
+								<span class="help-block">
 								<strong>{{ $errors->first('img') }}</strong>
 							</span>
-						@endif
+							@endif
+						</div>
 					</div>
 				</div>
 			</div>
@@ -136,7 +138,7 @@
 											<strong>{{ $errors->first('street') }}</strong>
 										</span>
 									@endif
-									<input id="street" type="text" class="form-control" name="street" value="{{ $user->street }}" required autofocus>
+									<input id="street" type="text" class="form-control" name="street" value="{{ $user->street }}" autofocus>
 								</div>
 								<div class="col-md-3">
 									<label for="number" class="control-label">Number</label><br>
@@ -160,7 +162,7 @@
 											<strong>{{ $errors->first('zip') }}</strong>
 										</span>
 									@endif
-									<input id="zip" type="text" class="form-control" name="zip" value="{{ $user->zip }}" required autofocus>
+									<input id="zip" type="text" class="form-control" name="zip" value="{{ $user->zip }}" autofocus>
 								</div>
 								<div class="col-md-7">
 									<label for="city" class="control-label">City</label><br>
@@ -177,14 +179,17 @@
 				</div>
 				<div class="col-md-6">
 					<input id="coords" type="hidden" name="coords">
+					<input id="country" type="hidden" name="country">
 					<div id="map"></div>
 				</div>
 
-				<div class="form-group">
-					<div class="col-md-6 col-md-offset-4">
-						<button type="submit" class="btn btn-primary">
-							Save
-						</button>
+				<div class="col-md-12">
+					<div class="form-group">
+						<div class="col-md-6 col-md-offset-4">
+							<button type="submit" class="btn btn-primary">
+								Save
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>

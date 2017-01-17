@@ -66,7 +66,7 @@ class RegisterController extends Controller
 	{
 		if (isset($data['img'])) { $img = General::uploadImg($data['img'], 'users', true); }
 		else { $img = null; }
-		
+
 		return User::create([
 			'username'	=> $data['r_username'],
 			'slug'		=> General::sluggify($data['username'], 'users'),

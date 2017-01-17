@@ -9,7 +9,7 @@ use Image;
 class Event extends Model
 {
     public $timestamps = false;
-    protected $fillable = ['title', 'description', 'starts_at', 'ends_at', 'street', 'number', 'zip', 'city', 'banner', 'coords', 'organisation_id', 'website'];
+    protected $fillable = ['title', 'description', 'starts_at', 'ends_at', 'street', 'number', 'zip', 'city', 'banner', 'lat', 'long', 'organisation_id', 'website'];
 
 	public function participators() {
 		return Team::select('teams.*')->join('participations', 'participations.team_id', '=', 'teams.id')

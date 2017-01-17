@@ -30,7 +30,7 @@
 			</div>
 		</div>
 	@endif
-	<h1>Friends</h1>
+	<h1>{{ ($user->id == Auth::user()->id) ? 'F' : $user->username.'\'s f' }}riends</h1>
 	<div class="row blocklink-wrapper">
 		@forelse($friends as $index => $friend)
 			<div class="col-md-2 blocklink user">

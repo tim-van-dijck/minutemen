@@ -51,6 +51,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 	// Friends
 	Route::get('users', function() { return redirect('friends'); });
+    Route::get('users/{slug}/friends', 'UserController@friends')->name('users.friends');
 	Route::group(['prefix' => 'friends'], function () {
 		Route::get('/', 'UserController@friends')->name('users.friends');
 		Route::get('{slug}/add', 'UserController@addFriend');

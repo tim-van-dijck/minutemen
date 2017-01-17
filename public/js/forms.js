@@ -117,6 +117,17 @@ function setCoords() {
 			marker.setPosition(pos);
 		}
 
+		if($('').length > 0) {
+            for (var i=0; i < data.results[0].address_components.length; i++) {
+                for (var j=0; j < data.results[0].address_components[i].types.length; j++) {
+                    if (data.results[0].address_components[i].types[j] == "country") {
+                        country = data.results[0].address_components[i];
+                        $('#country').val(country.long_name);
+                    }
+                }
+            }
+        }
+
 		$('#coords').val(data.results[0].geometry.location.lat + ';' + data.results[0].geometry.location.lng);
 	});
 }

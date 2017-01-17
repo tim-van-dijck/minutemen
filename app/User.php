@@ -19,7 +19,7 @@ class User extends Authenticatable
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['username', 'firstname', 'lastname', 'slug', 'email', 'street', 'number', 'zip', 'city', 'lat', 'long', 'password', 'lfg'];
+	protected $fillable = ['username', 'firstname', 'lastname', 'slug', 'email', 'street', 'number', 'zip', 'city', 'country', 'lat', 'long', 'password', 'lfg'];
 
 	/**
 	 * The attributes that should be hidden for arrays.
@@ -35,7 +35,7 @@ class User extends Authenticatable
 		return false;
 	}
 
-    public function friends() { return Friendship::getFriends($this->id); }
+    public function friends($limit = false) { return Friendship::getFriends($this->id, $limit); }
 
     public function friendship() {
         $first = DB::table('friendships')->where('friend_id', $this->id)

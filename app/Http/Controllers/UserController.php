@@ -74,15 +74,18 @@ class UserController extends Controller
 		unset($input['_method']);
 		unset($input['full-img']);
 
-		$coords = explode(';', $input['coords']);
-		unset($input['coords']);
+        if ($input['coords'] != '') {
+            $coords = explode(';', $input['coords']);
 
-		$input['lat'] = $coords[0];
-		$input['long'] = $coords[1];
+            $input['lat'] = $coords[0];
+            $input['long'] = $coords[1];
+        }
+        unset($input['coords']);
 
-		// Handle img upload
-		if (isset($input['img']) && $input['img'] != 'data:,') {
-			Storage::delete(public_path($user->img));
+        if ($input['country'] == '') { unset($input['country']); }
+        // Handle img upload
+        if (isset($input['img']) && $input['img'] != 'data:,') {
+            if (isset($user->img)) { \unlink(public_path($user->img)); }
 			$input['img'] = General::uploadImg($input['img'], 'users', $user->id);
 		} else { unset($input['img']); }
 
@@ -122,11 +125,16 @@ class UserController extends Controller
 	 */
 
 	// retrieve friends
-	public function friends()
+	public function friends($slug = false)
 	{
-		$friends = Auth::user()->friends();
-		$requests = Friendship::getRequests();
-		return view('users.friends')->with(['friends' => $friends, 'requests' => $requests]);
+	    if ($slug) { $user = User::where('slug', $slug)->first(); $requests = collect([]); }
+        else {
+	        $user = Auth::user();
+            $requests = Friendship::getRequests();
+        };
+
+        $friends = $user->friends();
+        return view('users.friends')->with(['friends' => $friends, 'requests' => $requests, 'user' => $user]);
 	}
 
 	// add friend

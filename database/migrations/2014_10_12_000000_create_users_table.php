@@ -28,6 +28,8 @@ class CreateUsersTable extends Migration
             $table->string('number')->nullable();
             $table->string('zip')->nullable();
             $table->string('city')->nullable();
+            $table->string('country')->nullable();
+
             $table->double('lat', 9, 6)->nullable();
             $table->double('long', 9, 6)->nullable();
 
