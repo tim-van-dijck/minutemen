@@ -163,7 +163,7 @@
 		@include('partial.success')
 		@include('partial.error')
 
-		@if (Request::is('/'))
+		@if (Request::is('/') && Auth::guest())
 			<div class="carousel fade-carousel slide" data-ride="carousel" data-interval="4000" id="bs-carousel"&>
 			<!-- Scroll button -->
 				<a href="#" class="scrollDown"><i class="fa fa-2x fa-chevron-down"></i></a>

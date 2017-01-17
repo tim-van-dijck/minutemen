@@ -319,7 +319,7 @@ form textarea {
 .row.rounds {
   margin-bottom: 3em; }
 
-.users, .teams, .blocklink-wrapper {
+.blocklink-wrapper {
   display: flex;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -851,13 +851,68 @@ a.accent:hover, a.accent:focus, a.accent:active {
 .errors, .success {
   margin: auto 0; }
 
-.profile-img.profile {
-  width: 250px;
-  display: inline-block; }
+.profile-wrapper h3 {
+  margin-top: 2em; }
+.profile-wrapper .profile-title {
+  margin-top: 2em;
+  text-align: center; }
+.profile-wrapper > .row > .col-md-12 > .profile-img {
+  margin: 2em auto; }
+  .profile-wrapper > .row > .col-md-12 > .profile-img.profile {
+    width: 250px;
+    max-width: 250px;
+    display: inline-block; }
+    @media (max-width: 990px) {
+      .profile-wrapper > .row > .col-md-12 > .profile-img.profile {
+        width: 100%; }
+        .profile-wrapper > .row > .col-md-12 > .profile-img.profile img {
+          width: 100%; } }
+@media (max-width: 990px) {
+  .profile-wrapper .stats-col .stats {
+    max-width: 21em;
+    margin: auto; }
+    .profile-wrapper .stats-col .stats .col-md-4 {
+      width: 33%;
+      float: left; } }
+.profile-wrapper .stats-col .stats h4 {
+  text-align: center; }
+  .profile-wrapper .stats-col .stats h4 > i {
+    margin-right: 1em; }
+  .profile-wrapper .stats-col .stats h4 .ratio {
+    margin-right: 0; }
   @media (max-width: 990px) {
-    .profile-img.profile {
-      width: 100%; }
-      .profile-img.profile img {
-        width: 100%; } }
+    .profile-wrapper .stats-col .stats h4 span:not(.ratio) {
+      display: none; }
+    .profile-wrapper .stats-col .stats h4 i {
+      margin-right: 0; } }
+.profile-wrapper .stats-col .stats p {
+  text-align: center; }
+.profile-wrapper .members, .profile-wrapper .friends, .profile-wrapper .teams {
+  max-width: 15em; }
+  @media (max-width: 990px) {
+    .profile-wrapper .members, .profile-wrapper .friends, .profile-wrapper .teams {
+      margin: auto; }
+      .profile-wrapper .members .col-md-2, .profile-wrapper .friends .col-md-2, .profile-wrapper .teams .col-md-2 {
+        width: 12.5%;
+        float: left; }
+      .profile-wrapper .members .col-md-3, .profile-wrapper .friends .col-md-3, .profile-wrapper .teams .col-md-3 {
+        width: 25%;
+        float: left; }
+      .profile-wrapper .members .col-md-4, .profile-wrapper .friends .col-md-4, .profile-wrapper .teams .col-md-4 {
+        width: 33%;
+        float: left; }
+      .profile-wrapper .members .col-md-offset-2, .profile-wrapper .friends .col-md-offset-2, .profile-wrapper .teams .col-md-offset-2 {
+        margin-left: 12.5%; }
+      .profile-wrapper .members .col-md-offset-3, .profile-wrapper .friends .col-md-offset-3, .profile-wrapper .teams .col-md-offset-3 {
+        margin-left: 25%; }
+      .profile-wrapper .members .col-md-offset-4, .profile-wrapper .friends .col-md-offset-4, .profile-wrapper .teams .col-md-offset-4 {
+        margin-left: 33%; }
+      .profile-wrapper .members .col-md-offset-6, .profile-wrapper .friends .col-md-offset-6, .profile-wrapper .teams .col-md-offset-6 {
+        margin-left: 50%; } }
+.profile-wrapper .description {
+  text-align: center;
+  margin: 2em 0; }
+.profile-wrapper .divider {
+  border-top: 1px solid #cc4020; }
 
 /*# sourceMappingURL=style.css.map */

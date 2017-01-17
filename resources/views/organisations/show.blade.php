@@ -13,15 +13,15 @@
 			<a id="sub" href="{{ route('ajax.sub', ['organisation_id' => $organisation->id]) }}" class="btn btn-primary pull-right" data-href="{{ route('ajax.unsub', ['organisation_id' => $organisation->id]) }}">Subscribe</a>
 		@endif
 	@endif
-	<h2>
+	<h2 class="profile-title">
 		@if ($organisation->trusted)
 			<img id="trusted" src="img/trusted.svg" alt="Trusted Organisation" title="Trusted Organisation">
 		@endif
 		{{ $organisation->name }}
 	</h2>
 	<div class="row">
-		<div class="col-md-5">
-			<div class="profile-img">
+		<div class="col-md-5 text-center">
+			<div class="profile-img profile">
 				<img src="{{ $organisation->thumb or 'img/organisation.png' }}" alt="{{ $organisation->name }}">
 			</div>
 		</div>
