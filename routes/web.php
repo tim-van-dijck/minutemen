@@ -28,10 +28,10 @@ Route::group(['prefix' => 'users'], function () {
 // Routes requiring login
 Route::group(['middleware' => 'auth'], function () {
     // My stuff
-	Route::get('/dashboard', 'HomeController@home');
-	Route::get('/my-teams', 'TeamController@mine');
-	Route::get('/my-subscriptions', 'OrganisationController@mySubscriptions');
-	Route::get('/my-organisations', 'OrganisationController@mine');
+	Route::get('/dashboard', 'HomeController@home')->name('dashboard');
+	Route::get('/my-teams', 'TeamController@mine')->name('my-teams');
+	Route::get('/my-subscriptions', 'OrganisationController@mySubscriptions')->name('my-subscriptions');
+	Route::get('/my-organisations', 'OrganisationController@mine')->name('my-organisations');
 
 	// Messages
 	Route::resource('conversations', 'ConversationController', ['only' => ['index', 'create', 'show', 'destroy']]);
@@ -46,6 +46,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 	// Users
 	Route::get('settings', 'UserController@edit')->name('settings');
+	Route::delete('delete-account', 'UserController@destroy')->name('users.destroy');
 	Route::match(['put', 'patch'], 'settings', 'UserController@update')->name('users.update');
 	Route::get('profile', 'UserController@show')->name('users.profile');
 	Route::get('notifications', 'UserController@notifications')->name('users.notifications');
@@ -68,7 +69,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('organisations', 'OrganisationController', ['except' => ['index', 'show']]);
 	
 	// Events
-	Route::resource('events', 'EventController', ['only' => ['edit', 'update', 'delete']]);
+	Route::resource('events', 'EventController', ['only' => ['edit', 'update', 'destroy']]);
 });
 
 // Leaderboard

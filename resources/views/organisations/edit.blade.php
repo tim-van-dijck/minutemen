@@ -74,10 +74,20 @@
 							</div>
 						</div>
 					</div>
+
 				</div>
 			</div>
 		</div>
 	</form>
+	<div class="row">
+		<div class="col-md-12">
+			<form class="delete" data-confirm="delete {{ $organisation->name }}" action="{{ route('organisations.destroy', ['id' => $organisation->id]) }}" method="POST">
+				{{ csrf_field() }}
+				<input type="hidden" name="_method" value="DELETE">
+				<button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Delete</button>
+			</form>
+		</div>
+	</div>
 @stop
 
 @section('js')
@@ -85,6 +95,7 @@
 	<script src="js/libs/croppie.min.js"></script>
 	<script src="js/forms.js"></script>
 	<script src="js/edit-form-img.js"></script>
+	<script src="js/delete-confirm.js"></script>
 	<script>
 		CKEDITOR.replace('description');
 	</script>

@@ -161,8 +161,9 @@ class EventController extends Controller
 	 */
 	public function destroy($id)
 	{
-		Event::delete($id);
-		return redirect()->back();
+	    $event = Event::find($id);
+		Event::destroy($id);
+		return redirect()->route('organisations.show', ['id' => $event->organisation_id]);
 	}
 
 	public function manage($event_id) { return view('events.manage')->with(['event' => Event::find($event_id)]); }

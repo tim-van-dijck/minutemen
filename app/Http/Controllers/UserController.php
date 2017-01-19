@@ -108,10 +108,11 @@ class UserController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function destroy($id)
+	public function destroy()
 	{
-		User::delete($id);
-		return redirect()->back();
+		User::destroy(Auth::user()->id);
+		Session::flush();
+		return redirect('/');
 	}
 
 	public function leaderboard()

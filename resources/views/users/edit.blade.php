@@ -220,6 +220,15 @@
 			</div>
 		</div>
 	</form>
+	<div class="row">
+		<div class="col-md-12">
+			<form class="delete" data-confirm="delete {{ $user->username }}" action="{{ route('users.destroy') }}" method="POST">
+				{{ csrf_field() }}
+				<input type="hidden" name="_method" value="DELETE">
+				<button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Delete</button>
+			</form>
+		</div>
+	</div>
 @stop
 
 @section('js')
@@ -228,6 +237,7 @@
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjI_a7-CJA5anDE0q3NSBHoccjlL31Dmk"></script>
 	<script src="js/forms.js"></script>
 	<script src="js/edit-form-img.js"></script>
+	<script src="js/delete-confirm.js"></script>
 	<script>
         $(function() {
             $('#range').slider({

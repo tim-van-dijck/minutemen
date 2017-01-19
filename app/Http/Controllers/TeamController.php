@@ -145,7 +145,7 @@ class TeamController extends Controller
 	public function destroy($id)
 	{
 		Team::destroy($id);
-		return redirect()->back();
+		return redirect()->route('dashboard');
 	}
 
 	public function leave($team_id) {

@@ -145,7 +145,7 @@ class OrganisationController extends Controller
 	public function destroy($id)
 	{
 		Organisation::destroy($id);
-		return redirect()->back();
+		return redirect()->route('dashboard');
 	}
 
 	public function post(Request $request, $id) {

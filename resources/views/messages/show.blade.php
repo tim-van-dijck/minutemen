@@ -25,7 +25,7 @@
                         {{  'No Recipients' }}
                     @endif
                 </h1>
-                <div class="row blocklink-wrapper persist-cols">
+                <div class="row blocklink-wrapper recipients">
                     @foreach ($conversation->recipients() as $recipient)
                         <div class="col-md-1 blocklink" title="{{ $recipient->username }}">
                             <div class="profile-img"><img src="{{ $recipient->img or 'img/profile.png' }}" alt="{{ $recipient->username }}"></div>

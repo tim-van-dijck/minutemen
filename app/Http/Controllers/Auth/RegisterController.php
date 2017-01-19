@@ -69,7 +69,7 @@ class RegisterController extends Controller
 
 		return User::create([
 			'username'	=> $data['r_username'],
-			'slug'		=> General::sluggify($data['username'], 'users'),
+			'slug'		=> General::sluggify($data['r_username'], 'users'),
 			'email'		=> $data['email'],
 			'password'	=> bcrypt($data['r_password']),
 		]);

@@ -14,7 +14,7 @@
 						<label for="username" class="control-label">Username<i class="fa fa-asterisk"></i></label><br>
 						<input id="username" type="text" class="form-control" name="r_username" value="{{ old('r_username') }}" required autofocus>
 
-						@if ($errors->has('username'))
+						@if ($errors->has('r_username'))
 							<span class="help-block">
 								<strong>{{ $errors->first('r_username') }}</strong>
 							</span>
@@ -50,7 +50,7 @@
 				<div class="form-group">
 					<div class="col-md-12">
 						<label for="password-confirm" class="control-label">Confirm Password<i class="fa fa-asterisk"></i></label>
-						<input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+						<input id="password-confirm" type="password" class="form-control" name="r_password_confirmation" required>
 					</div>
 				</div>
 			</div>

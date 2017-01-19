@@ -19,7 +19,7 @@ class Posts extends Migration
             $table->integer('organisation_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('organisation_id')->references('id')->on('organisations');
+            $table->foreign('organisation_id')->references('id')->on('organisations')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

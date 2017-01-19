@@ -312,6 +312,9 @@ form {
 		color: #fff; background-color: rgba(100,100,100,.2); width: 100%; text-align: center; margin-top: 1em;
 		&:hover, &:focus, &:active { opacity: .8; }
 	}
+	&.btn-danger, &.btn-danger:hover, &.btn-danger:focus, &.btn-danger:active {
+		background-color: #f00; border-color: #f00;
+	}
 	&.btn-dropdown {
 		background-color: transparent; border-color: transparent; position: absolute; top: .2em; right: .2em;
 		height: 1.5em; line-height: .5em;
@@ -546,6 +549,20 @@ a.accent:hover, a.accent:focus, a.accent:active { color: $accent; }
 		border: none; border-top: 1px solid $bgc;
 	}
 }
+
+.recipients {
+	@extend .persist-cols;
+	margin-bottom: 1em;
+	.blocklink {
+		width: 3em !important; height: 3em; padding: 0;
+		&:hover .profile-img { opacity: .7; }
+		.profile-img { margin: 0; width: 100%; height: 100%; }
+	}
+	.btn-primary {
+		width: 100%; height: 100%; text-align: center; line-height: calc(3em - 12px);
+		@media #{$tablet-bootstrap} {margin-top: 0; }
+	}
+}
 #message-box { height: 18em; background-color: $nav-color; overflow-y: scroll; padding: 1em; overflow-x: hidden; }
 
 .stealth-mode { display: none; }
@@ -637,6 +654,13 @@ a.accent:hover, a.accent:focus, a.accent:active { color: $accent; }
 	a.message {
 		display: inline-block;
 		i.fa { margin-right: 1em; }
+	}
+}
+.team-members {
+	.members, .admins, .requests {
+		@media #{$mobile-bootstrap} {
+			.col-md-2 { width: 33% !important; }
+		}
 	}
 }
 .persist-cols {
