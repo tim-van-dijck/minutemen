@@ -7,7 +7,7 @@ use Auth;
 
 class Notification extends Model
 {
-	protected $fillable = ['content', 'seen', 'user_id', 'created_at', 'updated_at'];
+	protected $fillable = ['content', 'seen', 'entity_name', 'entity_id', 'user_id', 'created_at', 'updated_at'];
 
     protected function post($entity_id, $entity) {
         switch ($entity) {
@@ -101,11 +101,30 @@ class Notification extends Model
         }
     }
 
+    protected function updatedOrganisation($organisation_id) {
+        $subscribers = User::select('users.*')
+            ->join('organisation_users', 'users.id', '=', 'organisation_users.user_id')
+            ->where([
+                ['organisation_users.organisation_id', '=', $organisation_id],
+                ['organisation_users.user_id', '!=', Auth::user()->id],
+            ])->get();
+
+        foreach ($subscribers as $subscriber) {
+            self::updateOrCreate([
+                'content'			=> ' has been updated',
+                'user_id'			=> $subscriber->id,
+                'entity_name'       => 'organisation',
+                'entity_id'         => $organisation_id
+            ], ['seen' => 0]);
+        }
+    }
+
     protected function updatedTeam($team_id) {
         $subscribers = User::select('users.*')
             ->join('team_users', 'users.id', '=', 'team_users.user_id')
             ->where([
                 ['team_users.team_id', '=', $team_id],
+                ['team_users.user_id', '!=', Auth::user()->id],
                 ['team_users.pending', '=', false],
                 ['team_users.deleted_at', '=', null],
             ])->get();

@@ -43,14 +43,16 @@ class OrganisationController extends Controller
 		$this->validate($request, [
 			'name'			=> 'required|profanity-filter',
 			'description'	=> 'required',
+			'website'	    => 'url',
 		]);
 
 		$input = $request->all();
 
 		// Deal with thumb upload
-		if (isset($input['thumb']) && $input['thumb'] != '') {
-			$input['thumb'] = General::uploadImg($input['thumb'], 'organisations/thumbs', true);
-		} else { unset($input['thumb']); }
+		if (isset($input['img']) && $input['img'] != '') {
+			$input['thumb'] = General::uploadImg($input['img'], 'organisations/thumbs', true);
+		}
+		unset($input['img']);
 
 		// Deal with banner upload
 		if (isset($input['banner']) && $input['banner'] != '') {
@@ -108,14 +110,15 @@ class OrganisationController extends Controller
 		$input = [
 			'name'			=> $request->input('name'),
 			'description'	=> $request->input('description'),
-			'thumb'			=> $request->input('thumb')
+			'img'			=> $request->input('img')
 		];
 
 		// Deal with emblem upload
-		if (isset($input['thumb']) && $input['thumb'] != '') {
+		if (isset($input['img']) && $input['img'] != '') {
 			Storage::delete(public_path($organisation->thumb));
-			$input['thumb'] = General::uploadImg($input['thumb'], 'organisations/thumbs', true);
-		} else { unset($input['thumb']); }
+			$input['thumb'] = General::uploadImg($input['img'], 'organisations/thumbs', true);
+		}
+		unset($input['img']);
 
 		// Deal with banner upload
 		if (isset($input['banner']) && $input['banner'] != '') {

@@ -15,7 +15,6 @@ $('.accept-deny a').click(function (e) {
 
 function ajaxJoin($a) {
 	var href = $a.attr('href');
-	var text = 'Leave team';
 
 	$.get(href, function(data) {
 		var dHref = $a.data('href');
@@ -23,8 +22,7 @@ function ajaxJoin($a) {
 		$a.attr('href', dHref)
 			.data('href', href);
 
-		if ($a.text() == text) { text = 'Join team'; }
-		$a.text(text);
+		$('form.delete, a#join').toggleClass('hidden');
 	});
 }
 

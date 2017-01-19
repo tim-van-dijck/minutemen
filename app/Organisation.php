@@ -10,7 +10,7 @@ use Image;
 
 class Organisation extends Model
 {
-	protected $fillable = ['name', 'description', 'thumb', 'banner', 'website', 'trusted', 'created_at', 'updated_at'];
+	protected $fillable = ['name', 'description', 'thumb', 'website', 'trusted', 'created_at', 'updated_at'];
 
 	protected function search($query) {
 		return self::select('*')->where('name', 'LIKE', $query)
@@ -62,6 +62,16 @@ class Organisation extends Model
 				->where('organisation_roles.organisation_id', $this->id)
 				->where('organisation_roles.role', 'admin')
 				->orderBy('joined', 'asc')
+				->get();
+	}
+
+	public function subscribers() {
+		return DB::table('users')
+				->select('users.*', 'organisation_roles.created_at AS joined')
+				->join('organisation_roles', 'organisation_roles.user_id', '=', 'users.id')
+				->join('organisations', 'organisations.id', '=', 'organisation_roles.organisation_id')
+				->where('organisation_roles.organisation_id', $this->id)
+				->orderBy('username', 'asc')
 				->get();
 	}
 
@@ -118,7 +128,11 @@ class Organisation extends Model
 		return true;
 	}
 
-	public function events() { return Event::where('organisation_id', $this->id)->get(); }
+	public function events($limit = false) {
+	    $result = Event::where('organisation_id', $this->id);
+	    if ($limit != false) { $result->limit($limit); }
+	    return $result->get();
+	}
 	
 	public function posts() { return Post::where('organisation_id', $this->id)->orderBy('created_at', 'desc')->get(); }
 }

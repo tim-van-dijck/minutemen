@@ -9,10 +9,13 @@
 			@elseif (Auth::check() && $team->isInvited())
 				<a id="accept" href="{{ route('ajax.team.join', ['team_id' => $team->id]) }}" class="btn btn-primary pull-right">Accept invite</a>
 			@else
-				<a id="join" href="{{ (Auth::check() && $team->isMember()) ? route('ajax.team.leave', ['team_id' => $team->id]) : route('ajax.team.join', ['team_id' => $team->id]) }}"
-				   class="btn btn-primary pull-right"
-				   data-href="{{ (!$team->isMember()) ? route('ajax.team.leave', ['team_id' => $team->id]) : route('ajax.team.join', ['team_id' => $team->id]) }}">
-					{{ ($team->isMember()) ? 'Leave' : 'Join' }} team
+				<form class="delete" data-confirm="leave this team" action="{{ route('team.leave', ['team_id' => $team->id]) }}" method="POST">
+					{{ csrf_field() }}
+					<input type="hidden" name="_method" value="DELETE">
+					<button type="submit" class="btn btn-primary pull-right {{ (Auth::check() && $team->isMember()) ? '' : 'hidden' }}">Leave team</button>
+				</form>
+				<a id="join" href="{{ route('ajax.team.join', ['team_id' => $team->id]) }}"
+				   class="btn btn-primary pull-right {{ (Auth::check() && $team->isMember()) ? 'hidden' : '' }}">Join team
 				</a>
 			@endif
 		</div>
@@ -61,8 +64,8 @@
 						<div class="row">
 							<div class="col-md-4 col-md-offset-4 members">
 								<div class="row blocklink-wrapper">
-									@forelse($team->members() as $index=> $member)
-										<div class="col-md-3 {{ ($index == 0) ? 'col-md-offset-'.floor((12 - 3*count($team->members())) / 2) : '' }} blocklink team">
+									@forelse($team->members(4) as $index => $member)
+										<div class="col-md-3 {{ ($index == 0) ? 'col-md-offset-'.floor((12 - 3*count($team->members(4))) / 2) : '' }} blocklink team">
 											<a href="{{ route('users.show', ['slug' => $member->slug]) }}">
 												<div class="profile-img">
 													<img src="{{ $member->img or 'img/profile.png' }}" alt="{{ $member->username }}" title="{{ $member->username }}">
@@ -108,4 +111,7 @@
 			</div>
 		</div>
 	</div>
+@stop
+@section('js')
+	<script src="js/delete-confirm.js"></script>
 @stop

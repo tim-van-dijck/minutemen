@@ -3,7 +3,7 @@
 @section('title', 'Settings')
 @section('content')
 	<h1>Edit profile</h1>
-	<form id="edit-form" class="form-horizontal image-form" role="form" method="POST" action="{{ route('settings') }}" enctype="multipart/form-data">
+	<form id="edit-form" class="form-horizontal image-form settings" role="form" method="POST" action="{{ route('settings') }}" enctype="multipart/form-data">
 		{{ csrf_field() }}
 		<input type="hidden" name="_method" value="PATCH">
 
@@ -11,11 +11,15 @@
 			<div class="col-md-6 pull-right">
 				<div class="col-md-12">
 					<div class="form-group{{ $errors->has('img') ? ' has-error' : '' }}">
-						<div class="col-md-8 col-md-offset-2">
+						<div class="col-md-12">
 							<label class="control-label">Profile picture</label><br>
 							<input id="img" type="hidden" name="img">
-							<img id="edit-img" src="{{ $user->img or 'img/profile.png' }}" alt="{{ $user->username }}">
-							<div id="preview-img">
+							<div class="text-center">
+								<img id="edit-img" src="{{ $user->img or 'img/profile.png' }}" alt="{{ $user->username }}">
+							</div>
+							<div class="text-center">
+								<div id="preview-img">
+							</div>
 							</div>
 							<label for="full-img" class="form-control img-label">
 								<span>Browse</span> <input id="full-img" type="file" class="hidden" name="full-img" value="{{ old('img') }}" accept="image/*">
@@ -162,7 +166,7 @@
 											<strong>{{ $errors->first('zip') }}</strong>
 										</span>
 									@endif
-									<input id="zip" type="text" class="form-control" name="zip" value="{{ $user->zip }}" autofocus>
+									<input id="zip" type="text" class="form-control" name="zip" value="{{ $user->zip }}" placeholder="1207" autofocus>
 								</div>
 								<div class="col-md-7">
 									<label for="city" class="control-label">City</label><br>
@@ -171,7 +175,7 @@
 											<strong>{{ $errors->first('city') }}</strong>
 										</span>
 									@endif
-									<input id="city" type="text" class="form-control" name="city" value="{{ $user->city }}">
+									<input id="city" type="text" class="form-control" name="city" value="{{ $user->city }}" placeholder="Fakopolis">
 								</div>
 							</div>
 						</div>
@@ -183,13 +187,34 @@
 					<div id="map"></div>
 				</div>
 
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
 				<div class="col-md-12">
-					<div class="form-group">
-						<div class="col-md-6 col-md-offset-4">
-							<button type="submit" class="btn btn-primary">
-								Save
-							</button>
+					<label for="range" class="control-label">Range</label>
+					<p><em>The radius in which to look for lobbies with Looking For Group</em></p>
+					<div class="row">
+						<div class="col-md-8 col-md-offset-2">
+							<div class="form-group text-center">
+								<input id="range" name="range" data-slider-id='range-slider' type="text" data-slider-min="10" data-slider-max="200" data-slider-step="10" data-slider-value="{{ $user->range }}"/>
+								<p class="text-center">
+									<span class="range">10</span>km
+								</p>
+							</div>
 						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="form-group">
+					<div class="col-md-6 col-md-offset-4">
+						<button type="submit" class="btn btn-primary">
+							Save
+						</button>
 					</div>
 				</div>
 			</div>
@@ -199,7 +224,17 @@
 
 @section('js')
 	<script src="js/libs/croppie.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.0/bootstrap-slider.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjI_a7-CJA5anDE0q3NSBHoccjlL31Dmk"></script>
 	<script src="js/forms.js"></script>
 	<script src="js/edit-form-img.js"></script>
+	<script>
+        $(function() {
+            $('#range').slider({
+                formatter: function(value) {
+                    $('span.range').text(value);
+                }
+            });
+		})
+	</script>
 @stop

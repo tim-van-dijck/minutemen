@@ -11,7 +11,7 @@
 			<div class="col-md-8 col-md-offset-2">
 				<div class="form-group{{ $errors->has('r_username') ? ' has-error' : '' }}">
 					<div class="col-md-12">
-						<label for="username" class="control-label">Username</label><br>
+						<label for="username" class="control-label">Username<i class="fa fa-asterisk"></i></label><br>
 						<input id="username" type="text" class="form-control" name="r_username" value="{{ old('r_username') }}" required autofocus>
 
 						@if ($errors->has('username'))
@@ -24,7 +24,7 @@
 
 				<div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
 					<div class="col-md-12">
-						<label for="email" class="control-label">E-Mail Address</label><br>
+						<label for="email" class="control-label">E-Mail Address<i class="fa fa-asterisk"></i></label><br>
 						<i>We won't stalk you, we promise!</i>
 						<input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
 
@@ -37,7 +37,7 @@
 				</div>
 				<div class="form-group{{ $errors->has('r_password') ? ' has-error' : '' }}">
 					<div class="col-md-12">
-						<label for="password" class="control-label">Password</label>
+						<label for="password" class="control-label">Password<i class="fa fa-asterisk"></i></label>
 						<input id="password" type="password" class="form-control" name="r_password" required>
 
 						@if ($errors->has('password'))
@@ -49,7 +49,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-md-12">
-						<label for="password-confirm" class="control-label">Confirm Password</label>
+						<label for="password-confirm" class="control-label">Confirm Password<i class="fa fa-asterisk"></i></label>
 						<input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
 					</div>
 				</div>

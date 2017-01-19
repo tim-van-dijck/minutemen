@@ -16,7 +16,7 @@
                                 @elseif($conversation->alt_title != '')
                                     {{ $conversation->alt_title }}
                                 @else
-                                    <No Recipients>
+                                    {{ '<No Recipients>' }}
                                 @endif
                             </h3>
                             <div class="row">

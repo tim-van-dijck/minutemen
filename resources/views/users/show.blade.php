@@ -9,9 +9,11 @@
 					@if (!$user->isFriend(false))
 						<a href="friends/{{$user->slug}}/add" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> add friend</a>
 					@elseif ($user->friendship()->confirmed)
-						<a href="friends/{{$user->friendship()->id}}/delete" class="btn btn-primary pull-right">
-							<i class="fa fa-user-times"></i> Unfriend
-						</a>
+						<form class="delete" data-confirm="unfriend {{ $user->username }}" action="friends/{{$user->friendship()->id}}/delete" method="POST">
+							{{ csrf_field() }}
+							<input type="hidden" name="_method" value="DELETE">
+							<button class="btn btn-primary pull-right" type="submit"><i class="fa fa-user-times"></i> Unfriend</button>
+						</form>
 					@elseif (!$user->friendship()->confirmed)
 						<a href="friends/{{$user->friendship()->id}}/
 							{{ ($user->friendship()->user_id == Auth::user()->id) ? 'delete' : 'confirm' }}"
@@ -38,14 +40,21 @@
 						<p class="text-center">Joined {{ date('F jS Y', strtotime($user->created_at)) }}</p>
 					</div>
 				</div>
+				<div class="row">
+					<div class="col-md-4 col-md-offset-4 text-center">
+						<a href="{{ route('conversations.with' , ['id' => $user->id]) }}" class="message btn btn-primary">
+							<i class="fa fa-comment"></i>Send message
+						</a>
+					</div>
+				</div>
 				<div class="row divider">
 					<div class="col-md-12">
 						<h3 class="text-center">Teams ({{count($user->teams())}})</h3>
 						<div class="row">
 							<div class="col-md-6 col-md-offset-3 teams">
 								<div class="row blocklink-wrapper">
-									@foreach ($user->teams() as $index => $team)
-										<div class="col-md-4 {{ ($index == 0) ? 'col-md-offset-'.floor((12 - 4*count($user->friends())) / 2) : '' }} blocklink team">
+									@foreach ($user->teams(4) as $index => $team)
+										<div class="col-md-3 {{ ($index == 0) ? 'col-md-offset-'.floor((12 - 3*count($user->friends(3))) / 2) : '' }} blocklink team">
 											<a href="{{ route('teams.show', ['slug' => $team->slug]) }}">
 												<div class="profile-img">
 													<img src="{{ $team->emblem or 'img/emblem.png' }}" alt="{{ $team->name }}" title="{{ $team->name }}">
@@ -64,7 +73,7 @@
 						<div class="row">
 							<div class="row blocklink-wrapper">
 								@foreach ($user->friends(5) as $index => $friend)
-									<div class="col-md-4 {{ ($index == 0) ? 'col-md-offset-'.floor((12 - 4*count($user->friends())) / 2) : '' }} blocklink team">
+									<div class="col-md-3 {{ ($index == 0) ? 'col-md-offset-'.floor((12 - 3*count($user->friends(4))) / 2) : '' }} blocklink team">
 										<a href="{{ route('users.show', ['slug' => $friend->slug]) }}">
 											<div class="profile-img">
 												<img src="{{ $friend->img or 'img/profile.png' }}" alt="{{ $friend->username }}" title="{{ $friend->username }}">
@@ -79,4 +88,7 @@
 			</div>
 		</div>
 	</div>
+@stop
+@section('js')
+	<script src="js/delete-confirm.js"></script>
 @stop

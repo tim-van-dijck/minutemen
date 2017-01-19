@@ -121,8 +121,9 @@ class TeamController extends Controller
 		// Deal with emblem upload
         if (isset($input['img']) && $input['img'] != 'data:,') {
             if (isset($team->emblem)) { \unlink(public_path($team->emblem)); }
-			$input['emblem'] = General::uploadImg($input['emblem'], 'teams',true);
-		} else { unset($input['emblem']); }
+			$input['emblem'] = General::uploadImg($input['img'], 'teams',true);
+		}
+		unset($input['img']);
 
 		foreach ($input as $field => $value) {
 			$team->{$field} = $value;
@@ -146,6 +147,11 @@ class TeamController extends Controller
 		Team::destroy($id);
 		return redirect()->back();
 	}
+
+	public function leave($team_id) {
+        Team::deleteMember($team_id, Auth::user()->id);
+        return redirect()->back();
+    }
 
 	public function addMember($team_id, $user_id)
 	{

@@ -36,6 +36,7 @@ Route::group(['middleware' => 'auth'], function () {
 	// Messages
 	Route::resource('conversations', 'ConversationController', ['only' => ['index', 'create', 'show', 'destroy']]);
 	Route::delete('conversations/{id}/leave', 'ConversationController@leaveConversation')->name('conversations.leave');
+	Route::get('conversations/new/{user_id}', 'ConversationController@create')->name('conversations.with');
 
 	// Lobbies
     Route::resource('lobbies', 'LobbyController', ['except' => ['index', 'edit', 'update']]);
@@ -56,11 +57,12 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('/', 'UserController@friends')->name('users.friends');
 		Route::get('{slug}/add', 'UserController@addFriend');
 		Route::get('{friendship_id}/confirm', 'UserController@confirmFriend');
-		Route::get('{friendship_id}/delete', 'UserController@deleteFriend');
+		Route::delete('{friendship_id}/delete', 'UserController@deleteFriend');
 	});
 
 	// Teams
 	Route::resource('teams', 'TeamController', ['except' => ['edit', 'show', 'index']]);
+    Route::delete('teams/{team_id}/leave', 'TeamController@leave')->name('team.leave');
 
 	// Orgnaisations
 	Route::resource('organisations', 'OrganisationController', ['except' => ['index', 'show']]);
@@ -148,7 +150,6 @@ Route::group(['middleware' => 'ajax', 'prefix' => 'ajax'], function () {
 		// ajax/team
         Route::group(['prefix' => 'team'], function() {
             Route::get('/{team_id}/join', 'AjaxController@joinTeam')->name('ajax.team.join');
-            Route::get('/{team_id}/leave', 'AjaxController@leaveTeam')->name('ajax.team.leave');
 
             Route::get('/{team_id}/invite', 'AjaxController@invite')->name('ajax.team.invite');
             Route::post('/{team_id}/invite-batch', 'AjaxController@inviteTeamBatch')->name('ajax.team.invite.batch');

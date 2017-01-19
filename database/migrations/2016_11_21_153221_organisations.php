@@ -19,6 +19,7 @@ class Organisations extends Migration
             $table->text('description');
             $table->string('banner')->nullable();
             $table->string('thumb')->nullable();
+            $table->string('website')->nullable();
             $table->boolean('trusted')->default(0);
             $table->timestamps();
         });

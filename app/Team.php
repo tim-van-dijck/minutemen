@@ -35,34 +35,37 @@ class Team extends Model
 					->get();
 	}
 
-	public function members() {
-		return User::select('users.*', 'team_users.created_at AS joined', 'team_users.deleted_at AS left')
+	public function members($limit = false) {
+		$result = User::select('users.*', 'team_users.created_at AS joined', 'team_users.deleted_at AS left')
 					->join('team_users', 'team_users.user_id', '=', 'users.id')
 					->join('teams', 'teams.id', '=', 'team_users.team_id')
 					->where('team_users.team_id', $this->id)
 					->where('team_users.pending', 0)
-					->orderBy('left', 'desc')
-					->get();
+					->orderBy('left', 'desc');
+		if ($limit != false) { $result->limit($limit); }
+		return $result->get();
 	}
 
-	public function onlyMembers() {
-		return User::select('users.*', 'team_users.created_at AS joined', 'team_users.deleted_at AS left')
+	public function onlyMembers($limit = false) {
+		$result = User::select('users.*', 'team_users.created_at AS joined', 'team_users.deleted_at AS left')
 					->join('team_users', 'team_users.user_id', '=', 'users.id')
 					->join('teams', 'teams.id', '=', 'team_users.team_id')
 					->where('team_users.team_id', $this->id)
 					->where('team_users.admin', 0)
-					->orderBy('left', 'desc')
-					->get();
+					->orderBy('left', 'desc');
+		if ($limit != false) { $result->limit($limit); }
+		return $result->get();
 	}
 
-	public function admins() {
-		return User::select('users.*', 'team_users.created_at AS joined', 'team_users.deleted_at AS left')
+	public function admins($limit = false) {
+		$result = User::select('users.*', 'team_users.created_at AS joined', 'team_users.deleted_at AS left')
 					->join('team_users', 'team_users.user_id', '=', 'users.id')
 					->join('teams', 'teams.id', '=', 'team_users.team_id')
 					->where('team_users.team_id', $this->id)
 					->where('team_users.admin', 1)
-					->orderBy('left', 'desc')
-					->get();
+					->orderBy('left', 'desc');
+		if ($limit != false) { $result->limit($limit); }
+		return $result->get();
 	}
 
     public function wins($event_id = false) {
@@ -153,6 +156,7 @@ class Team extends Model
 					->where('team_users.team_id', $this->id)
 					->where('team_users.user_id', $user_id)
 					->where('team_users.pending', 0)
+                    ->where('team_users.deleted_at', null)
 					->first();
 
 		if ($member == null) { return false; }
@@ -177,12 +181,23 @@ class Team extends Model
         return true;
     }
 
-	protected function mine() {
-		return self::select('*')->join('team_users', 'team_users.team_id', '=', 'teams.id')
-					->where('team_users.user_id', Auth::user()->id)
-					->orderBy('name')
-					->get();
-	}
+	protected function mine($limit = false) {
+        $result =  self::select('*')->join('team_users', 'team_users.team_id', '=', 'teams.id')
+                        ->where('team_users.user_id', Auth::user()->id)
+                        ->orderBy('name');
+
+        if ($limit != false) { $result->limit($limit); }
+        return $result->get();
+    }
+
+    protected function getByUser($user_id, $limit = false) {
+        $result =  self::select('*')->join('team_users', 'team_users.team_id', '=', 'teams.id')
+            ->where('team_users.user_id', $user_id)
+            ->orderBy('name');
+
+        if ($limit != false) { $result->limit($limit); }
+        return $result->get();
+    }
 		
 	protected function join($team_id, $user_id, $invite, $admin = false) {
 	    $team = Team::find($team_id);

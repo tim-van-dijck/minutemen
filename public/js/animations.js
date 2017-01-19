@@ -18,7 +18,7 @@ $(function () {
 	});
 
 	if ($('.banner').length > 0) {
-		$('.banner').css('height', $('.banner').width()/12*5);
+		$('.banner').css('height', $('.banner').width()/2.5);
 		$( window ).resize(function() { $('.banner').css('height', $('.banner').width()/12*5); });
 	}
 

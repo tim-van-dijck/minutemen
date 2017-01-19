@@ -2,14 +2,18 @@
 
 @section('title', ($lobby->stealth) ? 'Stealthy' : $lobby->host->username.'\'s'.' lobby')
 @section('content')
-    <form action="{{ (Auth::user()->id == $lobby->host->id) ?
-        route('lobbies.destroy', ['id' => $lobby->id]) : route('lobbies.leave', ['id' => $lobby->id]) }}" method="POST">
-        {{ csrf_field() }}
-        <input type="hidden" name="_method" value="DELETE">
-        <button type="submit" class="btn btn-primary pull-right">
-            {{ (Auth::user()->id == $lobby->host->id) ? 'Delete' : 'Leave' }} lobby
-        </button>
-    </form>
+    <div class="row">
+        <div class="col-md-12">
+            <form class="delete" data-confirm="{{ (Auth::user()->id == $lobby->host->id) ? 'delete' : 'leave' }} this lobby"
+                  action="{{ (Auth::user()->id == $lobby->host->id) ? route('lobbies.destroy', ['id' => $lobby->id]) : route('lobbies.leave', ['id' => $lobby->id]) }}" method="POST">
+                {{ csrf_field() }}
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit" class="btn btn-primary btn-small pull-right">
+                    {{ (Auth::user()->id == $lobby->host->id) ? 'Delete' : 'Leave' }} lobby
+                </button>
+            </form>
+        </div>
+    </div>
     <h1>{{ ($lobby->stealth) ? 'Stealthy' : $lobby->host->username.'\'s' }} lobby</h1>
     @if ($lobby->stealth)
         <p><em>
@@ -81,13 +85,13 @@
             <div class="col-md-12">
                 <h4>Passphrase</h4>
                 <p><em>Used to identify the other players</em></p>
-                <p>{{ $lobby->passphrase }}</p>
+                <p class="accent">{{ $lobby->passphrase }}</p>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <h4>Answer</h4>
-                <p>{{ $lobby->answer }}</p>
+                <p class="accent">{{ $lobby->answer }}</p>
             </div>
         </div>
     @endif
@@ -104,4 +108,6 @@
         var size = parseInt({{ $lobby->size }});
     </script>
     <script src="js/lobbies.js"></script>
+    <script src="js/delete-confirm.js"></script>
 @stop
+

@@ -19,7 +19,7 @@ class User extends Authenticatable
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['username', 'firstname', 'lastname', 'slug', 'email', 'street', 'number', 'zip', 'city', 'country', 'lat', 'long', 'password', 'lfg'];
+	protected $fillable = ['username', 'firstname', 'lastname', 'slug', 'email', 'street', 'number', 'zip', 'city', 'country', 'lat', 'long', 'range', 'password', 'lfg'];
 
 	/**
 	 * The attributes that should be hidden for arrays.
@@ -59,7 +59,10 @@ class User extends Authenticatable
     public function organisations() { return Organisation::mine($this->id); }
 
     // Teams
-	public function teams() { return Team::mine(); }
+	public function teams($limit = false) {
+	    if ($this->id == Auth::user()->id) { return Team::mine($limit); }
+	    else { return Team::getByUser($this->id, $limit); }
+	}
 
     protected function passwordConfirm($pass) {
         if (Hash::check($pass, Auth::user()->password)) { return true; }

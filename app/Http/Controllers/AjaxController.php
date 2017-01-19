@@ -36,8 +36,6 @@ class AjaxController extends Controller
     // Team functions
 	public function joinTeam($team_id) { return Team::join($team_id, Auth::user()->id, false); }
 
-	public function leaveTeam($team_id) { Team::deleteMember($team_id, Auth::user()->id); }
-
 	public function inviteTeam($team_id, $user_id) { Team::join($team_id, $user_id, false, true); }
 
     public function inviteTeamBatch(Request $request, $team_id) {

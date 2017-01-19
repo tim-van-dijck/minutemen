@@ -95,7 +95,6 @@ function setPreview(input) {
 
 		reader.onload = function (e) {
 			$('.banner>img').attr('src', e.target.result);
-			$('.banner').show();
 		}
 
 		reader.readAsDataURL(input.files[0]);
