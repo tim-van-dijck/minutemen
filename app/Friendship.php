@@ -20,13 +20,13 @@ class Friendship extends Model
 	}
 
 	protected function getFriends($id, $limit, $confirmed = true) {
-		$first = DB::table('users')->select('users.*')
+		$first = DB::table('users')->select('users.*', 'friendships.id AS friendship_id')
 									->join('friendships', 'friendships.user_id', '=', 'users.id')
 									->where('friendships.friend_id', $id);
 
 		if ($confirmed) { $first->where('confirmed', 1); }
 
-		$second = DB::table('users')->select('users.*')
+		$second = DB::table('users')->select('users.*', 'friendships.id AS friendship_id')
 									->join('friendships', 'friendships.friend_id', '=', 'users.id')
 									->where('friendships.user_id', $id);
 

@@ -155,6 +155,12 @@ form {
 			}
 		}
 	}
+	&.delete {
+		button.confirm {
+			background-color: transparent; border: 0;
+			&:focus, &:hover, &:active { color: #868686; background: transparent; }
+		}
+	}
 
 	select { width: 100%; }
 	[class^='select2'] { border-radius: 0 !important; }

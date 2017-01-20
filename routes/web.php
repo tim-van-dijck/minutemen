@@ -58,7 +58,7 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('/', 'UserController@friends')->name('users.friends');
 		Route::get('{slug}/add', 'UserController@addFriend');
 		Route::get('{friendship_id}/confirm', 'UserController@confirmFriend');
-		Route::delete('{friendship_id}/delete', 'UserController@deleteFriend');
+		Route::delete('{friendship_id}/delete', 'UserController@deleteFriend')->name('friendship.delete');
 	});
 
 	// Teams

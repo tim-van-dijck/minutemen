@@ -34,6 +34,20 @@
 	<div class="row blocklink-wrapper">
 		@forelse($friends as $index => $friend)
 			<div class="col-md-2 blocklink user">
+				<div class="dropdown">
+					<button class="btn btn-dropdown dropdown-toggle" type="button" data-toggle="dropdown">
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu">
+						<li>
+							<form class="delete" data-confirm="unfriend {{ $friend->username }}" action="{{ route('friendship.delete', ['friendship_id' => $friend->friendship_id]) }}" method="POST">
+								{{ csrf_field() }}
+								<input type="hidden" name="_method" value="DELETE">
+								<button class="confirm" type="submit">Unfriend</button>
+							</form>
+						</li>
+					</ul>
+				</div>
 				<a href="{{ route('users.show', ['slug' => $friend->slug]) }}">
 					<div class="profile-img"><img src="{{ $friend->img or 'img/profile.png' }}" alt="{{ $friend->username }}"></div>
 					<p>{{$friend->username}}</p>
@@ -49,4 +63,7 @@
 			</li>
 		@endforelse
 	</div>
+@stop
+@section('js')
+	<script src="js/delete-confirm.js"></script>
 @stop

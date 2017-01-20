@@ -236,6 +236,12 @@ form#post-form {
     width: 55%; }
   form#edit-form.settings > .row > .col-md-6:not(.pull-right) {
     width: 45%; } }
+form.delete button.confirm {
+  background-color: transparent;
+  border: 0; }
+  form.delete button.confirm:focus, form.delete button.confirm:hover, form.delete button.confirm:active {
+    color: #868686;
+    background: transparent; }
 form select {
   width: 100%; }
 form [class^='select2'] {
