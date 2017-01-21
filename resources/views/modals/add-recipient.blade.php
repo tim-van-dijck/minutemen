@@ -10,6 +10,7 @@
             <div class="modal-body">
                 <form id="add-recipients-form" action="{{ route('ajax.conversation.add-recipients', ['conversation_id' => $conversation->id]) }}" method="POST">
                     {{  csrf_field() }}
+                    <p><em>Choose from friends & team mates</em></p>
                     <select name="invite[]" id="user-find" multiple="multiple"></select>
                 </form>
             </div>

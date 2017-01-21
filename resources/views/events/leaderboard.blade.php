@@ -3,7 +3,7 @@
 @section('title', $event->title)
 @section('content')
 	<div class="banner"><img src="{{ $event->banner or 'img/event.png' }}" alt="{{ $event->title }}"></div>
-	<h2>Leaderboard - {{ $event->title }}</h2>
+	<h1>{{ $event->title }}</h1>
 	<div class="row">
 		<div class="col-md-12 leaderboard">
             @foreach ($leaderboard as $index => $team)

@@ -136,7 +136,7 @@ form {
 			&.pull-left, &.pull-right { float: none !important; }
 		}
 	}
-	&#post-form {
+	&#post-form, &#send-message-form {
 		padding-top: .5em; position: relative;
 		.btn-primary {
 			position: absolute; bottom: .7em; right: .7em;
@@ -549,7 +549,7 @@ a.accent:hover, a.accent:focus, a.accent:active { color: $accent; }
 	}
 }
 
-#send-message-form {
+c {
 	#message-input {
 		resize: none; background-color: $nav-color; color: $text-color;
 		border: none; border-top: 1px solid $bgc;
@@ -668,6 +668,9 @@ a.accent:hover, a.accent:focus, a.accent:active { color: $accent; }
 			.col-md-2 { width: 33% !important; }
 		}
 	}
+}
+.message-view {
+	h1 { cursor: pointer; }
 }
 .persist-cols {
 	@media #{$mobile-bootstrap} {

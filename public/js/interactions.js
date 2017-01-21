@@ -49,3 +49,9 @@ function acceptDeny($el) {
 		if ($('.requests .request').length < 1) { $('.requests').remove(); }
 	});
 }
+
+function toggleLfg() {
+	$.get(base_url+'ajax/lfg', function() {
+		$('#lfg').prop('checked', false);
+	});
+}

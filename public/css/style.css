@@ -213,18 +213,18 @@ form em {
 @media (max-width: 991px) {
   form div[class^=col-md-].pull-left, form div[class^=col-md-].pull-right {
     float: none !important; } }
-form#post-form {
+form#post-form, form#send-message-form {
   padding-top: .5em;
   position: relative; }
-  form#post-form .btn-primary {
+  form#post-form .btn-primary, form#send-message-form .btn-primary {
     position: absolute;
     bottom: .7em;
     right: .7em; }
     @media (max-width: 991px) {
-      form#post-form .btn-primary {
+      form#post-form .btn-primary, form#send-message-form .btn-primary {
         bottom: 0;
         right: 0; } }
-  form#post-form textarea {
+  form#post-form textarea, form#send-message-form textarea {
     resize: none;
     width: 100%;
     color: #999;
@@ -837,7 +837,7 @@ a.accent:hover, a.accent:focus, a.accent:active {
     .menu-shadow.menu-hidden {
       display: none !important; } }
 
-#send-message-form #message-input {
+c #message-input {
   resize: none;
   background-color: rgba(35, 36, 39, 0.5);
   color: #c1bfbf;
@@ -972,6 +972,9 @@ a.accent:hover, a.accent:focus, a.accent:active {
 @media (max-width: 991px) {
   .team-members .members .col-md-2, .team-members .admins .col-md-2, .team-members .requests .col-md-2 {
     width: 33% !important; } }
+
+.message-view h1 {
+  cursor: pointer; }
 
 @media (max-width: 991px) {
   .persist-cols .col-md-1, .recipients .col-md-1, .profile-wrapper .data .col-md-1, .profile-wrapper .members .col-md-1, .profile-wrapper .friends .col-md-1, .profile-wrapper .teams .col-md-1 {

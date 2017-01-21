@@ -15,7 +15,7 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <div class="col-md-12">
+            <div class="col-md-12 message-view">
                 <h1>
                     @if ($conversation->title !== null)
                         {{ $conversation->title }}
@@ -25,6 +25,10 @@
                         {{  'No Recipients' }}
                     @endif
                 </h1>
+                <form id="set-title" action="" class="hidden">
+                    <input type="text" value="{{ $organisation->title or '' }}" name="title">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
                 <div class="row blocklink-wrapper recipients">
                     @foreach ($conversation->recipients() as $recipient)
                         <div class="col-md-1 blocklink" title="{{ $recipient->username }}">
@@ -41,8 +45,8 @@
                 <div class="send-message">
                     <form id="send-message-form" action="{{ route('ajax.message.send', ['conversation_id' => $conversation->id]) }}">
                         {{ csrf_field() }}
-                        <textarea class="form-control" name="message" id="message-input" placeholder="Press 'Send' or Enter to send your message"></textarea>
                         <button type="submit" class="btn btn-primary">Send</button>
+                        <textarea class="form-control" name="message" id="message-input" placeholder="Press 'Send' or Enter to send your message"></textarea>
                     </form>
                 </div>
             </div>

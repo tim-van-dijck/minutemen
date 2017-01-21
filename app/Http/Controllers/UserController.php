@@ -185,4 +185,8 @@ class UserController extends Controller
     public function findAcquaintances(Request $request) {
 	    return json_encode(Auth::user()->searchAcquaintances($request->input('term')));
     }
+
+    public function findRecipients(Request $request, $conversation_id) {
+        return json_encode(Auth::user()->findRecipients($request->input('term'), $conversation_id));
+    }
 }

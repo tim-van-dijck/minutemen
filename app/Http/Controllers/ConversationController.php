@@ -53,6 +53,13 @@ class ConversationController extends Controller
         return redirect()->route('conversations.index');
     }
 
+    public function destroyIfEmpty($id) {
+        $conversation = Conversation::find($id);
+        if (count($conversation->messages()) == 0) {
+            Conversation::destroy($conversation->id);
+        }
+    }
+
     public function addRecipients(Request $request, $conversation_id) {
         foreach ($request->input('invite') as $user_id) {
             DB::table('conversation_users')->insert([

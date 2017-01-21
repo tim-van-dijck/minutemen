@@ -215,7 +215,7 @@
 			<div class="row">
 				@if (Auth::check())
 					<div class="col-md-2 sidebar">
-						<h5>Teams</h5>
+						<h5>Your Teams</h5>
 						<ul>
 							@foreach (Auth::user()->teams() as $team)
 								<li><a href="{{ route('teams.show', ['slug' => $team->slug]) }}">{{ $team->name }}</a></li>
@@ -239,7 +239,7 @@
 				
 				@if (Auth::check())
 					<div class="col-md-2 sidebar">
-						<h5>Subscriptions</h5>
+						<h5>Your Subscriptions</h5>
 						<ul>
 							@forelse (Auth::user()->subscriptions() as $sub)
 								<li><a href="{{ route('organisations.show', ['id' => $sub->id]) }}">{{ $sub->name }}</a></li>
@@ -323,44 +323,7 @@
 		</script>
 	@endif
 	@if (Auth::check() && Auth::user()->lfg)
-		<script>
-			findLobby();
-
-			function findLobby() {
-				$.getJSON('ajax/lfg/find-lobby', function(data) {
-				    console.log(data);
-				    if (data.success != null) {
-				        swal(
-							{
-								title: "We found you a lobby!",
-								text: 'If you click "ok" we\'ll whisk you away to your new playmates',
-								type: "success"
-							}, function() {
-                                window.location.replace(data.link);
-							}
-						);
-					} else {
-				        swal(
-                            {
-                                title: "Whoopsie daisy!",
-                                text: data.error+'\nDo you want to make a new lobby?',
-                                type: "error",
-                                showCancelButton: true,
-                                confirmButtonColor: "#DD6B55",
-                                confirmButtonText: "Yes, let's go for it",
-                                closeOnConfirm: true
-                            }, function() {
-                                $.get('ajax/lfg', function() {
-                                    window.location.replace(base_url+'lobbies/create');
-                                });
-                            }, function() {
-                                setTimeout(findLobby, 10000);
-							}
-						)
-					}
-				});
-			}
-		</script>
+		<script src="js/lobbies.js"></script>
 	@endif
 	@yield('js')
 </body>

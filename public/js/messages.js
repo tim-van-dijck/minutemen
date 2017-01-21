@@ -1,8 +1,15 @@
+var messages = [];
 $(function() {
+    $('#message-input').keydown(function(e) {
+        if (e.keyCode == 13 && $(this).value != "" && !e.shiftKey) {
+            $(this).closest('form').submit();
+        }
+    }).focus();
+
     $("#user-find").select2({
         placeholder: 'Find and invite friends/team-mates',
         ajax: {
-            url: 'ajax/me/find-acquaintances',
+            url: 'ajax/me/find-recipients/'+conversationId,
             dataType: 'json',
             delay: 250,
             minimumInputLength: 2,
@@ -32,8 +39,8 @@ $(function() {
             cache: true
         }
     });
-
     getMessages();
+
     $('#send-message-form').submit(function(e) {
         e.preventDefault();
         $.post($(this).attr('action'), $(this).serialize(), function () {
@@ -41,13 +48,17 @@ $(function() {
             getMessages();
         });
     });
-
     setInterval(function () { getMessages() }, 3000);
 
     $('#add-recipients-form').submit(function (e) {
         e.preventDefault();
         $.post($(this).attr('action'), $(this).serialize());
         $('#add-recipient').modal('toggle');
+    });
+
+
+    $(window).bind('beforeunload', function(){
+        if (messages.length == 0) { $.post(base_url+'ajax/conversation/'+conversationId+'/destroy-if-empty', {_token: window.Laravel.csrfToken, _method:"DELETE"}); }
     });
 });
 

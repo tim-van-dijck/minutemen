@@ -19,7 +19,7 @@ class cleanLobbies extends Command
      *
      * @var string
      */
-    protected $description = 'Removes lobbies whose meetup timestamps are in the past';
+    protected $description = 'Removes lobbies whose meet up timestamps are in the past';
 
     /**
      * Create a new command instance.

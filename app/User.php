@@ -202,4 +202,58 @@ class User extends Authenticatable
 
         return $result->union($first)->union($second)->groupBy('users.id')->get();
     }
+
+    public function findRecipients($term, $conversation_id) {
+        $teams = Team::select('id')
+                        ->join('team_users', 'team_users.team_id', '=', 'teams.id')
+                        ->where('team_users.user_id', $this->id)
+                        ->get();
+
+        $first = DB::table('users')->select(DB::raw('users.id, users.username AS text, users.img'))
+            ->join('friendships', 'friendships.user_id', '=', 'users.id')
+            ->whereNotExist(function ($query) use ($conversation_id) {
+                $query->select(DB::raw(1))
+                    ->from('conversation_users')
+                    ->where('conversation_users.conversation_id', $conversation_id)
+                    ->whereRaw('conversation_users.user_id = users.id');
+            })
+            ->where('friendships.friend_id', $this->id)
+            ->where('confirmed', 1)
+            ->where('users.id', '!=', Auth::user()->id)
+            ->where('username', 'LIKE', '%'.$term.'%');
+
+        $second = DB::table('users')->select(DB::raw('users.id, users.username AS text, users.img'))
+            ->join('friendships', 'friendships.friend_id', '=', 'users.id')
+            ->whereNotExist(function ($query) use ($conversation_id) {
+                $query->select(DB::raw(1))
+                    ->from('conversation_users')
+                    ->where('conversation_users.conversation_id', $conversation_id)
+                    ->whereRaw('conversation_users.user_id = users.id');
+            })
+            ->where('friendships.user_id', $this->id)
+            ->where('confirmed', 1)
+            ->where('users.id', '!=', Auth::user()->id)
+            ->where('username', 'LIKE', '%'.$term.'%');
+
+        $result = User::select(DB::raw('id, username AS text, img'))
+                    ->join('team_users', 'team_users.user_id', '=', 'users.id')
+                    ->whereNotExist(function ($query) use ($conversation_id) {
+                        $query->select(DB::raw(1))
+                            ->from('conversation_users')
+                            ->where('conversation_users.conversation_id', $conversation_id)
+                            ->whereRaw('conversation_users.user_id = users.id');
+                    })
+                    ->where('username', 'LIKE', '%'.$term.'%')
+                    ->where('users.id', '!=', Auth::user()->id);
+
+        foreach ($teams as $index => $team) {
+            if ($index == 0) {
+                $result->where('team_id', $team->id);
+            } else {
+                $result->orWhere('team_id', $team->id);
+            }
+        }
+
+        return $result->union($first)->union($second)->groupBy('users.id')->get();
+    }
 }

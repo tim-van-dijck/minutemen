@@ -125,6 +125,7 @@ Route::group(['middleware' => 'ajax', 'prefix' => 'ajax'], function () {
 		    Route::post('/{conversation_id}/message/send', 'MessageController@send')->name('ajax.message.send');
             Route::post('/{conversation_id}/add-recipients', 'ConversationController@addRecipients')->name('ajax.conversation.add-recipients');
 		    Route::get('/{conversation_id}/get', 'MessageController@getByConversation')->name('ajax.conversation.get');
+		    Route::delete('/{conversation_id}/destroy-if-empty', 'ConversationController@destroyIfEmpty')->name('ajax.conversation.destroy-empty');
         });
 
 		// ajax/feed/
@@ -168,6 +169,7 @@ Route::group(['middleware' => 'ajax', 'prefix' => 'ajax'], function () {
         Route::get('users/find/{team_id?}', 'UserController@search')->name('ajax.users.search');
         Route::get('users/lfg/get/{team_id}', 'UserController@getLfg')->name('ajax.users.lfg.get');
         Route::get('me/find-acquaintances', 'UserController@findAcquaintances')->name('ajax.user.acquaintances');
+        Route::get('me/find-recipients/{conversation_id}', 'UserController@findRecipients')->name('ajax.user.recipients');
         Route::get('lfg/find-lobby', 'AjaxController@findLobby')->name('ajax.lobby.find');
 
         // ajax/game

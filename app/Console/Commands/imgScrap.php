@@ -45,25 +45,25 @@ class imgScrap extends Command
         $filetypes = ['.jpeg', '.png', '.jpg', '.JPG', '.gif'];
         $imgs = [
             'events'        => [
-                'files' => scandir('public/img/events'),
+                'files' => scandir(public_path('img/events')),
                 'db'    => Event::select('banner')->get(),
                 'path'  => 'public/img/events/',
                 'img'   => 'banner'
             ],
             'organisations' => [
-                'files' => scandir('public/img/organisations'),
+                'files' => scandir(public_path('img/organisations')),
                 'db'    => Organisation::select('thumb')->get(),
                 'path'  => 'public/img/organisations/',
                 'img'   => 'thumb'
             ],
             'teams'         => [
-                'files' => scandir('public/img/teams'),
+                'files' => scandir(public_path('img/teams')),
                 'db'    => Team::select('emblem')->get(),
                 'path'  => 'public/img/teams/',
                 'img'   => 'emblem'
             ],
             'users'         => [
-                'files' => scandir('public/img/users'),
+                'files' => scandir(public_path('img/users')),
                 'db'    => User::select('img')->get(),
                 'path'  => 'public/img/users/',
                 'img'   => 'img'
