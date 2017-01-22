@@ -37,7 +37,38 @@
 						</div>
 					</div>
 				</div>
-				@if(count($feed) > 0)
+				@if (count($notifications) > 0)
+					<div class="row">
+						<div class="col-md-12">
+							<h2>Notifications</h2>
+							<div id="notifications">
+								@foreach($notifications as $notification)
+									<div class="row blocklink-wrapper">
+										<div class="col-md-12 post" data-notification-id="{{ $notification->id }}">
+											<div class="content">
+												<div class="row">
+													<div class="col-md-8">{!! $notification->content !!}</div>
+													@if ($notification->entity_name == 'lobby-invite')
+														<div class="col-md-3">
+															<div class="invite pull-right">
+																<div class="col-md-6"><a href="{{ route('lobby.accept-invite', ['lobby_id' => $notification->entity_id, 'notification_id' => $notification->id]) }}">accept</a></div>
+																<div class="col-md-6"><a href="{{ route('lobby.deny-invite', ['lobby_id' => $notification->entity_id, 'notification_id' => $notification->id]) }}">deny</a></div>
+															</div>
+														</div>
+													@else
+														<div class="col-md-3"><div class="footer"><div class="accept-deny"></div></div></div>
+													@endif
+													<div class="col-md-1"><a href="#" class="toggleSeen"><i class="fa fa-circle{{ ($notification->seen) ? '-o' : '' }}"></i></a></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								@endforeach
+							</div>
+						</div>
+					</div>
+				@endif
+				@if (count($feed) > 0)
 					<div class="row">
 						<div class="col-md-12">
 							<h2>Newsfeed</h2>

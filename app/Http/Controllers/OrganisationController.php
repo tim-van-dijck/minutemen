@@ -49,7 +49,7 @@ class OrganisationController extends Controller
 		$input = $request->all();
 
 		// Deal with thumb upload
-		if (isset($input['img']) && $input['img'] != '') {
+		if (isset($input['img']) && $input['img'] != 'data:,') {
 			$input['thumb'] = General::uploadImg($input['img'], 'organisations/thumbs', true);
 		}
 		unset($input['img']);
@@ -114,7 +114,7 @@ class OrganisationController extends Controller
 		];
 
 		// Deal with emblem upload
-		if (isset($input['img']) && $input['img'] != '') {
+		if (isset($input['img']) && $input['img'] != 'data:,') {
 			Storage::delete(public_path($organisation->thumb));
 			$input['thumb'] = General::uploadImg($input['img'], 'organisations/thumbs', true);
 		}
@@ -131,6 +131,7 @@ class OrganisationController extends Controller
 		}
 
 		$organisation->save();
+        Notification::updatedOrganisation($organisation->id);
 
 		Session::flash('success', 'Successfully updated '.$organisation->name);
 		return redirect(route('organisations.show', ['id' => $id]));

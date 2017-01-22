@@ -3,22 +3,28 @@
 @section('title', $organisation->name)
 @section('content')
 	<!-- <div class="banner"><img src="{{ $organisation->banner }}" alt="{{ $organisation->name}} banner"></div> -->
-	@if (Auth::check())
-		@if($organisation->isAdmin(Auth::user()->id))
-			<a href="{{ route('organisations.edit', ['id' => $organisation->id]) }}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> edit</a>
-			<a href="{{ route('events.create', ['id' => $organisation->id]) }}" class="btn btn-primary"><i class="fa fa-calendar"></i> create event</a>
-		@elseif ($organisation->subscribed())
-            @if (count($organisation->subscribers()) > 0)
-                <button type="button" data-toggle="modal" data-target="#subscribers" class="btn btn-primary">Subscribers ({{count($organisation->subscribers())}})</button>
-            @endif
-            <a id="sub" href="{{ route('ajax.unsub', ['organisation_id' => $organisation->id]) }}" class="btn btn-primary pull-right" data-href="{{ route('ajax.sub', ['organisation_id' => $organisation->id]) }}">Unsubscribe</a>
-		@else
-            @if (count($organisation->subscribers()) > 0)
-                <button type="button" data-toggle="modal" data-target="#subscribers" class="btn btn-primary">Subscribers ({{count($organisation->subscribers())}})</button>
-            @endif
-            <a id="sub" href="{{ route('ajax.sub', ['organisation_id' => $organisation->id]) }}" class="btn btn-primary pull-right" data-href="{{ route('ajax.unsub', ['organisation_id' => $organisation->id]) }}">Subscribe</a>
-		@endif
-	@endif
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-12">
+                @if (Auth::check())
+                    @if($organisation->isAdmin(Auth::user()->id))
+                        <i class="fa fa-2x fa-unlock-alt menu-icons" title="You can manage this page"></i>
+                        <a href="{{ route('organisations.edit', ['id' => $organisation->id]) }}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> edit</a>
+                    @elseif ($organisation->subscribed())
+                        @if (count($organisation->subscribers()) > 0)
+                            <button type="button" data-toggle="modal" data-target="#subscribers" class="btn btn-primary">Subscribers ({{count($organisation->subscribers())}})</button>
+                        @endif
+                        <a id="sub" href="{{ route('ajax.unsub', ['organisation_id' => $organisation->id]) }}" class="btn btn-primary pull-right" data-href="{{ route('ajax.sub', ['organisation_id' => $organisation->id]) }}">Unsubscribe</a>
+                    @else
+                        @if (count($organisation->subscribers()) > 0)
+                            <button type="button" data-toggle="modal" data-target="#subscribers" class="btn btn-primary">Subscribers ({{count($organisation->subscribers())}})</button>
+                        @endif
+                        <a id="sub" href="{{ route('ajax.sub', ['organisation_id' => $organisation->id]) }}" class="btn btn-primary pull-right" data-href="{{ route('ajax.unsub', ['organisation_id' => $organisation->id]) }}">Subscribe</a>
+                    @endif
+                @endif
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-12">
             <div class="col-md-12 profile-wrapper">
@@ -42,6 +48,13 @@
                         <div class="description">{!! $organisation->description !!}</div>
                     </div>
                 </div>
+                @if ($organisation->isAdmin())
+                    <div class="row">
+                        <div class="col-md-4 col-md-offset-4">
+                            <a href="{{ route('events.create', ['id' => $organisation->id]) }}" class="btn btn-primary full-width"><i class="fa fa-calendar"></i> create event</a>
+                        </div>
+                    </div>
+                @endif
                 @if (!$organisation->events()->isEmpty())
                     <div class="row divider">
                         <div class="col-md-12">

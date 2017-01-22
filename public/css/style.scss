@@ -34,7 +34,7 @@ img#edit-img {
 	@media #{$mobile-bootstrap} { padding: 0; width: 100%; }
 }
 body {
-	background-image: url('../img/background.jpg'); background-attachment: fixed; background-size: cover; color: #fff;
+	background-image: url('../img/overlay-bg.jpg'); background-attachment: fixed; background-size: cover; color: #fff;
 	font-family: 'Raleway', sans-serif;
 	#app > .container {
 		padding-bottom: 142px; min-height: calc(100vh - 73px);
@@ -241,8 +241,8 @@ form {
 		.slider-selection { background: $accent; opacity: .7; }
 		.slider-handle { background: $accent; }
 	}
-	label.control-label {
-		margin-top: 2em;
+	&:not(#login-form) {
+		label.control-label { margin-top: 2em; }
 	}
 	label[for="full-img"] {
 		@media #{$mobile-bootstrap} { max-width: 300px; margin: auto; }
@@ -761,3 +761,4 @@ a.accent:hover, a.accent:focus, a.accent:active { color: $accent; }
 
 p.info { font-size: .9em; font-style: italic; margin-top: -1em; color: #b8b7ad; }
 label.control-label + p.info { margin-top: -.4em; }
+.full-width { width: 100%; }

@@ -4,20 +4,25 @@
 @section('content')
 	<div class="row">
 		<div class="col-md-12">
-			@if (Auth::check() && $team->isAdmin())
-				<a href="{{ route('teams.edit', ['slug' => $team->slug]) }}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> edit</a>
-			@elseif (Auth::check() && $team->isInvited())
-				<a id="accept" href="{{ route('ajax.team.join', ['team_id' => $team->id]) }}" class="btn btn-primary pull-right">Accept invite</a>
-			@else
-				<form class="delete" data-confirm="leave this team" action="{{ route('team.leave', ['team_id' => $team->id]) }}" method="POST">
-					{{ csrf_field() }}
-					<input type="hidden" name="_method" value="DELETE">
-					<button type="submit" class="btn btn-primary pull-right {{ (Auth::check() && $team->isMember()) ? '' : 'hidden' }}">Leave team</button>
-				</form>
-				<a id="join" href="{{ route('ajax.team.join', ['team_id' => $team->id]) }}"
-				   class="btn btn-primary pull-right {{ (Auth::check() && $team->isMember()) ? 'hidden' : '' }}">Join team
-				</a>
-			@endif
+			<div class="col-md-12">
+				@if ($team->isAdmin())
+					<i class="fa fa-2x fa-unlock-alt menu-icons" title="You can manage this page"></i>
+				@endif
+				@if (Auth::check() && $team->isAdmin())
+					<a href="{{ route('teams.edit', ['slug' => $team->slug]) }}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> edit</a>
+				@elseif (Auth::check() && $team->isInvited())
+					<a id="accept" href="{{ route('ajax.team.join', ['team_id' => $team->id]) }}" class="btn btn-primary pull-right">Accept invite</a>
+				@else
+					<form class="delete" data-confirm="leave this team" action="{{ route('team.leave', ['team_id' => $team->id]) }}" method="POST">
+						{{ csrf_field() }}
+						<input type="hidden" name="_method" value="DELETE">
+						<button type="submit" class="btn btn-primary pull-right {{ (Auth::check() && $team->isMember()) ? '' : 'hidden' }}">Leave team</button>
+					</form>
+					<a id="join" href="{{ route('ajax.team.join', ['team_id' => $team->id]) }}"
+					   class="btn btn-primary pull-right {{ (Auth::check() && $team->isMember()) ? 'hidden' : '' }}">Join team
+					</a>
+				@endif
+			</div>
 		</div>
 	</div>
 	<div class="row">

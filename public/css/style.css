@@ -44,7 +44,7 @@ img#edit-img {
       width: 100%; } }
 
 body {
-  background-image: url("../img/background.jpg");
+  background-image: url("../img/overlay-bg.jpg");
   background-attachment: fixed;
   background-size: cover;
   color: #fff;
@@ -346,7 +346,7 @@ form .slider.slider-horizontal .slider-selection {
   opacity: .7; }
 form .slider.slider-horizontal .slider-handle {
   background: #cc4020; }
-form label.control-label {
+form:not(#login-form) label.control-label {
   margin-top: 2em; }
 @media (max-width: 991px) {
   form label[for="full-img"] {
@@ -1103,5 +1103,8 @@ p.info {
 
 label.control-label + p.info {
   margin-top: -.4em; }
+
+.full-width {
+  width: 100%; }
 
 /*# sourceMappingURL=style.css.map */

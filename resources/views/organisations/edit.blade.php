@@ -45,8 +45,8 @@
 
 											@if ($errors->has('img'))
 												<span class="help-block">
-										<strong>{{ $errors->first('img') }}</strong>
-									</span>
+													<strong>{{ $errors->first('img') }}</strong>
+												</span>
 											@endif
 										</div>
 									</div>
