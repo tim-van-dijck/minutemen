@@ -39,7 +39,7 @@
 					<div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
 						<div class="col-md-12">
 							<label for="email" class="control-label">E-Mail Address</label><br>
-							<input id="email" type="email" class="form-control" name="email" value="{{ $user->email }}" required>
+							<input id="email" type="email" class="form-control" name="email" value="{{ $user->email }}">
 
 							@if ($errors->has('email'))
 								<span class="help-block">
@@ -54,7 +54,7 @@
 					<div class="form-group{{ $errors->has('firstname') ? ' has-error' : '' }}">
 						<div class="col-md-12">
 							<label for="firstname" class="control-label">First name</label><br>
-							<input id="firstname" type="text" class="form-control" name="firstname" value="{{ $user->firstname or '' }}" required autofocus>
+							<input id="firstname" type="text" class="form-control" name="firstname" value="{{ $user->firstname or '' }}" autofocus>
 
 							@if ($errors->has('firstname'))
 								<span class="help-block">
@@ -69,7 +69,7 @@
 					<div class="form-group{{ $errors->has('lastname') ? ' has-error' : '' }}">
 						<div class="col-md-12">
 							<label for="lastname" class="control-label">Last name</label>
-							<input id="lastname" type="text" class="form-control" name="lastname" value="{{ $user->lastname or '' }}" required autofocus>
+							<input id="lastname" type="text" class="form-control" name="lastname" value="{{ $user->lastname or '' }}" autofocus>
 
 							@if ($errors->has('lastname'))
 								<span class="help-block">
@@ -86,7 +86,7 @@
 				<div class="col-md-6">
 					<div class="form-group{{ $errors->has('password_old') ? ' has-error' : '' }}">
 						<div class="col-md-12">
-							<label for="password_old">Old password</label>
+							<label for="password_old" class="control-label">Old password</label>
 							<input id="password_old" type="password" class="form-control" name="password_old">
 
 							@if ($errors->has('password_old'))
@@ -128,123 +128,21 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="col-md-12">
-					<h3>Address</h3>
-					<p><em>This is solely used to filter lobbies by distance to your home.</em></p>
-				</div>
-				<div class="col-md-6">
-					<div class="row">
-						<div class="col-md-12">
-							<div class="form-group">
-								<div class="col-md-9">
-									<label for="street" class="control-label">Street</label><br>
-									@if ($errors->has('street'))
-										<span class="help-block">
-											<strong>{{ $errors->first('street') }}</strong>
-										</span>
-									@endif
-									<input id="street" type="text" class="form-control" name="street" value="{{ $user->street }}" autofocus>
-								</div>
-								<div class="col-md-3">
-									<label for="number" class="control-label">Number</label><br>
-									@if ($errors->has('number'))
-										<span class="help-block">
-											<strong>{{ $errors->first('number') }}</strong>
-										</span>
-									@endif
-									<input id="number" type="text" class="form-control" name="number" value="{{ $user->number }}">
-								</div>
-							</div>
+					<div class="form-group">
+						<div class="col-md-6 col-md-offset-4">
+							<button type="submit" class="btn btn-primary">
+								Save
+							</button>
 						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12">
-							<div class="form-group">
-								<div class="col-md-5">
-									<label for="zip" class="control-label">ZIP-code</label><br>
-									@if ($errors->has('zip'))
-										<span class="help-block">
-											<strong>{{ $errors->first('zip') }}</strong>
-										</span>
-									@endif
-									<input id="zip" type="text" class="form-control" name="zip" value="{{ $user->zip }}" placeholder="1207" autofocus>
-								</div>
-								<div class="col-md-7">
-									<label for="city" class="control-label">City</label><br>
-									@if ($errors->has('city'))
-										<span class="help-block">
-											<strong>{{ $errors->first('city') }}</strong>
-										</span>
-									@endif
-									<input id="city" type="text" class="form-control" name="city" value="{{ $user->city }}" placeholder="Fakopolis">
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<input id="coords" type="hidden" name="coords">
-					<input id="country" type="hidden" name="country">
-					<div id="map"></div>
-				</div>
-
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-md-12">
-				<div class="col-md-12">
-					<label for="range" class="control-label">Range</label>
-					<p><em>The radius in which to look for lobbies with Looking For Group</em></p>
-					<div class="row">
-						<div class="col-md-8 col-md-offset-2">
-							<div class="form-group text-center">
-								<input id="range" name="range" data-slider-id='range-slider' type="text" data-slider-min="10" data-slider-max="200" data-slider-step="10" data-slider-value="{{ $user->range }}"/>
-								<p class="text-center">
-									<span class="range">10</span>km
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<div class="form-group">
-					<div class="col-md-6 col-md-offset-4">
-						<button type="submit" class="btn btn-primary">
-							Save
-						</button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</form>
-	<div class="row">
-		<div class="col-md-12">
-			<form class="delete" data-confirm="delete {{ $user->username }}" action="{{ route('users.destroy') }}" method="POST">
-				{{ csrf_field() }}
-				<input type="hidden" name="_method" value="DELETE">
-				<button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Delete</button>
-			</form>
-		</div>
-	</div>
 @stop
 
 @section('js')
 	<script src="js/libs/croppie.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.0/bootstrap-slider.min.js"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjI_a7-CJA5anDE0q3NSBHoccjlL31Dmk"></script>
 	<script src="js/forms.js"></script>
 	<script src="js/edit-form-img.js"></script>
-	<script src="js/delete-confirm.js"></script>
-	<script>
-        $(function() {
-            $('#range').slider({
-                formatter: function(value) {
-                    $('span.range').text(value);
-                }
-            });
-		})
-	</script>
 @stop

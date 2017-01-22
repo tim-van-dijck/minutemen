@@ -30,7 +30,7 @@ class User extends Authenticatable
 
 	// Friends
 	public function isFriend($confirmed = true) {
-		$friends = Friendship::getFriendsIds($this->id, $confirmed);
+		$friends = Friendship::getFriendsIds($this->id, false, $confirmed);
 		if (in_array($this->id, $friends)) { return true; }
 		return false;
 	}
@@ -116,8 +116,12 @@ class User extends Authenticatable
     }
 
     // Other
-    public function notifications() {
-	    $notifications = Notification::where('user_id', $this->id)->orderBy('updated_at', 'desc')->orderBy('created_at', 'desc')->get();
+    public function notifications($limit = false) {
+	    $query = Notification::where('user_id', $this->id)->orderBy('updated_at', 'desc')->orderBy('created_at', 'desc');
+
+	    if ($limit !== false) { $query->limit($limit); }
+
+	    $notifications = $query->get();
 
 	    foreach ($notifications as $notification) {
 	        switch ($notification->entity_name) {

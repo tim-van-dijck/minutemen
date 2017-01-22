@@ -19,7 +19,7 @@ class HomeController extends Controller
 	{
 		return view('pages.welcome')->with([
 			'events'		=> Event::where('ends_at', '>', date('Y-m-d H:i:s'))->orderBy('starts_at')->get(),
-			'organisations'	=> Organisation::popular(),
+			'organisations'	=> Organisation::popular()
 		]);
 	}
 
@@ -30,9 +30,10 @@ class HomeController extends Controller
 	 */
 	public function home()
 	{
-		return view('home')->with([
+		return view('pages.dashboard')->with([
 			'feed'      => Post::getByUser(Auth::user()->id),
-            'canExpand' => Post::canExpand(1, Auth::user()->id)
+            'canExpand' => Post::canExpand(1, Auth::user()->id),
+            'notifications' => Auth::user()->notifications(3)
 		]);
 	}
 

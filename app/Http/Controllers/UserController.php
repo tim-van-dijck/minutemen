@@ -40,8 +40,7 @@ class UserController extends Controller
 	 */
 	public function edit()
 	{
-		$user = User::find(Auth::user()->id);
-		return view('users.edit')->with(['user' => $user]);
+		return view('users.edit')->with(['user' => Auth::user()]);
 	}
 
 	/**
@@ -57,12 +56,8 @@ class UserController extends Controller
 			'firstname'		=> 'max:255|profanity-filter',
 			'lastname'		=> 'max:255|profanity-filter',
 			'email'			=> 'required|email|max:255|unique:users,email,'.Auth::user()->id,
-			'street'		=> 'max:255',
-			'number'		=> 'max:20',
-			'zip'			=> 'max:10',
-			'city'			=> 'max:255',
 			'passworld_old'	=> 'required_with:password',
-			's_password'		=> 'min:6|confirmed',
+			's_password'	=> 'min:6|confirmed',
 		]);
 
 		$user = User::find(Auth::user()->id);
@@ -74,15 +69,6 @@ class UserController extends Controller
 		unset($input['_method']);
 		unset($input['full-img']);
 
-        if ($input['coords'] != '') {
-            $coords = explode(';', $input['coords']);
-
-            $input['lat'] = $coords[0];
-            $input['long'] = $coords[1];
-        }
-        unset($input['coords']);
-
-        if ($input['country'] == '') { unset($input['country']); }
         // Handle img upload
         if (isset($input['img']) && $input['img'] != 'data:,') {
             if (isset($user->img)) { \unlink(public_path($user->img)); }
@@ -101,6 +87,46 @@ class UserController extends Controller
 		Session::flash('success', 'Successfully updated profile');
 		return redirect()->back();
 	}
+
+	public function settings() {
+	    return view('users.settings')->with(['user' => Auth::user()]);
+    }
+
+    public function updateSettings(Request $request) {
+        $this->validate($request, [
+            'street'    => 'max:255',
+            'number'    => 'max:20',
+            'zip'	    => 'max:10',
+            'city'	    => 'max:255',
+        ]);
+
+        $user = User::find(Auth::user()->id);
+        $input = $request->all();
+
+        unset($input['_token']);
+        unset($input['_method']);
+
+        if ($input['coords'] != '') {
+            $coords = explode(';', $input['coords']);
+
+            $input['lat'] = $coords[0];
+            $input['long'] = $coords[1];
+        }
+        unset($input['coords']);
+
+        if ($input['country'] == '') { unset($input['country']); };
+
+        foreach ($input as $field => $value) {
+            if ($value != null && $value != '') {
+                $user->{$field} = $value;
+            }
+        }
+
+        $user->save();
+
+        Session::flash('success', 'Successfully updated settings');
+        return redirect()->back();
+    }
 
 	/**
 	 * Remove the specified resource from storage.
@@ -139,7 +165,7 @@ class UserController extends Controller
 	}
 
 	// add friend
-	public function addFriend($slug)
+	public function addFriend(Request $request, $slug)
 	{
 		$user = User::where('slug', $slug)->first();
 

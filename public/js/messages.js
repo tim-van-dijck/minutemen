@@ -43,6 +43,7 @@ $(function() {
 
     $('#send-message-form').submit(function(e) {
         e.preventDefault();
+        if ($('#message-input').val() != '' && $('#message-input').val())
         $.post($(this).attr('action'), $(this).serialize(), function () {
             $('#message-input').val('');
             getMessages();
@@ -56,28 +57,47 @@ $(function() {
         $('#add-recipient').modal('toggle');
     });
 
+    $('h1').click(function () {
+        $(this).toggleClass('hidden');
+        $('#set-title').toggleClass('hidden');
+    });
+
 
     $(window).bind('beforeunload', function(){
         if (messages.length == 0) { $.post(base_url+'ajax/conversation/'+conversationId+'/destroy-if-empty', {_token: window.Laravel.csrfToken, _method:"DELETE"}); }
+    });
+
+    $('#set-title').submit(function (e) {
+        e.preventDefault();
+        setTitle();
+    });
+
+    $('body').keydown(function (e) {
+        if (e.keyCode == 27 && $('h1').hasClass('hidden')) {
+            $('#set-title, h1').toggleClass('hidden');
+        }
     });
 });
 
 function getMessages() {
     $.getJSON('ajax/conversation/'+conversationId+'/get', function(data) {
         var lastId = $('#message-box .row:last-child').data('id');
-        $('#message-box').empty();
+        var $messageBox = $('#message-box');
+        $messageBox.empty();
 
         $.each(data, function(i,v) {
-            $message = '<div class="row" data-id="'+v.id+'"><div class="col-md-3">'+
+            var own = (v.own) ? ' own' : '';
+            console.log(own);
+            $message = '<div class="row'+ own +'" data-id="'+v.id+'"><div class="col-md-3">'+
                 '<p>'+v.sender.username+'</p></div>'+
                 '<div class="col-md-9"><p class="text-right">'+v.content+'</p></div></div>';
-            $('#message-box').append($message);
+            $messageBox.append($message);
         });
 
-        if (lastId != $('#message-box .row:last-child').data('id')) {
-            $curMsg = $('#message-box .row:last-child');
-            $('#message-box')
-                .scrollTop($curMsg.offset().top - $('#message-box').innerHeight() + $('#message-box').scrollTop() + $curMsg.innerHeight() );
+        if (lastId != $messageBox.find('.row:last-child').data('id')) {
+            $curMsg = $messageBox.find('.row:last-child');
+            $messageBox
+                .scrollTop($curMsg.offset().top - $messageBox.innerHeight() + $messageBox.scrollTop() + $curMsg.innerHeight() );
         }
     });
 }
@@ -101,4 +121,12 @@ function formatUserSelection(user) {
         "<div class='select2-result-meta'>" +
         "<div class='select2-result-title'>" + user.text + "</div>"+
         "</div></div>";
+}
+
+function setTitle() {
+    $form = $('#set-title');
+    $.post($form.attr('action'), $form.serialize(), function() {
+        $('h1').text($form.find('input[name="title"]').val()).toggleClass('hidden');
+        $form.toggleClass('hidden');
+    });
 }

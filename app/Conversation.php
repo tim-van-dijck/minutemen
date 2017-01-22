@@ -15,6 +15,8 @@ class Conversation extends Model
 
         foreach ($messages as $message) {
             $message->sender = User::find($message->sender_id);
+            $message->content = nl2br($message->content);
+            $message->own = ($message->sender_id == Auth::user()->id);
         }
 
         return $messages;

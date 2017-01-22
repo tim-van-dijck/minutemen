@@ -13,15 +13,29 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <div class="col-md-12">
+                                    <label for="description">Description</label>
+                                    <textarea class="form-control" name="description" id="description" placeholder="e.g. 'bring $5' or 'dress like James Bond'">{{ old('description') }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-12">
                                     <label>Stealth mode</label>
                                     <p><em>Whether or not players in your lobby can see each other's username. +1 mystery!</em></p>
-                                    <div class="col-md-6">
-                                        <input id="stealth_1" type="radio" name="stealth" value="1">
-                                        <label for="stealth_1">On</label>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <input id="stealth_0" type="radio" name="stealth" value="0" checked>
-                                        <label for="stealth_0">Off</label>
+                                    <div class="row">
+                                        <div class="col-md-8 col-md-offset-2">
+                                            <div class="col-md-3">
+                                                <input id="stealth_1" type="radio" name="stealth" value="1">
+                                                <label for="stealth_1">On</label>
+                                            </div>
+                                            <div class="col-md-3 col-md-offset-6">
+                                                <input id="stealth_0" type="radio" name="stealth" value="0" checked>
+                                                <label for="stealth_0">Off</label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -31,7 +45,7 @@
                         <div class="col-md-12">
                             <div class="stealth-mode">
                                 <div class="form-group">
-                                    <div class="col-md-12">
+                                    <div class="col-md-8 col-md-offset-2">
                                         <label for="passphrase">Passphrase<i class="fa fa-asterisk"></i></label>
                                         <p><em>This is used by the players to identify one another (stealth mode)</em></p>
                                         <input type="text" name="passphrase" id="passphrase" class="form-control" placeholder="I hear Minsk is nice this time of year.">
@@ -44,7 +58,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <div class="col-md-12">
+                                    <div class="col-md-8 col-md-offset-2">
                                         <label for="answer">Answer</label>
                                         <p><em>Optional answer to the passphrase (stealth mode)</em></p>
                                         <input type="text" name="answer" id="answer" class="form-control" placeholder="I've never been, the weather affects my knees">

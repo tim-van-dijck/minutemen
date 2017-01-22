@@ -1,31 +1,44 @@
 @extends('layouts.app')
 
-@section('title', $user->name)
+@section('title', $user->username)
 @section('content')
 	<div class="row">
 		<div class="col-md-12">
-			@if (Auth::check())
-				@if ($user->id != Auth::user()->id)
-					@if (!$user->isFriend(false))
-						<a href="friends/{{$user->slug}}/add" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> add friend</a>
-					@elseif ($user->friendship()->confirmed)
-						<form class="delete" data-confirm="unfriend {{ $user->username }}" action="friends/{{$user->friendship()->id}}/delete" method="POST">
-							{{ csrf_field() }}
-							<input type="hidden" name="_method" value="DELETE">
-							<button class="btn btn-primary pull-right" type="submit"><i class="fa fa-user-times"></i> Unfriend</button>
-						</form>
-					@elseif (!$user->friendship()->confirmed)
-						<a href="friends/{{$user->friendship()->id}}/
-							{{ ($user->friendship()->user_id == Auth::user()->id) ? 'delete' : 'confirm' }}"
-						   class="btn btn-primary pull-right">
-							<i class="fa fa-{{ ($user->friendship()->user_id == Auth::user()->id) ? 'ban' : 'plus' }}"></i>
-							{{ ($user->friendship()->user_id == Auth::user()->id) ? 'Cancel' : 'Confirm' }} request
-						</a>
-					@endif
-				@elseif ($user->id == Auth::user()->id)
-					<a href="{{ route('settings') }}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> edit profile</a>
+			<div class="col-md-12">
+				@if ($user->id == Auth::user()->id)
+					<i class="fa fa-2x fa-user menu-icons"></i>
 				@endif
-			@endif
+				@if (Auth::check())
+					@if ($user->id != Auth::user()->id)
+						@if (!$user->isFriend(false))
+							<a href="friends/{{$user->slug}}/add" class="btn btn-primary pull-right add-friend"><i class="fa fa-plus"></i> add friend</a>
+						@elseif ($user->friendship()->confirmed)
+							<form class="delete" data-confirm="unfriend {{ $user->username }}" action="friends/{{$user->friendship()->id}}/delete" method="POST">
+								{{ csrf_field() }}
+								<input type="hidden" name="_method" value="DELETE">
+								<button class="btn btn-primary pull-right" type="submit"><i class="fa fa-user-times"></i> Unfriend</button>
+							</form>
+						@elseif (!$user->friendship()->confirmed)
+							@if ($user->friendship()->user_id == Auth::user()->id)
+								<form action="friends/{{$user->friendship()->id}}/delete" method="POST">
+									{{ csrf_field() }}
+									<input type="hidden" name="_method" value="DELETE">
+									<button type="submit" class="btn btn-primary pull-right">
+										<i class="fa fa-ban"></i> Cancel request
+									</button>
+								</form>
+							@else
+								<a href="friends/{{$user->friendship()->id}}/confirm"
+								   class="btn btn-primary pull-right">
+									<i class="fa fa-check"></i> Confirm request
+								</a>
+							@endif
+						@endif
+					@elseif ($user->id == Auth::user()->id)
+						<a href="{{ route('users.edit') }}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> edit profile</a>
+					@endif
+				@endif
+			</div>
 		</div>
 	</div>
 	<div class="row">
@@ -91,4 +104,5 @@
 @stop
 @section('js')
 	<script src="js/delete-confirm.js"></script>
+	<script src="js/friend-requests.js"></script>
 @stop

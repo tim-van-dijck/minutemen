@@ -49,7 +49,6 @@
 </head>
 <body>
 	<div id="app">
-		<?php if (app('Illuminate\Http\Response')->status() !== 200) { $errors = []; } ?>
 		<div class="menu-shadow {{ (Auth::guest()) ? 'menu-hidden' : '' }}"></div>
 		<div class="menu-wrap {{ (Auth::guest()) ? 'menu-hidden' : '' }}">
 			<nav class="menu">
@@ -60,7 +59,7 @@
 					</form>
 					@if (Auth::guest())
 						<a data-toggle="modal" data-target="#login-modal">Login</a>
-						<a href="{{ url('/register') }}">Register</a>
+						<a data-toggle="modal" data-target="#register-modal">Register</a>
 					@else
 						<div class="block">
 							<label class="switch pull-right">
@@ -69,27 +68,27 @@
 							</label>
 							<span>Looking For Group</span>
 						</div>
-						<a href="/dashboard"><i class="fa fa-dashboard"></i>Dashboard</a>
-						<a href="{{ route('users.profile') }}"><i class="fa fa-user"></i>Profile</a>
-						<a href="{{ route('users.friends') }}">
+						<a {{ (Request::is('dashboard') ? 'class=active ' : '') }}href="/dashboard"><i class="fa fa-fw fa-dashboard"></i>Dashboard</a>
+						<a {{ (Request::is('profile') ? 'class=active ' : '') }}href="{{ route('users.profile') }}"><i class="fa fa-fw fa-user"></i>Profile</a>
+						<a {{ (Request::is('friends') ? 'class=active ' : '') }}href="{{ route('users.friends') }}">
 							<div class="abs-wrapper">
 								<div class="friend-bubble"></div>
-								<i class="fa fa-users"></i>Friends
+								<i class="fa fa-fw fa-users"></i>Friends
 							</div>
 						</a>
 						<a href="{{ route('conversations.index') }}">
 							<div class="abs-wrapper">
 								<div class="message-bubble"></div>
-								<i class="fa fa-comments"></i>Messages
+								<i class="fa fa-fw fa-comments"></i>Messages
 							</div>
 						</a>
 						<a href="{{ route('users.notifications') }}">
 							<div class="abs-wrapper">
 								<div class="notification-bubble"></div>
-								<i class="fa fa-bell"></i>Notifications
+								<i class="fa fa-fw fa-bell"></i>Notifications
 							</div>
 						</a>
-						<a href="{{ route('settings') }}"><i class="fa fa-cogs"></i>Settings</a>
+						<a href="{{ route('settings') }}"><i class="fa fa-fw fa-cogs"></i>Settings</a>
 						@if (Auth::user()->admin == 1)
 							<a href="{{ route('admin') }}"></a>
 						@else
@@ -129,22 +128,22 @@
 							@endif
 						</div>
 						@endif
-						<a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-power-off"></i>Logout</a>
+						<a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-fw fa-power-off"></i>Logout</a>
 						<form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
 					@endif
 				</div>
 			</nav>
 			<button class="close-button" id="close-button">Close Menu</button>
 		</div>
-		<button class="menu-button {{ (Auth::guest()) ? 'menu-hidden' : '' }}" id="open-button">
-			<span class="abs-wrapper">
-				<span class="excl-bubble">!</span>
-				<i class="fa fa-bars"></i>
-			</span>
-		</button>
 		<nav class="navbar navbar-default navbar-static-top">
 
 			<div class="container">
+				<button class="menu-button {{ (Auth::guest()) ? 'menu-hidden' : '' }}" id="open-button">
+					<span class="abs-wrapper">
+						<span class="excl-bubble">!</span>
+						<i class="fa fa-bars"></i>
+					</span>
+				</button>
 				<div class="navbar-header">
 
 					<!-- Branding Image -->
@@ -155,7 +154,7 @@
 				@if (Auth::guest())
 					<ul class="nav navbar-nav navbar-right">
 						<li><a data-toggle="modal" data-target="#login-modal">Login</a></li>
-						<li><a href="{{ url('/register') }}">Register</a></li>
+						<li><a data-toggle="modal" data-target="#register-modal">Register</a></li>
 					</ul>
 				@endif
 			</div>
@@ -255,7 +254,7 @@
 		<footer>
 			<div class="container">
 				<div class="row">
-					<div class="col-md-8 col-md-offset-2">
+					<div class="col-md-12">
 						<div class="row">
 							<div class="col-md-9">
 								<div class="row">
@@ -297,6 +296,7 @@
 		</footer>
 		@if (Auth::guest() && isset($errors))
 			@include('auth.login')
+			@include('auth.register')
 		@endif
 	</div>
 
@@ -316,9 +316,12 @@
 	@elseif(isset($errors) && $errors->any())
 		<script>
 			$(function() {
-				var errors = '{{ ($errors->has('username') || $errors->has('password')) ? 'true' : 'false' }}';
-				errors = (errors === 'true');
-				if (errors) { $('#login-modal').modal('show'); }
+				var loginErrors = '{{ ($errors->has('username') || $errors->has('password')) ? 'true' : 'false' }}';
+				registerErrors = (loginErrors === 'true');
+				var registerErrors = '{{ ($errors->has('r_username') || $errors->has('r_password') || $errors->has('email')) ? 'true' : 'false' }}';
+				registerErrors = (registerErrors === 'true');
+				if (loginErrors) { $('#login-modal').modal('show'); }
+				if (registerErrors) { $('#register-modal').modal('show'); }
 			});
 		</script>
 	@endif

@@ -20,6 +20,7 @@ class LobbyController extends Controller
 
     public function store(Request $request) {
         $this->validate($request, [
+            'description'   => 'profanity-filter',
             'location_name' => 'required|profanity-filter',
             'passphrase'    => 'required_if:stealth,1|profanity-filter',
             'answer'        => 'profanity-filter',

@@ -52,7 +52,6 @@ $(function () {
 
 // IMGS
 function readFile(input) {
-	console.log(input.files[0].size/1024);
 	if (input.files && input.files[0]) {
 		if (input.files[0].size/1024 <= 2000) {
 			var reader = new FileReader();

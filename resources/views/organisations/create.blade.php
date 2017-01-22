@@ -51,7 +51,7 @@
 							<div class="form-group{{ $errors->has('website') ? ' has-error' : '' }}">
 								<div class="col-md-12">
 									<label for="website" class="control-label">Organisation website</label><br>
-									<input id="website" type="text" class="form-control" name="website" value="{{ old('website') }}" placeholder="http://league-of-awesome.com/" required autofocus>
+									<input id="website" type="text" class="form-control" name="website" value="{{ old('website') }}" placeholder="http://league-of-awesome.com/" autofocus>
 
 									@if ($errors->has('website'))
 										<span class="help-block">

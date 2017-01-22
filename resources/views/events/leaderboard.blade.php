@@ -3,9 +3,37 @@
 @section('title', $event->title)
 @section('content')
 	<div class="banner"><img src="{{ $event->banner or 'img/event.png' }}" alt="{{ $event->title }}"></div>
-	<h1>{{ $event->title }}</h1>
-	<div class="row">
-		<div class="col-md-12 leaderboard">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-12 profile-wrapper">
+                <h2 class="profile-title">{{ $event->title }}</h2>
+                <div class="row data">
+                    <div class="col-md-8 col-md-offset-2">
+                        <h4>Data</h4>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <p><i class="fa fa-calendar fa-fw accent"></i></p>
+                            </div>
+                            <div class="col-md-10">
+                                <p>{{ date("F dS H:i", strtotime($event->starts_at)) }} - {{ date("F dS H:i", strtotime($event->ends_at)) }}</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2"><i class="fa fa-map-marker fa-fw accent"></i></div>
+                            <div class="col-md-10"><p>{{ $event->street }} {{ $event->number }},<br>{{ $event->zip }} {{ $event->city }}</p></div>
+                        </div>
+                    </div>
+
+                    @if (Auth::check() && !$event->full() && !$event->isAdmin())
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#enter-event">sign up your team</button>
+                        @include('modals.enter-event')
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="row divider leaderboard">
+		<div class="col-md-12">
             @foreach ($leaderboard as $index => $team)
                 @if ($index == 1 || $index == 2)
                     @if ($index == 1)

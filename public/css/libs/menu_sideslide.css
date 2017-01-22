@@ -107,7 +107,7 @@
 	-webkit-transition-timing-function: cubic-bezier(0.7,0,0.3,1);
 	transition-timing-function: cubic-bezier(0.7,0,0.3,1);
 }
-
+.icon-list .active { color: #cc4020; }
 .icon-list a .fa {
 	margin-right: 1em;
 }

@@ -17,7 +17,7 @@
 									<div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
 										<div class="col-md-12">
 											<label for="name" class="control-label">Organisation name</label><br>
-											<input id="name" type="text" class="form-control" name="name" value="{{ $organisation->name }}" placeholder="League of Awesome" required autofocus>
+											<input id="name" type="text" class="form-control" name="name" value="{{ $organisation->name }}" placeholder="League of Awesome" autofocus>
 
 											@if ($errors->has('name'))
 												<span class="help-block">
@@ -54,8 +54,24 @@
 							</div>
 							<div class="row">
 								<div class="col-md-12">
+									<div class="form-group{{ $errors->has('website') ? ' has-error' : '' }}">
+										<div class="col-md-12">
+											<label for="website" class="control-label">Organisation website</label><br>
+											<input id="website" type="text" class="form-control" name="website" value="{{ old('website') }}" placeholder="http://league-of-awesome.com/" autofocus>
+
+											@if ($errors->has('website'))
+												<span class="help-block">
+										<strong>{{ $errors->first('website') }}</strong>
+									</span>
+											@endif
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
 									<label for="description" class="control-label">Description</label><br>
-									<textarea id="description" class="form-control" name="description" required autofocus>{{ $organisation->description }}</textarea>
+									<textarea id="description" class="form-control" name="description" autofocus>{{ $organisation->description }}</textarea>
 
 									@if ($errors->has('description'))
 										<span class="help-block"><strong>{{ $errors->first('description') }}</strong></span>

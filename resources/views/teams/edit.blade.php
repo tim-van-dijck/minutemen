@@ -61,7 +61,7 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							<label for="description" class="control-label">Description</label><br>
+							<label for="description" class="control-label">Description<i class="fa fa-asterisk"></i></label><br>
 							<textarea id="description" class="form-control" name="description" required autofocus>
 							{{ $team->description }}
 						</textarea>

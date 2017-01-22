@@ -24,10 +24,12 @@
                     @else
                         {{  'No Recipients' }}
                     @endif
+                    <i class="fa fa-pencil"></i>
                 </h1>
-                <form id="set-title" action="" class="hidden">
-                    <input type="text" value="{{ $organisation->title or '' }}" name="title">
-                    <button type="submit" class="btn btn-primary">Save</button>
+                <form id="set-title" action="{{ route('ajax.conversation.set-title', ['conversation_id' => $conversation->id]) }}" class="hidden" method="POST">
+                    {{ csrf_field() }}
+                    <button type="submit" class="btn btn-primary pull-right"><i class="fa fa-check"></i></button>
+                    <input class="form-control" type="text" value="{{ $conversation->title or '' }}" name="title">
                 </form>
                 <div class="row blocklink-wrapper recipients">
                     @foreach ($conversation->recipients() as $recipient)

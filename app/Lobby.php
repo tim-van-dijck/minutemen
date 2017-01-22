@@ -9,7 +9,7 @@ use DB;
 class Lobby extends Model
 {
     public $timestamps = false;
-    protected $fillable = ['location_name', 'address', 'lat', 'long', 'meet_at', 'stealth', 'passphrase', 'answer', 'size', 'host_id'];
+    protected $fillable = ['description', 'location_name', 'address', 'lat', 'long', 'meet_at', 'stealth', 'passphrase', 'answer', 'size', 'host_id'];
 
     public function players() {
         return self::select('users.id', 'users.username', 'users.slug')

@@ -76,4 +76,11 @@ class ConversationController extends Controller
 
         return redirect()->route('conversations.index');
     }
+
+    public function setTitle(Request $request, $conversation_id) {
+        $title = $request->input('title');
+        $conversation = Conversation::find($conversation_id);
+        $conversation->title = $title;
+        $conversation->save();
+    }
 }

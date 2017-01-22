@@ -45,7 +45,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/{lobby_id}/deny-invite/{notification_id}', 'LobbyController@denyInvite')->name('lobby.deny-invite');
 
 	// Users
-	Route::get('settings', 'UserController@edit')->name('settings');
+	Route::get('settings', 'UserController@settings')->name('settings');
+	Route::put('settings', 'UserController@updateSettings')->name('settings.update');
+	Route::get('edit-profile', 'UserController@edit')->name('users.edit');
 	Route::delete('delete-account', 'UserController@destroy')->name('users.destroy');
 	Route::match(['put', 'patch'], 'settings', 'UserController@update')->name('users.update');
 	Route::get('profile', 'UserController@show')->name('users.profile');
@@ -56,7 +58,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('users/{slug}/friends', 'UserController@friends')->name('users.friends');
 	Route::group(['prefix' => 'friends'], function () {
 		Route::get('/', 'UserController@friends')->name('users.friends');
-		Route::get('{slug}/add', 'UserController@addFriend');
+		Route::post('{slug}/add', 'UserController@addFriend');
 		Route::get('{friendship_id}/confirm', 'UserController@confirmFriend');
 		Route::delete('{friendship_id}/delete', 'UserController@deleteFriend')->name('friendship.delete');
 	});
@@ -124,6 +126,7 @@ Route::group(['middleware' => 'ajax', 'prefix' => 'ajax'], function () {
 		Route::group(['prefix' => 'conversation'], function() {
 		    Route::post('/{conversation_id}/message/send', 'MessageController@send')->name('ajax.message.send');
             Route::post('/{conversation_id}/add-recipients', 'ConversationController@addRecipients')->name('ajax.conversation.add-recipients');
+            Route::post('/{conversation_id}/set-title', 'ConversationController@setTitle')->name('ajax.conversation.set-title');
 		    Route::get('/{conversation_id}/get', 'MessageController@getByConversation')->name('ajax.conversation.get');
 		    Route::delete('/{conversation_id}/destroy-if-empty', 'ConversationController@destroyIfEmpty')->name('ajax.conversation.destroy-empty');
         });

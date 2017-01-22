@@ -1,4 +1,4 @@
-@if(isset($errors) && $errors->any() && URL::previous() != 'login')
+@if(isset($errors) && $errors->any() && Auth::check())
 	<div class="row errors">
 		<div class="col-md-6 col-md-offset-3">
 			<div class="alert alert-danger">

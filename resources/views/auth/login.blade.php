@@ -1,4 +1,4 @@
-<div class="modal fade {{ (isset($errors) && $errors->any() && ($errors->has('username') || $errors->has('password'))) ? 'in' : '' }}" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
+<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -52,20 +52,19 @@
 									<button type="submit" class="btn btn-primary">
 										Login
 									</button>
-
-									<a class="btn btn-link accent" href="{{ url('/password/reset') }}">
-										Forgot Your Password?
-									</a>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-md-9 col-md-offset-2">
+									<a class="accent" href="{{ url('/password/reset') }}">Forgot Your Password?</a>
 								</div>
 							</div>
 						</form>
 					</div>
 					<div class="col-md-5">
-						<p>Or sign up <a class="accent" href="{{ url('/register') }}">here</a></p>
+						<p>Or sign up <a id="register-link" class="accent" href="{{ url('/register') }}">here</a></p>
 					</div>
 				</div>
-			</div>
-			</div>
 			</div>
 		</div>
 	</div>

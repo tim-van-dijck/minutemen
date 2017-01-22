@@ -31,6 +31,7 @@ class Friendship extends Model
 									->where('friendships.user_id', $id);
 
         if ($confirmed) { $second->where('confirmed', 1); }
+
         $second->union($first)
             ->orderBy('firstname');
 
@@ -58,7 +59,7 @@ class Friendship extends Model
 	}
 
 	protected function getFriendsIds($id, $confirmed) {
-		$result = self::getFriends(Auth::user()->id, $confirmed);
+		$result = self::getFriends(Auth::user()->id, false, $confirmed);
 		$friends = [];
 
 		if (!$result->isEmpty()) {
