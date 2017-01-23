@@ -29,7 +29,9 @@ Route::group(['prefix' => 'users'], function () {
 Route::group(['middleware' => 'auth'], function () {
     // My stuff
 	Route::get('/dashboard', 'HomeController@home')->name('dashboard');
-	Route::get('/my-teams', 'TeamController@mine')->name('my-teams');
+	Route::get('/home', 'HomeController@home')->name('dashboard');
+	Route::get('/my-teams', function() { return redirect()->route('dashboard'); });
+
 	Route::get('/my-subscriptions', 'OrganisationController@mySubscriptions')->name('my-subscriptions');
 	Route::get('/my-organisations', 'OrganisationController@mine')->name('my-organisations');
 
@@ -174,6 +176,7 @@ Route::group(['middleware' => 'ajax', 'prefix' => 'ajax'], function () {
         Route::get('me/find-acquaintances', 'UserController@findAcquaintances')->name('ajax.user.acquaintances');
         Route::get('me/find-recipients/{conversation_id}', 'UserController@findRecipients')->name('ajax.user.recipients');
         Route::get('lfg/find-lobby', 'AjaxController@findLobby')->name('ajax.lobby.find');
+        Route::post('me/hide-tutorial', 'UserController@hideTutorial')->name('ajax.tutorial.hide');
 
         // ajax/game
         Route::post('game/{game_id}/set-winner', 'AjaxController@setGameWinner')->name('ajax.game.winner');

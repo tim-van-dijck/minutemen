@@ -35,17 +35,19 @@ class ConversationController extends Controller
 
     public function show($id) {
         $conversation = Conversation::find($id);
-        if (!$conversation->isRecipient()) { return redirect('/messages'); }
+        if ($conversation != null) {
+            if (!$conversation->isRecipient()) { return redirect('/messages'); }
 
-        $conversation->alt_title = '';
-        foreach ($conversation->recipients() as $index => $recipient) {
-            if ($recipient->id != Auth::user()->id) {
-                if ($index > 0 && $conversation->alt_title != '') { $conversation->alt_title.=', '; }
-                $conversation->alt_title .= $recipient->username;
+            $conversation->alt_title = '';
+            foreach ($conversation->recipients() as $index => $recipient) {
+                if ($recipient->id != Auth::user()->id) {
+                    if ($index > 0 && $conversation->alt_title != '') { $conversation->alt_title.=', '; }
+                    $conversation->alt_title .= $recipient->username;
+                }
             }
-        }
 
-        return view('messages.show')->with(['conversation' => $conversation]);
+            return view('messages.show')->with(['conversation' => $conversation]);
+        } else { return redirect()->route('conversations.index'); }
     }
 
     public function destroy($id) {

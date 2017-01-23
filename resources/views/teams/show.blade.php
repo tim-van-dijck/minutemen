@@ -97,20 +97,51 @@
 				<div class="row">
 					<div class="col-md-12">
 						<h3 class="text-center">Participations</h3>
-						@forelse($team->participations() as $participation)
-							<div class="row">
-								<div class="col-md-12">
-									<a href="{{ route('events.leaderboard', ['event_id' => $participation->event_id]) }}#{{ $team->slug }}"><span class="title">{{ $participation->title }}</span></a>
-									<span class="rank">{{ $participation->rank }}</span>
+						<div class="events">
+							@forelse($team->participations() as $event)
+								<div class="row event">
+									<div class="col-md-12">
+										<div class="blocklink">
+											<a href="{{ route('events.show', ['id' => $event->id]) }}">
+												<div class="row">
+													<div class="col-md-1">
+														<p class="month">{{ strtoupper(date('M', strtotime($event->starts_at))) }}</p>
+														<p class="day">{{ date('d', strtotime($event->starts_at)) }}</p>
+													</div>
+													<div class="col-md-6 banner-wrapper">
+														<div class="banner">
+															<img src="{{ $event->banner or 'img/event.png' }}" alt="{{ $event->title }}">
+														</div>
+													</div>
+													<div class="col-md-5 data">
+														<div class="row">
+															<div class="col-md-10 col-md-offset-2">
+																<h4>{{ $event->title }}</h4>
+															</div>
+														</div>
+														<div class="row">
+															<div class="col-md-2"><i class="fa fa-map-marker accent"></i></div>
+															<div class="col-md-10">
+																<p class="address">
+																	{{ $event->street }} {{ $event->number }}<br>
+																	{{ $event->zip }} {{ $event->city }}
+																</p>
+															</div>
+														</div>
+													</div>
+												</div>
+											</a>
+										</div>
+									</div>
 								</div>
-							</div>
-						@empty
-							<div class="row">
-								<div class="col-md-8 col-md-offset-2">
-									<p class="text-center">This team hasn't participated in any events yet.</p>
+							@empty
+								<div class="row">
+									<div class="col-md-8 col-md-offset-2">
+										<p class="text-center">This team hasn't participated in any events yet.</p>
+									</div>
 								</div>
-							</div>
-						@endforelse
+							@endforelse
+						</div>
 					</div>
 				</div>
 			</div>

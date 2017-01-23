@@ -97,4 +97,12 @@
 			</div>
 		</div>
 	</div>
+	@if (Auth::user()->tutorial)
+		@include('modals.tutorial')
+	@endif
+@stop
+@section('js')
+	@if (Auth::user()->tutorial)
+		<script src="js/dashboard.js"></script>
+	@endif
 @stop

@@ -50,7 +50,7 @@ class HomeController extends Controller
 
 	public function sitemap() {
 
-        Sitemap::addTag(route('home'), date('Y-m-d H:i:s', strtotime('yesterday')), 'daily', '0.8');
+        Sitemap::addTag(route('dashboard'), date('Y-m-d H:i:s', strtotime('yesterday')), 'daily', '0.8');
         Sitemap::addTag(route('about'), date('Y-m-d H:i:s', strtotime('yesterday')), 'daily', '0.8');
         Sitemap::addTag(route('search'), date('Y-m-d H:i:s', strtotime('yesterday')), 'daily', '0.8');
 

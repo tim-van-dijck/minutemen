@@ -15,7 +15,7 @@ class Team extends Model
 
 	public function participations() {
 		$participations = DB::table('participations')
-				->select('participations.*', 'events.title', 'events.ends_at')
+				->select('events.*')
 				->join('teams', 'teams.id', '=', 'participations.team_id')
 				->join('events', 'events.id', '=', 'participations.event_id')
 				->where('participations.team_id', $this->id)
@@ -23,7 +23,7 @@ class Team extends Model
 				->get();
 
 		foreach ($participations as $participation) {
-			$participation->rank = Leaderboard::rank($participation->event_id, $this->id);
+			$participation->rank = Leaderboard::rank($participation->id, $this->id);
 		}
 
 		return $participations;

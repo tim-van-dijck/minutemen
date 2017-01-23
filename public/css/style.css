@@ -599,6 +599,13 @@ a.accent:hover, a.accent:focus, a.accent:active {
 .cke_toolgroup:hover, .cke_combo_button:hover, .cke_button:hover {
   background-image: none !important; }
 
+@keyframes bouncing {
+  0% {
+    bottom: 2em; }
+  50% {
+    bottom: 20px; }
+  100% {
+    bottom: 2em; } }
 .fade-carousel {
   position: relative;
   height: calc(100vh - 50px);
@@ -607,6 +614,7 @@ a.accent:hover, a.accent:focus, a.accent:active {
   overflow: hidden;
   clear: left; }
   .fade-carousel a.scrollDown {
+    animation: bouncing 1s infinite ease-in-out;
     position: absolute;
     bottom: 2em;
     left: 0;
@@ -619,8 +627,7 @@ a.accent:hover, a.accent:focus, a.accent:active {
     z-index: 1;
     padding: 5px 6px 7px 6px; }
     .fade-carousel a.scrollDown:hover, .fade-carousel a.scrollDown:active {
-      background-color: rgba(204, 204, 204, 0.3);
-      color: rgba(35, 36, 39, 0.5); }
+      color: #cc4020; }
   .fade-carousel .carousel-inner .item {
     height: 100vh; }
   .fade-carousel .carousel-indicators {
@@ -1007,55 +1014,55 @@ a.accent:hover, a.accent:focus, a.accent:active {
     margin-top: 0; }
 
 @media (max-width: 991px) {
-  .persist-cols .col-md-1, .recipients .col-md-1, .profile-wrapper .data .col-md-1, .profile-wrapper .members .col-md-1, .profile-wrapper .friends .col-md-1, .profile-wrapper .teams .col-md-1 {
+  .persist-cols .col-md-1, .recipients .col-md-1, .profile-wrapper .data .col-md-1, .profile-wrapper .members .col-md-1, .profile-wrapper .friends .col-md-1, .profile-wrapper .teams .col-md-1, .events .event .col-md-1 {
     width: 8.33%;
     float: left; }
-  .persist-cols .col-md-2, .recipients .col-md-2, .profile-wrapper .data .col-md-2, .profile-wrapper .members .col-md-2, .profile-wrapper .friends .col-md-2, .profile-wrapper .teams .col-md-2 {
+  .persist-cols .col-md-2, .recipients .col-md-2, .profile-wrapper .data .col-md-2, .profile-wrapper .members .col-md-2, .profile-wrapper .friends .col-md-2, .profile-wrapper .teams .col-md-2, .events .event .col-md-2 {
     width: 16.66%;
     float: left; }
-  .persist-cols .col-md-3, .recipients .col-md-3, .profile-wrapper .data .col-md-3, .profile-wrapper .members .col-md-3, .profile-wrapper .friends .col-md-3, .profile-wrapper .teams .col-md-3 {
+  .persist-cols .col-md-3, .recipients .col-md-3, .profile-wrapper .data .col-md-3, .profile-wrapper .members .col-md-3, .profile-wrapper .friends .col-md-3, .profile-wrapper .teams .col-md-3, .events .event .col-md-3 {
     width: 25%;
     float: left; }
-  .persist-cols .col-md-4, .recipients .col-md-4, .profile-wrapper .data .col-md-4, .profile-wrapper .members .col-md-4, .profile-wrapper .friends .col-md-4, .profile-wrapper .teams .col-md-4 {
+  .persist-cols .col-md-4, .recipients .col-md-4, .profile-wrapper .data .col-md-4, .profile-wrapper .members .col-md-4, .profile-wrapper .friends .col-md-4, .profile-wrapper .teams .col-md-4, .events .event .col-md-4 {
     width: 33.33%;
     float: left; }
-  .persist-cols .col-md-5, .recipients .col-md-5, .profile-wrapper .data .col-md-5, .profile-wrapper .members .col-md-5, .profile-wrapper .friends .col-md-5, .profile-wrapper .teams .col-md-5 {
+  .persist-cols .col-md-5, .recipients .col-md-5, .profile-wrapper .data .col-md-5, .profile-wrapper .members .col-md-5, .profile-wrapper .friends .col-md-5, .profile-wrapper .teams .col-md-5, .events .event .col-md-5 {
     width: 41.66%;
     float: left; }
-  .persist-cols .col-md-6, .recipients .col-md-6, .profile-wrapper .data .col-md-6, .profile-wrapper .members .col-md-6, .profile-wrapper .friends .col-md-6, .profile-wrapper .teams .col-md-6 {
+  .persist-cols .col-md-6, .recipients .col-md-6, .profile-wrapper .data .col-md-6, .profile-wrapper .members .col-md-6, .profile-wrapper .friends .col-md-6, .profile-wrapper .teams .col-md-6, .events .event .col-md-6 {
     width: 50%;
     float: left; }
-  .persist-cols .col-md-7, .recipients .col-md-7, .profile-wrapper .data .col-md-7, .profile-wrapper .members .col-md-7, .profile-wrapper .friends .col-md-7, .profile-wrapper .teams .col-md-7 {
+  .persist-cols .col-md-7, .recipients .col-md-7, .profile-wrapper .data .col-md-7, .profile-wrapper .members .col-md-7, .profile-wrapper .friends .col-md-7, .profile-wrapper .teams .col-md-7, .events .event .col-md-7 {
     width: 58.33%;
     float: left; }
-  .persist-cols .col-md-8, .recipients .col-md-8, .profile-wrapper .data .col-md-8, .profile-wrapper .members .col-md-8, .profile-wrapper .friends .col-md-8, .profile-wrapper .teams .col-md-8 {
+  .persist-cols .col-md-8, .recipients .col-md-8, .profile-wrapper .data .col-md-8, .profile-wrapper .members .col-md-8, .profile-wrapper .friends .col-md-8, .profile-wrapper .teams .col-md-8, .events .event .col-md-8 {
     width: 66.66%;
     float: left; }
-  .persist-cols .col-md-9, .recipients .col-md-9, .profile-wrapper .data .col-md-9, .profile-wrapper .members .col-md-9, .profile-wrapper .friends .col-md-9, .profile-wrapper .teams .col-md-9 {
+  .persist-cols .col-md-9, .recipients .col-md-9, .profile-wrapper .data .col-md-9, .profile-wrapper .members .col-md-9, .profile-wrapper .friends .col-md-9, .profile-wrapper .teams .col-md-9, .events .event .col-md-9 {
     width: 75%;
     float: left; }
-  .persist-cols .col-md-10, .recipients .col-md-10, .profile-wrapper .data .col-md-10, .profile-wrapper .members .col-md-10, .profile-wrapper .friends .col-md-10, .profile-wrapper .teams .col-md-10 {
+  .persist-cols .col-md-10, .recipients .col-md-10, .profile-wrapper .data .col-md-10, .profile-wrapper .members .col-md-10, .profile-wrapper .friends .col-md-10, .profile-wrapper .teams .col-md-10, .events .event .col-md-10 {
     width: 83.33%;
     float: left; }
-  .persist-cols .col-md-offset-1, .recipients .col-md-offset-1, .profile-wrapper .data .col-md-offset-1, .profile-wrapper .members .col-md-offset-1, .profile-wrapper .friends .col-md-offset-1, .profile-wrapper .teams .col-md-offset-1 {
+  .persist-cols .col-md-offset-1, .recipients .col-md-offset-1, .profile-wrapper .data .col-md-offset-1, .profile-wrapper .members .col-md-offset-1, .profile-wrapper .friends .col-md-offset-1, .profile-wrapper .teams .col-md-offset-1, .events .event .col-md-offset-1 {
     margin-left: 8.33%; }
-  .persist-cols .col-md-offset-2, .recipients .col-md-offset-2, .profile-wrapper .data .col-md-offset-2, .profile-wrapper .members .col-md-offset-2, .profile-wrapper .friends .col-md-offset-2, .profile-wrapper .teams .col-md-offset-2 {
+  .persist-cols .col-md-offset-2, .recipients .col-md-offset-2, .profile-wrapper .data .col-md-offset-2, .profile-wrapper .members .col-md-offset-2, .profile-wrapper .friends .col-md-offset-2, .profile-wrapper .teams .col-md-offset-2, .events .event .col-md-offset-2 {
     margin-left: 16.66%; }
-  .persist-cols .col-md-offset-3, .recipients .col-md-offset-3, .profile-wrapper .data .col-md-offset-3, .profile-wrapper .members .col-md-offset-3, .profile-wrapper .friends .col-md-offset-3, .profile-wrapper .teams .col-md-offset-3 {
+  .persist-cols .col-md-offset-3, .recipients .col-md-offset-3, .profile-wrapper .data .col-md-offset-3, .profile-wrapper .members .col-md-offset-3, .profile-wrapper .friends .col-md-offset-3, .profile-wrapper .teams .col-md-offset-3, .events .event .col-md-offset-3 {
     margin-left: 25%; }
-  .persist-cols .col-md-offset-4, .recipients .col-md-offset-4, .profile-wrapper .data .col-md-offset-4, .profile-wrapper .members .col-md-offset-4, .profile-wrapper .friends .col-md-offset-4, .profile-wrapper .teams .col-md-offset-4 {
+  .persist-cols .col-md-offset-4, .recipients .col-md-offset-4, .profile-wrapper .data .col-md-offset-4, .profile-wrapper .members .col-md-offset-4, .profile-wrapper .friends .col-md-offset-4, .profile-wrapper .teams .col-md-offset-4, .events .event .col-md-offset-4 {
     margin-left: 33.33%; }
-  .persist-cols .col-md-offset-5, .recipients .col-md-offset-5, .profile-wrapper .data .col-md-offset-5, .profile-wrapper .members .col-md-offset-5, .profile-wrapper .friends .col-md-offset-5, .profile-wrapper .teams .col-md-offset-5 {
+  .persist-cols .col-md-offset-5, .recipients .col-md-offset-5, .profile-wrapper .data .col-md-offset-5, .profile-wrapper .members .col-md-offset-5, .profile-wrapper .friends .col-md-offset-5, .profile-wrapper .teams .col-md-offset-5, .events .event .col-md-offset-5 {
     margin-left: 41.66%; }
-  .persist-cols .col-md-offset-6, .recipients .col-md-offset-6, .profile-wrapper .data .col-md-offset-6, .profile-wrapper .members .col-md-offset-6, .profile-wrapper .friends .col-md-offset-6, .profile-wrapper .teams .col-md-offset-6 {
+  .persist-cols .col-md-offset-6, .recipients .col-md-offset-6, .profile-wrapper .data .col-md-offset-6, .profile-wrapper .members .col-md-offset-6, .profile-wrapper .friends .col-md-offset-6, .profile-wrapper .teams .col-md-offset-6, .events .event .col-md-offset-6 {
     margin-left: 50%; }
-  .persist-cols .col-md-offset-7, .recipients .col-md-offset-7, .profile-wrapper .data .col-md-offset-7, .profile-wrapper .members .col-md-offset-7, .profile-wrapper .friends .col-md-offset-7, .profile-wrapper .teams .col-md-offset-7 {
+  .persist-cols .col-md-offset-7, .recipients .col-md-offset-7, .profile-wrapper .data .col-md-offset-7, .profile-wrapper .members .col-md-offset-7, .profile-wrapper .friends .col-md-offset-7, .profile-wrapper .teams .col-md-offset-7, .events .event .col-md-offset-7 {
     margin-left: 58.33%; }
-  .persist-cols .col-md-offset-8, .recipients .col-md-offset-8, .profile-wrapper .data .col-md-offset-8, .profile-wrapper .members .col-md-offset-8, .profile-wrapper .friends .col-md-offset-8, .profile-wrapper .teams .col-md-offset-8 {
+  .persist-cols .col-md-offset-8, .recipients .col-md-offset-8, .profile-wrapper .data .col-md-offset-8, .profile-wrapper .members .col-md-offset-8, .profile-wrapper .friends .col-md-offset-8, .profile-wrapper .teams .col-md-offset-8, .events .event .col-md-offset-8 {
     margin-left: 66.66%; }
-  .persist-cols .col-md-offset-9, .recipients .col-md-offset-9, .profile-wrapper .data .col-md-offset-9, .profile-wrapper .members .col-md-offset-9, .profile-wrapper .friends .col-md-offset-9, .profile-wrapper .teams .col-md-offset-9 {
+  .persist-cols .col-md-offset-9, .recipients .col-md-offset-9, .profile-wrapper .data .col-md-offset-9, .profile-wrapper .members .col-md-offset-9, .profile-wrapper .friends .col-md-offset-9, .profile-wrapper .teams .col-md-offset-9, .events .event .col-md-offset-9 {
     margin-left: 75%; }
-  .persist-cols .col-md-offset-10, .recipients .col-md-offset-10, .profile-wrapper .data .col-md-offset-10, .profile-wrapper .members .col-md-offset-10, .profile-wrapper .friends .col-md-offset-10, .profile-wrapper .teams .col-md-offset-10 {
+  .persist-cols .col-md-offset-10, .recipients .col-md-offset-10, .profile-wrapper .data .col-md-offset-10, .profile-wrapper .members .col-md-offset-10, .profile-wrapper .friends .col-md-offset-10, .profile-wrapper .teams .col-md-offset-10, .events .event .col-md-offset-10 {
     margin-left: 83.33%; } }
 
 .bigbtn {
@@ -1063,13 +1070,13 @@ a.accent:hover, a.accent:focus, a.accent:active {
   text-align: center;
   cursor: pointer; }
   .bigbtn.participate {
-    background-color: #508AA3; }
+    background-color: #e94a26; }
     .bigbtn.participate:hover, .bigbtn.participate:focus, .bigbtn.participate:active {
-      background-color: #47829f; }
+      background-color: #e23a12; }
   .bigbtn.organise {
-    background-color: #57b97f; }
+    background-color: #e75a3a; }
     .bigbtn.organise:hover, .bigbtn.organise:focus, .bigbtn.organise:active {
-      background-color: #4eb17b; }
+      background-color: #e94a26; }
   .bigbtn.lobby {
     background-color: #cc4020; }
     .bigbtn.lobby:hover, .bigbtn.lobby:focus, .bigbtn.lobby:active {
@@ -1106,5 +1113,73 @@ label.control-label + p.info {
 
 .full-width {
   width: 100%; }
+
+#tutorial .carousel-control i {
+  height: 1em;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto; }
+
+@media (max-width: 47em) {
+  #search-results .blocklink-wrapper {
+    display: block; }
+    #search-results .blocklink-wrapper .blocklink {
+      float: none;
+      min-height: 5.5em;
+      width: 100%;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
+      #search-results .blocklink-wrapper .blocklink .profile-img {
+        height: 4em;
+        width: 4em;
+        margin-right: 1em;
+        float: left; }
+        #search-results .blocklink-wrapper .blocklink .profile-img img {
+          height: 100%;
+          width: auto; }
+      #search-results .blocklink-wrapper .blocklink p.name {
+        font-size: 1.5em; }
+    #search-results .blocklink-wrapper :last-child {
+      border-bottom: 0; } }
+
+.events .event {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
+  @media (max-width: 520px) {
+    .events .event .banner-wrapper {
+      display: none; }
+    .events .event .data {
+      width: 66.66%;
+      margin-left: 16.66%; } }
+  .events .event .month {
+    border-bottom: 2px solid #cc4020;
+    display: inline;
+    font-weight: bold; }
+  .events .event .day {
+    font-size: 2em;
+    text-align: left; }
+  .events .event .address {
+    font-size: .8em;
+    text-align: left; }
+.events :last-child {
+  border-bottom: 0; }
+
+@media (max-width: 520px) {
+  .about .persist-cols > [class^="col-md-"], .about .recipients > [class^="col-md-"], .about .profile-wrapper .data > [class^="col-md-"], .profile-wrapper .about .data > [class^="col-md-"], .about .profile-wrapper .members > [class^="col-md-"], .profile-wrapper .about .members > [class^="col-md-"], .about .profile-wrapper .friends > [class^="col-md-"], .profile-wrapper .about .friends > [class^="col-md-"], .about .profile-wrapper .teams > [class^="col-md-"], .profile-wrapper .about .teams > [class^="col-md-"], .about .events .event > [class^="col-md-"], .events .about .event > [class^="col-md-"] {
+    width: 100%;
+    float: none; }
+  .about .image-wrapper {
+    margin-bottom: 1em;
+    text-align: center; }
+    .about .image-wrapper img {
+      display: inline-block; } }
+.about .row {
+  margin-top: 2em; }
+.about .image-wrapper {
+  max-width: 100%; }
+  .about .image-wrapper img {
+    max-width: 100%;
+    height: auto; }
+.about blockquote {
+  border-color: #cc4020; }
 
 /*# sourceMappingURL=style.css.map */

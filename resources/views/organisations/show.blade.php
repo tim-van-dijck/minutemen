@@ -59,24 +59,45 @@
                     <div class="row divider">
                         <div class="col-md-12">
                             <h3>Events</h3>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        @foreach($organisation->events(4) as $index => $event)
-                                            <div class="col-md-6 {{ ($index % 2 == 0 && $index == count($organisation->events(4))-1) ? 'col-md-offset-3' : '' }}">
+                            <div class="row events">
+                                <div class="col-md-12 events">
+                                    @foreach($organisation->events(4) as $index => $event)
+                                        <div class="row event">
+                                            <div class="col-md-12">
                                                 <div class="blocklink">
                                                     <a href="{{ route('events.show', ['id' => $event->id]) }}">
-                                                        <div class="banner"><img src="{{ $event->banner or 'img/event.png' }}" alt="{{ $event->title }}"></div>
-                                                        <h5 class="text-center">{{ $event->title }}</h5>
-                                                        <p class="period text-center">{{ date('F dS \a\t H:i', strtotime($event->starts_at)) }}</p>
+                                                        <div class="row">
+                                                            <div class="col-md-1">
+                                                                <p class="month">{{ strtoupper(date('M', strtotime($event->starts_at))) }}</p>
+                                                                <p class="day">{{ date('d', strtotime($event->starts_at)) }}</p>
+                                                            </div>
+                                                            <div class="col-md-6 banner-wrapper">
+                                                                <div class="banner">
+                                                                    <img src="{{ $event->banner or 'img/event.png' }}" alt="{{ $event->title }}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-5 data">
+                                                                <div class="row">
+                                                                    <div class="col-md-10 col-md-offset-2">
+                                                                        <h4>{{ $event->title }}</h4>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-md-2"><i class="fa fa-map-marker accent"></i></div>
+                                                                    <div class="col-md-10">
+                                                                        <p class="address">
+                                                                            {{ $event->street }} {{ $event->number }}<br>
+                                                                            {{ $event->zip }} {{ $event->city }}
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </a>
                                                 </div>
                                             </div>
-                                            @if ($index == 1)
-                                                </div><div class="row blocklink-wrapper">
-                                            @endif
-                                        @endforeach
-                                    </div>
+                                        </div>
+                                    @endforeach
                                     <a href="" class="btn btn-load">more events</a>
                                 </div>
                             </div>

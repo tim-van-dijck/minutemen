@@ -152,7 +152,7 @@
 					</a>
 				</div>
 				@if (Auth::guest())
-					<ul class="nav navbar-nav navbar-right">
+					<ul class="nav navbar-nav navbar-left">
 						<li><a data-toggle="modal" data-target="#login-modal">Login</a></li>
 						<li><a data-toggle="modal" data-target="#register-modal">Register</a></li>
 					</ul>
@@ -275,7 +275,7 @@
 							<div class="col-md-3 text-right">
 								<div class="row">
 									<div class="col-md-12">
-										<a href="{{ route('about') }}" class="">About us</a>
+										<a href="{{ route('home') }}#about" class="">About us</a>
 									</div>
 								</div>
 								<div class="row">

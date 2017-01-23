@@ -215,4 +215,12 @@ class UserController extends Controller
     public function findRecipients(Request $request, $conversation_id) {
         return json_encode(Auth::user()->findRecipients($request->input('term'), $conversation_id));
     }
+
+    public function hideTutorial(Request $request) {
+	    if ($request->input('hide') == 1) {
+            $user = User::find(Auth::user()->id);
+            $user->tutorial = 0;
+            $user->save();
+        }
+    }
 }

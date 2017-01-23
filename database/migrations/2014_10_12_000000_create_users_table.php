@@ -38,6 +38,7 @@ class CreateUsersTable extends Migration
             $table->integer('range')->default(10);
 
             $table->boolean('admin')->default(0);
+            $table->boolean('tutorial')->default(1);
 
             $table->rememberToken();
             $table->timestamps();
