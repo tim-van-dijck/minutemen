@@ -4,7 +4,7 @@
 @section('content')
 	<div class="row">
 		<div class="col-md-12">
-			<div class="col-md-12 team-members">
+			<div id="users" class="col-md-12 team-members">
 				<h2>{{ $team->name }} - [{{ $team->tag }}]</h2>
 				<div class="row">
 					<div class="col-md-12">

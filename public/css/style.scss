@@ -152,6 +152,15 @@ body {
 }
 h1,h2,h3 { font-family: 'Oswald', sans-serif; }
 
+[class^='select2'] {
+	border-radius: 0 !important; background-color: #3a3b3e !important;
+	border-color: transparent !important;
+	&:not(.select2-dropdown):not(.select2-selection__choice__remove):not(.select2-selection__choice) { width: 100% !important; }
+	.select2-selection__choice { background-color: #777; }
+}
+[id^="select2"] { border-radius: 0 !important; background-color: #3a3b3e !important; }
+.select2-results { background-color: #3a3b3e !important; }
+
 form {
 	em { font-size: .8em; }
 	@media #{$mobile-bootstrap} {
@@ -185,8 +194,6 @@ form {
 		}
 	}
 	select { width: 100%; }
-	[class^='select2'] { border-radius: 0 !important; }
-	.select2-dropdown { border-radius: 0 !important; }
 
 	::-webkit-input-placeholder { color: #777 !important; }
 	:-moz-placeholder { color: #777 !important; opacity: 1; }
@@ -274,7 +281,13 @@ form {
 .blocklink-wrapper { display: flex; display: -webkit-flex; display: -ms-flexbox; margin: auto 0px; }
 .blocklink {
 	padding: .5em; position: relative;
-	&:hover { background-color: $overlay-color; cursor: pointer; }
+	&:hover {
+		background-color: $overlay-color; cursor: pointer;
+		.dropdown-toggle {
+			background-color: rgba(204, 64, 32, .7);
+			&:hover { background-color: rgba(204, 64, 32, .6); color: #fff; }
+		}
+	}
 
 	.profile-img {
 		width: calc(100% - .4em); margin: .2em;
@@ -400,7 +413,6 @@ a.accent:hover, a.accent:focus, a.accent:active { color: $accent; }
 		&:checked + .slider:before { -webkit-transform: translateX(26px); -ms-transform: translateX(26px); transform: translateX(26px); }
 	}
 }
-
 
 
 //-- CK EDITOR --//
@@ -692,13 +704,7 @@ a.accent:hover, a.accent:focus, a.accent:active { color: $accent; }
 		i.fa { margin-right: 1em; }
 	}
 }
-.team-members {
-	.members, .admins, .requests {
-		@media #{$mobile-bootstrap} {
-			.col-md-2 { width: 33% !important; }
-		}
-	}
-}
+
 .message-view {
 	h1 {
 		cursor: pointer; display: inline-block; margin: 1em 0;
@@ -840,6 +846,15 @@ label.control-label + p.info { margin-top: -.4em; }
 		.check { float: left; margin-right: 1em; }
 		@media (max-width: 350px) {
 			.profile-img { display: none; }
+		}
+	}
+}
+
+#users {
+	@extend #search-results;
+	.dropdown {
+		button[type=submit] {
+			@media #{$mobile-bootstrap} { margin-top: 0; }
 		}
 	}
 }

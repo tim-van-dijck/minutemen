@@ -4,7 +4,7 @@
 @section('content')
 	<div class="row">
 		<div class="col-md-12">
-			<div class="col-md-12">
+			<div id="users" class="col-md-12">
 				<i class="fa fa-2x fa-users menu-icons"></i>
 				@if (!$requests->isEmpty())
 					<div class="row requests">

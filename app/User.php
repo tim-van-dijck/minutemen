@@ -215,7 +215,7 @@ class User extends Authenticatable
 
         $first = DB::table('users')->select(DB::raw('users.id, users.username AS text, users.img'))
             ->join('friendships', 'friendships.user_id', '=', 'users.id')
-            ->whereNotExist(function ($query) use ($conversation_id) {
+            ->whereNotExists(function ($query) use ($conversation_id) {
                 $query->select(DB::raw(1))
                     ->from('conversation_users')
                     ->where('conversation_users.conversation_id', $conversation_id)
@@ -228,7 +228,7 @@ class User extends Authenticatable
 
         $second = DB::table('users')->select(DB::raw('users.id, users.username AS text, users.img'))
             ->join('friendships', 'friendships.friend_id', '=', 'users.id')
-            ->whereNotExist(function ($query) use ($conversation_id) {
+            ->whereNotExists(function ($query) use ($conversation_id) {
                 $query->select(DB::raw(1))
                     ->from('conversation_users')
                     ->where('conversation_users.conversation_id', $conversation_id)
@@ -241,7 +241,7 @@ class User extends Authenticatable
 
         $result = User::select(DB::raw('id, username AS text, img'))
                     ->join('team_users', 'team_users.user_id', '=', 'users.id')
-                    ->whereNotExist(function ($query) use ($conversation_id) {
+                    ->whereNotExists(function ($query) use ($conversation_id) {
                         $query->select(DB::raw(1))
                             ->from('conversation_users')
                             ->where('conversation_users.conversation_id', $conversation_id)

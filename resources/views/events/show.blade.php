@@ -32,11 +32,15 @@
 						</div>
 					</div>
 
-					@if (Auth::check() && !$event->full() && !$event->isAdmin())
-						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#enter-event">sign up your team</button>
-						@include('modals.enter-event')
-					@endif
 				</div>
+				@if (Auth::check() && !$event->full() && !$event->isAdmin())
+					<div class="row">
+						<div class="col-md-4 col-md-offset-4">
+							<button type="button" class="btn btn-primary full-width" data-toggle="modal" data-target="#enter-event">sign up your team</button>
+						</div>
+					</div>
+					@include('modals.enter-event')
+				@endif
 				<div class="row divider">
 					<div class="col-md-4 col-md-offset-4 teams">
 						<h3 class="text-center">Participators</h3>
