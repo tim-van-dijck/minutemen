@@ -1,5 +1,4 @@
 $(function () {
-
 	$('.navbar-nav a.login').click(function(e) {
 		e.preventDefault();
 		$('.row.login').removeClass('hidden');

@@ -101,7 +101,7 @@
 											<img src="{{ $org->thumb or 'img/organisation.png' }}" alt="{{ $org->name }}" class="tiny-thumb">{{ $org->name }}
 										</a>
 									@endforeach
-									<a href="/my-teams">More...</a>
+									<a href="/my-teams">See more...</a>
 								</div>
 							@endif
 							@if (!Auth::user()->teams()->isEmpty())
@@ -112,7 +112,7 @@
 											<img src="{{ $team->emblem or 'img/emblem.png' }}" alt="{{ $team->name }}" class="tiny-thumb">{{ $team->name }}
 										</a>
 									@endforeach
-									<a href="/my-teams">More...</a>
+									<a href="/my-teams">See more...</a>
 								</div>
 							@endif
 							@if (!Auth::user()->organisations()->isEmpty())

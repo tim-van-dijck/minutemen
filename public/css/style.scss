@@ -114,29 +114,36 @@ body {
 	background-color: $accent; color: #fff; font-size: .6em; line-height: 1em; height: 1em; width: 1em; text-align: center;
 }
 
-.icon-list {
-	#search {
-		width: 100%; margin: 1em 0;
-		::-webkit-input-placeholder { color: $placeholder-color !important; }
-		:-moz-placeholder { color: $placeholder-color !important; }
-		::-moz-placeholder { color: $placeholder-color !important; }
-		:-ms-input-placeholder { color: $placeholder-color !important; }
+.menu {
+	@media #{$mobile-bootstrap} {
+		overflow: hidden;
+		.icon-list { margin-right: -20px; overflow-y: auto; }
+	}
+	.icon-list {
+		#search {
+			width: 100%; margin: 1em 0;
+			::-webkit-input-placeholder { color: $placeholder-color !important; }
+			:-moz-placeholder { color: $placeholder-color !important; }
+			::-moz-placeholder { color: $placeholder-color !important; }
+			:-ms-input-placeholder { color: $placeholder-color !important; }
 
-		input[type="text"] {
-			width: calc(100% - 26px); background-color: #777; border: none; color: $nav-color !important;
-			padding: 0 .5em;
+			input[type="text"] {
+				width: calc(100% - 26px); background-color: #777; border: none; color: $nav-color !important;
+				padding: 0 .5em;
+			}
+			.btn.btn-primary {
+				border: none; color: #777; height: 26px; width: 26px; padding: 0; margin: 0;
+				&:hover, &:focus, &:active { color: $text-color; }
+			}
 		}
-		.btn.btn-primary {
-			border: none; color: #777; height: 26px; width: 26px; padding: 0; margin: 0;
-			&:hover, &:focus, &:active { color: $text-color; }
+		.notification-bubble, .friend-bubble {
+			position: absolute; top: -5px; left: -5px; display: none; border-radius: 50%; padding: .1em; box-sizing: content-box;
+			background-color: $accent; color: #fff; font-size: .6em; line-height: 1em; height: 1em; width: 1em; text-align: center;
 		}
+		>a.active { color: $accent; }
 	}
-	.notification-bubble, .friend-bubble {
-		position: absolute; top: -5px; left: -5px; display: none; border-radius: 50%; padding: .1em; box-sizing: content-box;
-		background-color: $accent; color: #fff; font-size: .6em; line-height: 1em; height: 1em; width: 1em; text-align: center;
-	}
-	>a.active { color: $accent; }
 }
+
 .login {
 	position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto; padding-top: 73px;
 	.shadow { position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto; background-color: rgba(0,0,0,.3); z-index: 10; }
@@ -825,4 +832,14 @@ label.control-label + p.info { margin-top: -.4em; }
 		img { max-width: 100%; height: auto; }
 	}
 	blockquote { border-color: $accent; }
+}
+
+#admin {
+	@extend #search-results;
+	.blocklink {
+		.check { float: left; margin-right: 1em; }
+		@media (max-width: 350px) {
+			.profile-img { display: none; }
+		}
+	}
 }
