@@ -12,7 +12,7 @@
                 <form id="kick-form" action="{{ route('ajax.team.kick', ['team_id' => $team->id]) }}" method="POST">
                     {{  csrf_field() }}
                     <input type="hidden" name="member_id" id="member_id">
-                    <input type="password" name="password" placeholder="********" required>
+                    <input class="form-control" type="password" name="password" placeholder="********" required>
                 </form>
             </div>
             <div class="modal-footer">

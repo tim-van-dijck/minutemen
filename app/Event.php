@@ -12,7 +12,8 @@ class Event extends Model
     protected $fillable = ['title', 'description', 'starts_at', 'ends_at', 'street', 'number', 'zip', 'city', 'banner', 'lat', 'long', 'organisation_id', 'website'];
 
 	public function participators() {
-		return Team::select('teams.*')->join('participations', 'participations.team_id', '=', 'teams.id')
+		return Team::select('teams.*')
+                    ->join('participations', 'participations.team_id', '=', 'teams.id')
 					->where('participations.event_id', $this->id)->get();
 	}
 
@@ -26,18 +27,19 @@ class Event extends Model
         if (count($this->rounds()) > 0) {
             $prevRound = Round::where('event_id', $this->id)->orderBy('created_at', 'desc')->first();
 
-            $query = Team::select('teams.*')->join('games', 'games.team_1', '=', 'teams.id')
+            $query = Team::select('teams.*', 'games.id as game_id')->join('games', 'games.team_1', '=', 'teams.id')
                 ->join('rounds', 'games.round_id', '=', 'rounds.id')
                 ->where('games.team_1_won', 1)
                 ->where('draw', 0)
                 ->where('rounds.id', $prevRound->id);
 
-            return Team::select('teams.*')->join('games', 'games.team_2', '=', 'teams.id')
+            return Team::select('teams.*', 'games.id as game_id')->join('games', 'games.team_2', '=', 'teams.id')
                 ->join('rounds', 'games.round_id', '=', 'rounds.id')
                 ->where('games.team_1_won', 0)
                 ->where('draw', 0)
                 ->where('rounds.id', $prevRound->id)
                 ->union($query)
+                ->orderBy('game_id')
                 ->get();
         } else {
 	        return $this->participators();
@@ -102,8 +104,9 @@ class Event extends Model
 		foreach ($games as $index => $game) {
 			$roundCount++;
 			$round = new Round([
-				'name'		=> 'Round '.$roundCount,
+				'name'		=> 'Game '.$roundCount,
 				'event_id'	=> $this->id,
+                'teams'     => count($players),
 			]);
 			$round->save();
 			
@@ -115,7 +118,7 @@ class Event extends Model
 
 	public function eliminationRound($data) {
         $prevRound = Round::where('event_id', $this->id)->orderBy('created_at', 'desc')->first();
-        $teams = $this->competing()->shuffle();
+        $teams = $this->competing();
         if (count($teams) % 2 != 0) { $teams[] = $this->extraPlayer(); }
 
         $round = new Round($data);

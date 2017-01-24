@@ -43,9 +43,15 @@ $(function () {
 	});
 
 	$('.game-settle').click(function(e) {
+	    $team1 = $('#settle-game .team_1');
+	    $team2 = $('#settle-game .team_2');
+
         $('#settle-game-form').attr('action', $(this).data('action'));
-        $('#settle-game .team_1 label').text($(this).find('.team_1').html());
-        $('#settle-game .team_2 label').text($(this).find('.team_2').html());
+        $team1.find('.title').text($(this).find('.team_1 .title').text());
+        $team1.find('.profile-img>img').attr('src', $(this).find('.team_1 .profile-img>img').attr('src'));
+
+        $team2.find('.title').text($(this).find('.team_2 .title').text());
+        $team2.find('.profile-img>img').attr('src', $(this).find('.team_2 .profile-img>img').attr('src'));
     });
 });
 

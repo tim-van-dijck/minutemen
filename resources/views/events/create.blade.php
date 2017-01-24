@@ -159,6 +159,18 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12">
+							<label for="max-teams" class="control-label">Max. teams</label><br>
+							<input id="max-teams" class="form-control" name="max-teams" value="{{ old('max-teams') }}" required autofocus>
+
+							@if ($errors->has('max-teams'))
+								<span class="help-block">
+								<strong>{{ $errors->first('max-teams') }}</strong>
+							</span>
+							@endif
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
 							<label for="description" class="control-label">Description</label><br>
 							<textarea id="description" class="form-control" name="description" required autofocus>{{ old('description') }}</textarea>
 

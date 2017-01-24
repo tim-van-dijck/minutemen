@@ -60,6 +60,7 @@ return [
         'string'  => 'The :attribute must be at least :min characters.',
         'array'   => 'The :attribute must have at least :min items.',
     ],
+    'multiple_of_two'      => 'The :attribute value must be a multiple of 2',
     'not_in'               => 'The selected :attribute is invalid.',
     'numeric'              => 'The :attribute must be a number.',
     'profanity_filter'     => 'Profanity is not allowed.',

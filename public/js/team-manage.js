@@ -8,7 +8,6 @@ $( function() {
             url: 'ajax/users/find/' + teamId,
             dataType: 'json',
             delay: 250,
-            minimumInputLength: 2,
             data: function (params) {
                 return {
                     q: params.term, // search term
@@ -28,12 +27,13 @@ $( function() {
                         more: (params.page * 30) < data.total_count
                     }
                 };
-            },
-            escapeMarkup: function (markup) { return markup; }, // let our custom formatter work,
-            templateResult: formatUser, // omitted for brevity, see the source of this page
-            templateSelection: formatUserSelection, // omitted for brevity, see the source of this page
-            cache: true
-        }
+            }
+        },
+        minimumInputLength: 2,
+        escapeMarkup: function (markup) { return markup; }, // let our custom formatter work,
+        templateResult: formatUser, // omitted for brevity, see the source of this page
+        templateSelection: formatUserSelection, // omitted for brevity, see the source of this page
+        cache: true
     });
 
     $('.kick').click(function() {
@@ -83,7 +83,6 @@ $( function() {
             location.reload();
         });
     });
-
 });
 
 function getInvited() {
@@ -112,19 +111,14 @@ function formatUser (user) {
     if (user.loading) return user.text;
     var img = (user.img != null) ? user.img : 'img/profile.png';
 
-    var markup = "<div class='select2-result-repository clearfix'>" +
-        "<div class='select2-result-img'><img src='" + img + "' /></div>" +
-        "<div class='select2-result-meta'>" +
-        "<div class='select2-result-title'>" + user.text + "</div>"+
-        "</div></div>";
+    var markup = '<div class="selectbox-result row blocklink-wrapper persist-cols">'+
+        '<div class="col-md-12 blocklink user"><div class="row"><div class="col-md-4"><div class="profile-img">'+
+        '<img src="'+img+'" alt="'+user.text+'"></div></div>'+
+        '<div class="col-md-8"><p class="name">'+user.text+'</p></div></div></div></div>';
 
     return markup;
 }
 
 function formatUserSelection(user) {
-    return "<div class='select2-result-repository clearfix'>" +
-        "<div class='select2-result-img'><img src='" + img + "' /></div>" +
-        "<div class='select2-result-meta'>" +
-        "<div class='select2-result-title'>" + user.text + "</div>"+
-        "</div></div>";
+    return user.text;
 }

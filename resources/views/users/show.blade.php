@@ -5,9 +5,6 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="col-md-12">
-				@if ($user->id == Auth::user()->id)
-					<i class="fa fa-2x fa-user menu-icons"></i>
-				@endif
 				@if (Auth::check())
 					@if ($user->id != Auth::user()->id)
 						@if (!$user->isFriend(false))
@@ -44,7 +41,10 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="col-md-12 profile-wrapper">
-				<h2 class="profile-title">{{ $user->username }}</h2>
+				@if ($user->id == Auth::user()->id)
+					<i class="fa fa-2x fa-user menu-icons"></i>
+				@endif
+				<h1 class="profile-title">{{ $user->username }}</h1>
 				<div class="row">
 					<div class="col-md-12 text-center">
 						<div class="profile-img profile">

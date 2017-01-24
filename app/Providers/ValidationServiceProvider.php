@@ -45,4 +45,10 @@ class CustomValidation extends Validator
 				
 		return !preg_match('/[^!@#$%^&*]*('.$profanity.')[^!@#$%^&*]*/i', $value);
 	}
+	public function validateMultipleOfTwo($attribute, $value, $parameters)
+	{
+        while($value > 2){ $value /= 2; }
+        if ($value == 2) { return true; }
+        else { return false; }
+	}
 }

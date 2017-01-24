@@ -44,14 +44,6 @@ class ParticipationsTableSeeder extends Seeder
 				'event_id'		=> 1,
 				'team_id'		=> 8
 			],
-			[
-				'event_id'		=> 1,
-				'team_id'		=> 9
-			],
-			[
-				'event_id'		=> 1,
-				'team_id'		=> 10
-			],
 		]);
     }
 }

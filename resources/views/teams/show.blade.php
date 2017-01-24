@@ -16,7 +16,7 @@
 					<form class="delete" data-confirm="leave this team" action="{{ route('team.leave', ['team_id' => $team->id]) }}" method="POST">
 						{{ csrf_field() }}
 						<input type="hidden" name="_method" value="DELETE">
-						<button type="submit" class="btn btn-primary pull-right {{ (Auth::check() && $team->isMember()) ? '' : 'hidden' }}">Leave team</button>
+						<button type="submit" class="btn btn-primary pull-right btn-small {{ (Auth::check() && $team->isMember()) ? '' : 'hidden' }}">Leave team</button>
 					</form>
 					<a id="join" href="{{ route('ajax.team.join', ['team_id' => $team->id]) }}"
 					   class="btn btn-primary pull-right {{ (Auth::check() && $team->isMember()) ? 'hidden' : '' }}">Join team
@@ -30,14 +30,12 @@
 			<div class="col-md-12 profile-wrapper">
 				<h2 class="profile-title">{{ $team->name }} - [{{ $team->tag }}]</h2>
 				<div class="row">
-					<div class="col-md-12 text-center">
+					<div class="col-md-4 text-center">
 						<div class="profile-img profile">
 							<img src="{{ $team->emblem or 'img/emblem.png' }}" alt="{{ $team->name }}">
 						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-8 col-md-offset-2 stats-col">
+					<div class="col-md-8 stats-col">
 						<div class="stats row">
 							<div class="col-md-4">
 								<h4><i class="fa fa-trophy"></i><span>Wins</span></h4>
@@ -102,7 +100,7 @@
 								<div class="row event">
 									<div class="col-md-12">
 										<div class="blocklink">
-											<a href="{{ route('events.show', ['id' => $event->id]) }}">
+											<a href="{{ route('events.leaderboard', ['id' => $event->id]) }}#{{ $team->slug }}">
 												<div class="row">
 													<div class="col-md-1">
 														<p class="month">{{ strtoupper(date('M', strtotime($event->starts_at))) }}</p>

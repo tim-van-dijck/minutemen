@@ -52,6 +52,7 @@ class EventController extends Controller
 			'city'			=> 'required',
 			'banner'		=> 'image|max:4096',
             'type'          => 'required',
+            'max-teams'     => 'multiple-of-two'
 		]);
 
 		$input = $request->all();
@@ -174,4 +175,10 @@ class EventController extends Controller
 	}
 
 	public function enter(Request $request, $event_id) { Event::enter($event_id, intval($request->input('team'))); }
+
+	public function roundrobin($event_id) {
+	    $event = Event::find($event_id);
+	    $event->roundrobin();
+	    return redirect()->back();
+    }
 }

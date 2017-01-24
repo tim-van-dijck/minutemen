@@ -239,19 +239,45 @@ h1, h2, h3 {
 
 [class^='select2'] {
   border-radius: 0 !important;
-  background-color: #3a3b3e !important;
   border-color: transparent !important; }
-  [class^='select2']:not(.select2-dropdown):not(.select2-selection__choice__remove):not(.select2-selection__choice) {
+  [class^='select2']:focus, [class^='select2']:active, [class^='select2']:hover {
+    border-radius: 0 !important;
+    border-color: transparent; }
+  [class^='select2']:not(.select2-dropdown)
+  :not(.select2-selection__choice__remove)
+  :not(.select2-selection__choice)
+  :not(.select2-container.select2-container--default.select2-container--open) {
     width: 100% !important; }
   [class^='select2'] .select2-selection__choice {
-    background-color: #777; }
+    background-color: #494949 !important; }
 
-[id^="select2"] {
-  border-radius: 0 !important;
+.select2-container,
+.select2-search__field,
+.select2-search__field,
+.select2-selection.select2-selection--multiple {
   background-color: #3a3b3e !important; }
 
-.select2-results {
-  background-color: #3a3b3e !important; }
+.select2-results, .select2-dropdown, .select2-results_options, .select2-results__option {
+  background-color: #373839 !important; }
+  .select2-results .selectbox-result, .select2-dropdown .selectbox-result, .select2-results_options .selectbox-result, .select2-results__option .selectbox-result {
+    height: 6em;
+    width: 100%; }
+    .select2-results .selectbox-result, .select2-results .selectbox-result .row, .select2-dropdown .selectbox-result, .select2-dropdown .selectbox-result .row, .select2-results_options .selectbox-result, .select2-results_options .selectbox-result .row, .select2-results__option .selectbox-result, .select2-results__option .selectbox-result .row {
+      margin: 0; }
+    .select2-results .selectbox-result .col-md-12, .select2-dropdown .selectbox-result .col-md-12, .select2-results_options .selectbox-result .col-md-12, .select2-results__option .selectbox-result .col-md-12 {
+      width: 100%;
+      padding: 0; }
+    .select2-results .selectbox-result p.name, .select2-dropdown .selectbox-result p.name, .select2-results_options .selectbox-result p.name, .select2-results__option .selectbox-result p.name {
+      font-size: 1.5em; }
+    .select2-results .selectbox-result .profile-img, .select2-dropdown .selectbox-result .profile-img, .select2-results_options .selectbox-result .profile-img, .select2-results__option .selectbox-result .profile-img {
+      height: 5em;
+      padding: .5em 0;
+      width: 100%;
+      text-align: center; }
+      .select2-results .selectbox-result .profile-img img, .select2-dropdown .selectbox-result .profile-img img, .select2-results_options .selectbox-result .profile-img img, .select2-results__option .selectbox-result .profile-img img {
+        height: 100%;
+        width: auto;
+        display: inline-block; }
 
 form em {
   font-size: .8em; }
@@ -743,6 +769,10 @@ a.accent:hover, a.accent:focus, a.accent:active {
     font-size: 4em; } }
 .leaderboard {
   margin-bottom: -15px; }
+  @media (max-width: 615px) {
+    .leaderboard {
+      overflow-x: scroll;
+      overflow-y: hidden; } }
   .leaderboard.divider {
     border-color: transparent; }
   .leaderboard > .col-md-12 > :nth-child(2) {
@@ -751,6 +781,9 @@ a.accent:hover, a.accent:focus, a.accent:active {
     background-color: rgba(0, 0, 0, 0.2);
     padding: .3em;
     height: 6em; }
+    @media (max-width: 615px) {
+      .leaderboard > .col-md-12 .row.leaderboard-team {
+        width: 585px; } }
     .leaderboard > .col-md-12 .row.leaderboard-team:not(.place-1):not(.place-2):not(.place-3):not(:last-child) {
       border-bottom: 1px solid rgba(54, 53, 53, 0.47); }
     .leaderboard > .col-md-12 .row.leaderboard-team[class^="place-"] {
@@ -776,6 +809,22 @@ a.accent:hover, a.accent:focus, a.accent:active {
       .leaderboard > .col-md-12 .row.leaderboard-team[class^="place-"] .profile-img {
         height: 8em !important;
         width: 8em !important; }
+      @media (max-width: 47em) {
+        .leaderboard > .col-md-12 .row.leaderboard-team[class^="place-"].place-2 > .col-md-2, .leaderboard > .col-md-12 .row.leaderboard-team[class^="place-"].place-3 > .col-md-2 {
+          width: 8.33%; }
+        .leaderboard > .col-md-12 .row.leaderboard-team[class^="place-"].place-2 > .col-md-10, .leaderboard > .col-md-12 .row.leaderboard-team[class^="place-"].place-3 > .col-md-10 {
+          width: 91.66%; }
+        .leaderboard > .col-md-12 .row.leaderboard-team[class^="place-"].place-2 > .col-md-10 > .row > .col-md-4, .leaderboard > .col-md-12 .row.leaderboard-team[class^="place-"].place-3 > .col-md-10 > .row > .col-md-4 {
+          width: 16.66%; }
+        .leaderboard > .col-md-12 .row.leaderboard-team[class^="place-"].place-2 > .col-md-10 > .row > .col-md-8, .leaderboard > .col-md-12 .row.leaderboard-team[class^="place-"].place-3 > .col-md-10 > .row > .col-md-8 {
+          width: 83.33%; }
+          .leaderboard > .col-md-12 .row.leaderboard-team[class^="place-"].place-2 > .col-md-10 > .row > .col-md-8 .score > .col-md-12, .leaderboard > .col-md-12 .row.leaderboard-team[class^="place-"].place-3 > .col-md-10 > .row > .col-md-8 .score > .col-md-12 {
+            width: 33.33%;
+            margin-left: 66.66%;
+            padding: 0; }
+        .leaderboard > .col-md-12 .row.leaderboard-team[class^="place-"] .title {
+          font-size: 1.5em !important;
+          text-align: center; } }
     .leaderboard > .col-md-12 .row.leaderboard-team.my-team {
       transform: scale(1.03);
       padding: 10px 15px;
@@ -963,21 +1012,27 @@ a.accent:hover, a.accent:focus, a.accent:active {
 
 .profile-wrapper h3 {
   margin-top: 2em; }
-.profile-wrapper .profile-title {
-  margin-top: 2em;
-  text-align: center; }
-.profile-wrapper > .row > .col-md-12 > .profile-img {
+@media (max-width: 47em) {
+  .profile-wrapper .profile-title {
+    margin-top: 2em;
+    text-align: center; } }
+@media (min-width: 47em) {
+  .profile-wrapper .profile-title {
+    margin-bottom: 1em; } }
+.profile-wrapper > .row > .col-md-4 > .profile-img {
   margin: 2em auto; }
-  .profile-wrapper > .row > .col-md-12 > .profile-img.profile {
-    width: 250px;
-    max-width: 250px;
-    display: inline-block; }
-    @media (max-width: 991px) {
-      .profile-wrapper > .row > .col-md-12 > .profile-img.profile {
-        width: 100%; }
-        .profile-wrapper > .row > .col-md-12 > .profile-img.profile img {
-          width: 100%; } }
-@media (max-width: 991px) {
+  .profile-wrapper > .row > .col-md-4 > .profile-img.profile {
+    width: 100%;
+    max-width: 250px; }
+    @media (max-width: 47em) {
+      .profile-wrapper > .row > .col-md-4 > .profile-img.profile {
+        display: inline-block; } }
+    .profile-wrapper > .row > .col-md-4 > .profile-img.profile img {
+      width: 100%; }
+@media (min-width: 47em) {
+  .profile-wrapper .stats-col .stats {
+    margin-top: 2em; } }
+@media (max-width: 47em) {
   .profile-wrapper .stats-col .stats {
     max-width: 21em;
     margin: auto; }
@@ -990,7 +1045,7 @@ a.accent:hover, a.accent:focus, a.accent:active {
     margin-right: 1em; }
   .profile-wrapper .stats-col .stats h4 .ratio {
     margin-right: 0; }
-  @media (max-width: 991px) {
+  @media (max-width: 47em) {
     .profile-wrapper .stats-col .stats h4 span:not(.ratio) {
       display: none; }
     .profile-wrapper .stats-col .stats h4 i {
@@ -1032,57 +1087,114 @@ a.accent:hover, a.accent:focus, a.accent:active {
   .message-view #set-title .btn-primary {
     margin-top: 0; }
 
-@media (max-width: 991px) {
-  .persist-cols .col-md-1, .recipients .col-md-1, .profile-wrapper .data .col-md-1, .profile-wrapper .members .col-md-1, .profile-wrapper .friends .col-md-1, .profile-wrapper .teams .col-md-1, .events .event .col-md-1 {
+@media (min-width: 47em) {
+  .persist-cols-mobile .col-md-1, .profile-wrapper .col-md-1 {
     width: 8.33%;
     float: left; }
-  .persist-cols .col-md-2, .recipients .col-md-2, .profile-wrapper .data .col-md-2, .profile-wrapper .members .col-md-2, .profile-wrapper .friends .col-md-2, .profile-wrapper .teams .col-md-2, .events .event .col-md-2 {
+  .persist-cols-mobile .col-md-2, .profile-wrapper .col-md-2 {
     width: 16.66%;
     float: left; }
-  .persist-cols .col-md-3, .recipients .col-md-3, .profile-wrapper .data .col-md-3, .profile-wrapper .members .col-md-3, .profile-wrapper .friends .col-md-3, .profile-wrapper .teams .col-md-3, .events .event .col-md-3 {
+  .persist-cols-mobile .col-md-3, .profile-wrapper .col-md-3 {
     width: 25%;
     float: left; }
-  .persist-cols .col-md-4, .recipients .col-md-4, .profile-wrapper .data .col-md-4, .profile-wrapper .members .col-md-4, .profile-wrapper .friends .col-md-4, .profile-wrapper .teams .col-md-4, .events .event .col-md-4 {
+  .persist-cols-mobile .col-md-4, .profile-wrapper .col-md-4 {
     width: 33.33%;
     float: left; }
-  .persist-cols .col-md-5, .recipients .col-md-5, .profile-wrapper .data .col-md-5, .profile-wrapper .members .col-md-5, .profile-wrapper .friends .col-md-5, .profile-wrapper .teams .col-md-5, .events .event .col-md-5 {
+  .persist-cols-mobile .col-md-5, .profile-wrapper .col-md-5 {
     width: 41.66%;
     float: left; }
-  .persist-cols .col-md-6, .recipients .col-md-6, .profile-wrapper .data .col-md-6, .profile-wrapper .members .col-md-6, .profile-wrapper .friends .col-md-6, .profile-wrapper .teams .col-md-6, .events .event .col-md-6 {
+  .persist-cols-mobile .col-md-6, .profile-wrapper .col-md-6 {
     width: 50%;
     float: left; }
-  .persist-cols .col-md-7, .recipients .col-md-7, .profile-wrapper .data .col-md-7, .profile-wrapper .members .col-md-7, .profile-wrapper .friends .col-md-7, .profile-wrapper .teams .col-md-7, .events .event .col-md-7 {
+  .persist-cols-mobile .col-md-7, .profile-wrapper .col-md-7 {
     width: 58.33%;
     float: left; }
-  .persist-cols .col-md-8, .recipients .col-md-8, .profile-wrapper .data .col-md-8, .profile-wrapper .members .col-md-8, .profile-wrapper .friends .col-md-8, .profile-wrapper .teams .col-md-8, .events .event .col-md-8 {
+  .persist-cols-mobile .col-md-8, .profile-wrapper .col-md-8 {
     width: 66.66%;
     float: left; }
-  .persist-cols .col-md-9, .recipients .col-md-9, .profile-wrapper .data .col-md-9, .profile-wrapper .members .col-md-9, .profile-wrapper .friends .col-md-9, .profile-wrapper .teams .col-md-9, .events .event .col-md-9 {
+  .persist-cols-mobile .col-md-9, .profile-wrapper .col-md-9 {
     width: 75%;
     float: left; }
-  .persist-cols .col-md-10, .recipients .col-md-10, .profile-wrapper .data .col-md-10, .profile-wrapper .members .col-md-10, .profile-wrapper .friends .col-md-10, .profile-wrapper .teams .col-md-10, .events .event .col-md-10 {
+  .persist-cols-mobile .col-md-10, .profile-wrapper .col-md-10 {
     width: 83.33%;
     float: left; }
-  .persist-cols .col-md-offset-1, .recipients .col-md-offset-1, .profile-wrapper .data .col-md-offset-1, .profile-wrapper .members .col-md-offset-1, .profile-wrapper .friends .col-md-offset-1, .profile-wrapper .teams .col-md-offset-1, .events .event .col-md-offset-1 {
+  .persist-cols-mobile .col-md-offset-1, .profile-wrapper .col-md-offset-1 {
     margin-left: 8.33%; }
-  .persist-cols .col-md-offset-2, .recipients .col-md-offset-2, .profile-wrapper .data .col-md-offset-2, .profile-wrapper .members .col-md-offset-2, .profile-wrapper .friends .col-md-offset-2, .profile-wrapper .teams .col-md-offset-2, .events .event .col-md-offset-2 {
+  .persist-cols-mobile .col-md-offset-2, .profile-wrapper .col-md-offset-2 {
     margin-left: 16.66%; }
-  .persist-cols .col-md-offset-3, .recipients .col-md-offset-3, .profile-wrapper .data .col-md-offset-3, .profile-wrapper .members .col-md-offset-3, .profile-wrapper .friends .col-md-offset-3, .profile-wrapper .teams .col-md-offset-3, .events .event .col-md-offset-3 {
+  .persist-cols-mobile .col-md-offset-3, .profile-wrapper .col-md-offset-3 {
     margin-left: 25%; }
-  .persist-cols .col-md-offset-4, .recipients .col-md-offset-4, .profile-wrapper .data .col-md-offset-4, .profile-wrapper .members .col-md-offset-4, .profile-wrapper .friends .col-md-offset-4, .profile-wrapper .teams .col-md-offset-4, .events .event .col-md-offset-4 {
+  .persist-cols-mobile .col-md-offset-4, .profile-wrapper .col-md-offset-4 {
     margin-left: 33.33%; }
-  .persist-cols .col-md-offset-5, .recipients .col-md-offset-5, .profile-wrapper .data .col-md-offset-5, .profile-wrapper .members .col-md-offset-5, .profile-wrapper .friends .col-md-offset-5, .profile-wrapper .teams .col-md-offset-5, .events .event .col-md-offset-5 {
+  .persist-cols-mobile .col-md-offset-5, .profile-wrapper .col-md-offset-5 {
     margin-left: 41.66%; }
-  .persist-cols .col-md-offset-6, .recipients .col-md-offset-6, .profile-wrapper .data .col-md-offset-6, .profile-wrapper .members .col-md-offset-6, .profile-wrapper .friends .col-md-offset-6, .profile-wrapper .teams .col-md-offset-6, .events .event .col-md-offset-6 {
+  .persist-cols-mobile .col-md-offset-6, .profile-wrapper .col-md-offset-6 {
     margin-left: 50%; }
-  .persist-cols .col-md-offset-7, .recipients .col-md-offset-7, .profile-wrapper .data .col-md-offset-7, .profile-wrapper .members .col-md-offset-7, .profile-wrapper .friends .col-md-offset-7, .profile-wrapper .teams .col-md-offset-7, .events .event .col-md-offset-7 {
+  .persist-cols-mobile .col-md-offset-7, .profile-wrapper .col-md-offset-7 {
     margin-left: 58.33%; }
-  .persist-cols .col-md-offset-8, .recipients .col-md-offset-8, .profile-wrapper .data .col-md-offset-8, .profile-wrapper .members .col-md-offset-8, .profile-wrapper .friends .col-md-offset-8, .profile-wrapper .teams .col-md-offset-8, .events .event .col-md-offset-8 {
+  .persist-cols-mobile .col-md-offset-8, .profile-wrapper .col-md-offset-8 {
     margin-left: 66.66%; }
-  .persist-cols .col-md-offset-9, .recipients .col-md-offset-9, .profile-wrapper .data .col-md-offset-9, .profile-wrapper .members .col-md-offset-9, .profile-wrapper .friends .col-md-offset-9, .profile-wrapper .teams .col-md-offset-9, .events .event .col-md-offset-9 {
+  .persist-cols-mobile .col-md-offset-9, .profile-wrapper .col-md-offset-9 {
     margin-left: 75%; }
-  .persist-cols .col-md-offset-10, .recipients .col-md-offset-10, .profile-wrapper .data .col-md-offset-10, .profile-wrapper .members .col-md-offset-10, .profile-wrapper .friends .col-md-offset-10, .profile-wrapper .teams .col-md-offset-10, .events .event .col-md-offset-10 {
+  .persist-cols-mobile .col-md-offset-10, .profile-wrapper .col-md-offset-10 {
     margin-left: 83.33%; } }
+
+@media (max-width: 991px) {
+  .persist-cols .col-md-1, .leaderboard > .col-md-12 .row.leaderboard-team .col-md-1, .recipients .col-md-1, .profile-wrapper .data .col-md-1, .profile-wrapper .members .col-md-1, .profile-wrapper .friends .col-md-1, .profile-wrapper .teams .col-md-1, .events .event .col-md-1, .schedule#elimination .rounds .col-md-1 {
+    width: 8.33%;
+    float: left; }
+  .persist-cols .col-md-2, .leaderboard > .col-md-12 .row.leaderboard-team .col-md-2, .recipients .col-md-2, .profile-wrapper .data .col-md-2, .profile-wrapper .members .col-md-2, .profile-wrapper .friends .col-md-2, .profile-wrapper .teams .col-md-2, .events .event .col-md-2, .schedule#elimination .rounds .col-md-2 {
+    width: 16.66%;
+    float: left; }
+  .persist-cols .col-md-3, .leaderboard > .col-md-12 .row.leaderboard-team .col-md-3, .recipients .col-md-3, .profile-wrapper .data .col-md-3, .profile-wrapper .members .col-md-3, .profile-wrapper .friends .col-md-3, .profile-wrapper .teams .col-md-3, .events .event .col-md-3, .schedule#elimination .rounds .col-md-3 {
+    width: 25%;
+    float: left; }
+  .persist-cols .col-md-4, .leaderboard > .col-md-12 .row.leaderboard-team .col-md-4, .recipients .col-md-4, .profile-wrapper .data .col-md-4, .profile-wrapper .members .col-md-4, .profile-wrapper .friends .col-md-4, .profile-wrapper .teams .col-md-4, .events .event .col-md-4, .schedule#elimination .rounds .col-md-4 {
+    width: 33.33%;
+    float: left; }
+  .persist-cols .col-md-5, .leaderboard > .col-md-12 .row.leaderboard-team .col-md-5, .recipients .col-md-5, .profile-wrapper .data .col-md-5, .profile-wrapper .members .col-md-5, .profile-wrapper .friends .col-md-5, .profile-wrapper .teams .col-md-5, .events .event .col-md-5, .schedule#elimination .rounds .col-md-5 {
+    width: 41.66%;
+    float: left; }
+  .persist-cols .col-md-6, .leaderboard > .col-md-12 .row.leaderboard-team .col-md-6, .recipients .col-md-6, .profile-wrapper .data .col-md-6, .profile-wrapper .members .col-md-6, .profile-wrapper .friends .col-md-6, .profile-wrapper .teams .col-md-6, .events .event .col-md-6, .schedule#elimination .rounds .col-md-6 {
+    width: 50%;
+    float: left; }
+  .persist-cols .col-md-7, .leaderboard > .col-md-12 .row.leaderboard-team .col-md-7, .recipients .col-md-7, .profile-wrapper .data .col-md-7, .profile-wrapper .members .col-md-7, .profile-wrapper .friends .col-md-7, .profile-wrapper .teams .col-md-7, .events .event .col-md-7, .schedule#elimination .rounds .col-md-7 {
+    width: 58.33%;
+    float: left; }
+  .persist-cols .col-md-8, .leaderboard > .col-md-12 .row.leaderboard-team .col-md-8, .recipients .col-md-8, .profile-wrapper .data .col-md-8, .profile-wrapper .members .col-md-8, .profile-wrapper .friends .col-md-8, .profile-wrapper .teams .col-md-8, .events .event .col-md-8, .schedule#elimination .rounds .col-md-8 {
+    width: 66.66%;
+    float: left; }
+  .persist-cols .col-md-9, .leaderboard > .col-md-12 .row.leaderboard-team .col-md-9, .recipients .col-md-9, .profile-wrapper .data .col-md-9, .profile-wrapper .members .col-md-9, .profile-wrapper .friends .col-md-9, .profile-wrapper .teams .col-md-9, .events .event .col-md-9, .schedule#elimination .rounds .col-md-9 {
+    width: 75%;
+    float: left; }
+  .persist-cols .col-md-10, .leaderboard > .col-md-12 .row.leaderboard-team .col-md-10, .recipients .col-md-10, .profile-wrapper .data .col-md-10, .profile-wrapper .members .col-md-10, .profile-wrapper .friends .col-md-10, .profile-wrapper .teams .col-md-10, .events .event .col-md-10, .schedule#elimination .rounds .col-md-10 {
+    width: 83.33%;
+    float: left; }
+  .persist-cols .col-md-11, .leaderboard > .col-md-12 .row.leaderboard-team .col-md-11, .recipients .col-md-11, .profile-wrapper .data .col-md-11, .profile-wrapper .members .col-md-11, .profile-wrapper .friends .col-md-11, .profile-wrapper .teams .col-md-11, .events .event .col-md-11, .schedule#elimination .rounds .col-md-11 {
+    width: 91.66%;
+    float: left; }
+  .persist-cols .col-md-offset-1, .leaderboard > .col-md-12 .row.leaderboard-team .col-md-offset-1, .recipients .col-md-offset-1, .profile-wrapper .data .col-md-offset-1, .profile-wrapper .members .col-md-offset-1, .profile-wrapper .friends .col-md-offset-1, .profile-wrapper .teams .col-md-offset-1, .events .event .col-md-offset-1, .schedule#elimination .rounds .col-md-offset-1 {
+    margin-left: 8.33%; }
+  .persist-cols .col-md-offset-2, .leaderboard > .col-md-12 .row.leaderboard-team .col-md-offset-2, .recipients .col-md-offset-2, .profile-wrapper .data .col-md-offset-2, .profile-wrapper .members .col-md-offset-2, .profile-wrapper .friends .col-md-offset-2, .profile-wrapper .teams .col-md-offset-2, .events .event .col-md-offset-2, .schedule#elimination .rounds .col-md-offset-2 {
+    margin-left: 16.66%; }
+  .persist-cols .col-md-offset-3, .leaderboard > .col-md-12 .row.leaderboard-team .col-md-offset-3, .recipients .col-md-offset-3, .profile-wrapper .data .col-md-offset-3, .profile-wrapper .members .col-md-offset-3, .profile-wrapper .friends .col-md-offset-3, .profile-wrapper .teams .col-md-offset-3, .events .event .col-md-offset-3, .schedule#elimination .rounds .col-md-offset-3 {
+    margin-left: 25%; }
+  .persist-cols .col-md-offset-4, .leaderboard > .col-md-12 .row.leaderboard-team .col-md-offset-4, .recipients .col-md-offset-4, .profile-wrapper .data .col-md-offset-4, .profile-wrapper .members .col-md-offset-4, .profile-wrapper .friends .col-md-offset-4, .profile-wrapper .teams .col-md-offset-4, .events .event .col-md-offset-4, .schedule#elimination .rounds .col-md-offset-4 {
+    margin-left: 33.33%; }
+  .persist-cols .col-md-offset-5, .leaderboard > .col-md-12 .row.leaderboard-team .col-md-offset-5, .recipients .col-md-offset-5, .profile-wrapper .data .col-md-offset-5, .profile-wrapper .members .col-md-offset-5, .profile-wrapper .friends .col-md-offset-5, .profile-wrapper .teams .col-md-offset-5, .events .event .col-md-offset-5, .schedule#elimination .rounds .col-md-offset-5 {
+    margin-left: 41.66%; }
+  .persist-cols .col-md-offset-6, .leaderboard > .col-md-12 .row.leaderboard-team .col-md-offset-6, .recipients .col-md-offset-6, .profile-wrapper .data .col-md-offset-6, .profile-wrapper .members .col-md-offset-6, .profile-wrapper .friends .col-md-offset-6, .profile-wrapper .teams .col-md-offset-6, .events .event .col-md-offset-6, .schedule#elimination .rounds .col-md-offset-6 {
+    margin-left: 50%; }
+  .persist-cols .col-md-offset-7, .leaderboard > .col-md-12 .row.leaderboard-team .col-md-offset-7, .recipients .col-md-offset-7, .profile-wrapper .data .col-md-offset-7, .profile-wrapper .members .col-md-offset-7, .profile-wrapper .friends .col-md-offset-7, .profile-wrapper .teams .col-md-offset-7, .events .event .col-md-offset-7, .schedule#elimination .rounds .col-md-offset-7 {
+    margin-left: 58.33%; }
+  .persist-cols .col-md-offset-8, .leaderboard > .col-md-12 .row.leaderboard-team .col-md-offset-8, .recipients .col-md-offset-8, .profile-wrapper .data .col-md-offset-8, .profile-wrapper .members .col-md-offset-8, .profile-wrapper .friends .col-md-offset-8, .profile-wrapper .teams .col-md-offset-8, .events .event .col-md-offset-8, .schedule#elimination .rounds .col-md-offset-8 {
+    margin-left: 66.66%; }
+  .persist-cols .col-md-offset-9, .leaderboard > .col-md-12 .row.leaderboard-team .col-md-offset-9, .recipients .col-md-offset-9, .profile-wrapper .data .col-md-offset-9, .profile-wrapper .members .col-md-offset-9, .profile-wrapper .friends .col-md-offset-9, .profile-wrapper .teams .col-md-offset-9, .events .event .col-md-offset-9, .schedule#elimination .rounds .col-md-offset-9 {
+    margin-left: 75%; }
+  .persist-cols .col-md-offset-10, .leaderboard > .col-md-12 .row.leaderboard-team .col-md-offset-10, .recipients .col-md-offset-10, .profile-wrapper .data .col-md-offset-10, .profile-wrapper .members .col-md-offset-10, .profile-wrapper .friends .col-md-offset-10, .profile-wrapper .teams .col-md-offset-10, .events .event .col-md-offset-10, .schedule#elimination .rounds .col-md-offset-10 {
+    margin-left: 83.33%; }
+  .persist-cols .col-md-offset-11, .leaderboard > .col-md-12 .row.leaderboard-team .col-md-offset-11, .recipients .col-md-offset-11, .profile-wrapper .data .col-md-offset-11, .profile-wrapper .members .col-md-offset-11, .profile-wrapper .friends .col-md-offset-11, .profile-wrapper .teams .col-md-offset-11, .events .event .col-md-offset-11, .schedule#elimination .rounds .col-md-offset-11 {
+    margin-left: 91.66%; } }
 
 .bigbtn {
   height: 6em;
@@ -1147,7 +1259,8 @@ label.control-label + p.info {
       float: none;
       min-height: 5.5em;
       width: 100%;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.2); }
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+      background-color: rgba(0, 0, 0, 0.1); }
       #search-results .blocklink-wrapper .blocklink .profile-img, #admin .blocklink-wrapper .blocklink .profile-img, #users .blocklink-wrapper .blocklink .profile-img {
         height: 4em;
         width: 4em;
@@ -1183,7 +1296,7 @@ label.control-label + p.info {
   border-bottom: 0; }
 
 @media (max-width: 520px) {
-  .about .persist-cols > [class^="col-md-"], .about .recipients > [class^="col-md-"], .about .profile-wrapper .data > [class^="col-md-"], .profile-wrapper .about .data > [class^="col-md-"], .about .profile-wrapper .members > [class^="col-md-"], .profile-wrapper .about .members > [class^="col-md-"], .about .profile-wrapper .friends > [class^="col-md-"], .profile-wrapper .about .friends > [class^="col-md-"], .about .profile-wrapper .teams > [class^="col-md-"], .profile-wrapper .about .teams > [class^="col-md-"], .about .events .event > [class^="col-md-"], .events .about .event > [class^="col-md-"] {
+  .about .persist-cols > [class^="col-md-"], .about .leaderboard > .col-md-12 .row.leaderboard-team > [class^="col-md-"], .leaderboard > .col-md-12 .about .row.leaderboard-team > [class^="col-md-"], .about .recipients > [class^="col-md-"], .about .profile-wrapper .data > [class^="col-md-"], .profile-wrapper .about .data > [class^="col-md-"], .about .profile-wrapper .members > [class^="col-md-"], .profile-wrapper .about .members > [class^="col-md-"], .about .profile-wrapper .friends > [class^="col-md-"], .profile-wrapper .about .friends > [class^="col-md-"], .about .profile-wrapper .teams > [class^="col-md-"], .profile-wrapper .about .teams > [class^="col-md-"], .about .events .event > [class^="col-md-"], .events .about .event > [class^="col-md-"], .about .schedule#elimination .rounds > [class^="col-md-"], .schedule#elimination .about .rounds > [class^="col-md-"] {
     width: 100%;
     float: none; }
   .about .image-wrapper {
@@ -1211,5 +1324,93 @@ label.control-label + p.info {
 @media (max-width: 991px) {
   #users .dropdown button[type=submit] {
     margin-top: 0; } }
+
+@media (min-width: 47em) {
+  #settle-game-form .row .col-md-4:last-child {
+    margin-left: 33.33%; }
+  #settle-game-form .row .col-md-4.draw {
+    position: absolute;
+    height: 2em;
+    top: 0;
+    bottom: 0;
+    left: 33.33%;
+    margin: auto;
+    width: 33.33%; } }
+#settle-game-form .profile-img {
+  max-width: 150px;
+  display: inline-block; }
+  #settle-game-form .profile-img img {
+    width: 100%; }
+@media (max-width: 47em) {
+  #settle-game-form .col-md-4:not(:last-child) {
+    margin-bottom: 1em; }
+  #settle-game-form .col-md-4 > * {
+    padding: 0 5em; }
+  #settle-game-form .profile-img {
+    max-width: 50px; }
+  #settle-game-form .float-wrapper, #settle-game-form .draw > .title {
+    float: right; }
+  #settle-game-form .checkbox {
+    position: absolute;
+    height: 2em;
+    top: 0;
+    bottom: 0;
+    margin: auto; }
+  #settle-game-form .clear {
+    clear: both; } }
+
+@media (max-width: 47em) {
+  .schedule#elimination {
+    overflow-x: scroll;
+    overflow-y: auto;
+    height: 100%;
+    width: 100%; } }
+@media (max-width: 47em) {
+  .schedule#elimination .rounds {
+    width: 12em; } }
+.schedule#elimination .rounds .round {
+  width: 12em; }
+  .schedule#elimination .rounds .round:not(:last-child) {
+    border-right: 1px solid #c1bfbf; }
+  .schedule#elimination .rounds .round.current-round .game:hover {
+    background-color: rgba(255, 43, 0, 0.4); }
+  .schedule#elimination .rounds .round.current-round .game .game-settle {
+    color: #fff;
+    text-decoration: none;
+    display: inline-block; }
+  .schedule#elimination .rounds .round .game:not(:last-child) {
+    margin-bottom: 6em; }
+  .schedule#elimination .rounds .round .game .participant {
+    height: 10em;
+    text-align: center; }
+    .schedule#elimination .rounds .round .game .participant .profile-img {
+      max-height: 7em;
+      max-width: 5em;
+      display: inline-block;
+      margin: auto 1em;
+      position: relative; }
+      .schedule#elimination .rounds .round .game .participant .profile-img img {
+        height: auto;
+        width: auto;
+        max-height: 100%;
+        max-width: 100%; }
+      .schedule#elimination .rounds .round .game .participant .profile-img .overlay-won {
+        position: absolute;
+        width: 1.5em;
+        height: 1.5em;
+        background-color: rgba(0, 0, 0, 0.2);
+        top: 0;
+        left: 0;
+        color: gold; }
+    .schedule#elimination .rounds .round .game .participant.team_1 p.title, .schedule#elimination .rounds .round .game .participant.team_2 p.title {
+      height: 2.2em;
+      width: 100%;
+      text-align: center; }
+.schedule#round-robin .profile-img {
+  width: 100%;
+  max-height: 100%; }
+  .schedule#round-robin .profile-img img {
+    width: 100%;
+    height: auto; }
 
 /*# sourceMappingURL=style.css.map */

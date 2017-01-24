@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <form id="add-round-form" action="{{ route('events.add-round', ['event_id' => $event->id]) }}" method="POST">
                     {{  csrf_field() }}
-                    <input type="text" name="name" placeholder="Round N">
+                    <input class="form-control" type="text" name="name" placeholder="Round N">
                 </form>
             </div>
             <div class="modal-footer">

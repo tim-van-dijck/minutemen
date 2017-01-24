@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Messages')
+@section('title', 'Conversations')
 @section('content')
     <div class="row">
         <div class="col-md-12">
             <div class="col-md-12">
                 <i class="fa fa-2x fa-comments menu-icons"></i>
                 <a href="{{ route('conversations.create') }}" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> new message</a>
-                <h1>Messages</h1>
+                <h1>Conversations</h1>
                 <div id="conversation-list">
                     @forelse ($conversations as $conversation)
                         <div class="row blocklink-wrapper">

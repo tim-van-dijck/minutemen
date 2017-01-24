@@ -34,16 +34,14 @@
                     @endif
                     {{ $organisation->name }}
                 </h2>
-                <h5 class="text-center">{{ count($organisation->subscribers()) }} subscribers</h5>
                 <div class="row">
-                    <div class="col-md-12 text-center">
+                    <div class="col-md-4 text-center">
                         <div class="profile-img profile">
                             <img src="{{ $organisation->thumb or 'img/organisation.png' }}" alt="{{ $organisation->name }}">
+                            <h5 class="text-center">{{ count($organisation->subscribers()) }} subscribers</h5>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-8">
                         <h4 class="text-center">About {{ $organisation->name }}</h4>
                         <div class="description">{!! $organisation->description !!}</div>
                     </div>
@@ -113,7 +111,7 @@
                                     <form id="post-form" action="{{ route('ajax.organisations.post', ['id' => $organisation->id]) }}" method="POST">
                                         {{ csrf_field() }}
                                         <button type="submit" class="btn btn-primary">Post</button>
-                                        <textarea name="post" class="form-control" required></textarea>
+                                        <textarea name="post" class="form-control" placeholder="Write a post here. Press Enter or 'Post' to submit" required></textarea>
                                     </form>
                                 </div>
                             </div>

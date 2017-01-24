@@ -15,7 +15,7 @@ class EventsTableSeeder extends Seeder
 			[
 				'title'				=> 'Event 1',
 				'description'		=> 'Description 1',
-				'max_teams'			=> 7,
+				'max_teams'			=> 8,
 				'starts_at'			=> date('Y-m-d H:i:s', strtotime('2016-12-10 13:00:00')),
 				'ends_at'			=> date('Y-m-d H:i:s', strtotime('2016-12-10 18:00:00')),
 				'street'			=> 'Helmstraat',
@@ -31,7 +31,7 @@ class EventsTableSeeder extends Seeder
 			[
 				'title'				=> 'Event 2',
 				'description'		=> 'Description 2',
-				'max_teams'			=> 7,
+				'max_teams'			=> 8,
 				'starts_at'			=> date('Y-m-d H:i:s', strtotime('2016-12-15 13:00:00')),
 				'ends_at'			=> date('Y-m-d H:i:s', strtotime('2016-12-15 18:00:00')),
 				'street'			=> 'Helmstraat',
@@ -47,7 +47,7 @@ class EventsTableSeeder extends Seeder
 			[
 				'title'				=> 'Event 3',
 				'description'		=> 'Description 3',
-				'max_teams'			=> 7,
+				'max_teams'			=> 8,
 				'starts_at'			=> date('Y-m-d H:i:s', strtotime('2016-12-20 13:00:00')),
 				'ends_at'			=> date('Y-m-d H:i:s', strtotime('2016-12-20 18:00:00')),
 				'street'			=> 'Helmstraat',

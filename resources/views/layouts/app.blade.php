@@ -76,13 +76,13 @@
 								<i class="fa fa-fw fa-users"></i>Friends
 							</div>
 						</a>
-						<a href="{{ route('conversations.index') }}">
+						<a {{ (Request::is('conversations')) ? 'class=active' : '' }} href="{{ route('conversations.index') }}">
 							<div class="abs-wrapper">
 								<div class="message-bubble"></div>
-								<i class="fa fa-fw fa-comments"></i>Messages
+								<i class="fa fa-fw fa-comments"></i>Conversations
 							</div>
 						</a>
-						<a href="{{ route('users.notifications') }}">
+						<a {{ (Request::is('notifications')) ? 'class=active' : '' }} href="{{ route('users.notifications') }}">
 							<div class="abs-wrapper">
 								<div class="notification-bubble"></div>
 								<i class="fa fa-fw fa-bell"></i>Notifications

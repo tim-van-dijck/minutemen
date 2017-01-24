@@ -37,7 +37,7 @@
             @foreach ($leaderboard as $index => $team)
                 @if ($index == 1 || $index == 2)
                     @if ($index == 1)
-                        <div class="row">
+                        <div class="row persist-cols-mobile">
                     @endif
                     <div class="col-md-6">
                 @endif
