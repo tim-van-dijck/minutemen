@@ -1,4 +1,4 @@
-<div class="modal fade" id="enter-event" tabindex="-1" role="dialog">
+<div class="modal fade" id="enter-event" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -10,12 +10,7 @@
             <div class="modal-body">
                 <form id="enter-form" action="{{ route('events.enter', ['id' => $event->id]) }}" method="POST">
                     {{ csrf_field() }}
-                    <select name="team" id="team">
-                        <option></option>
-                        @foreach ($myTeams as $team)
-                            <option value="{{ $team->id }}">{{ $team->name }}</option>
-                        @endforeach
-                    </select>
+                    <select name="team" id="team-find"></select>
                 </form>
             </div>
             <div class="modal-footer">

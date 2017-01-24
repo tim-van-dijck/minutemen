@@ -158,13 +158,23 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-12">
-							<label for="max-teams" class="control-label">Max. teams</label><br>
-							<input id="max-teams" class="form-control" name="max-teams" value="{{ old('max-teams') }}" required autofocus>
+						<div class="col-md-6">
+							<label for="max_teams" class="control-label">Max. teams<i class="fa fa-asterisk"></i></label><br>
+							<input id="max_teams" class="form-control" name="max_teams" value="{{ old('max_teams') }}" required autofocus>
 
-							@if ($errors->has('max-teams'))
+							@if ($errors->has('max_teams'))
 								<span class="help-block">
-								<strong>{{ $errors->first('max-teams') }}</strong>
+								<strong>{{ $errors->first('max_teams') }}</strong>
+							</span>
+							@endif
+						</div>
+						<div class="col-md-6">
+							<label for="max_team_size" class="control-label">Max. team size<i class="fa fa-asterisk"></i></label><br>
+							<input id="max_team_size" class="form-control" name="max_team_size" value="{{ old('max_teams_size') }}" required autofocus>
+
+							@if ($errors->has('max_team_size'))
+								<span class="help-block">
+								<strong>{{ $errors->first('max_teams_size') }}</strong>
 							</span>
 							@endif
 						</div>

@@ -48,10 +48,10 @@ Route::group(['middleware' => 'auth'], function () {
 
 	// Users
 	Route::get('settings', 'UserController@settings')->name('settings');
-	Route::put('settings', 'UserController@updateSettings')->name('settings.update');
+	Route::match(['put', 'patch'], 'settings', 'UserController@updateSettings')->name('settings.update');
 	Route::get('edit-profile', 'UserController@edit')->name('users.edit');
 	Route::delete('delete-account', 'UserController@destroy')->name('users.destroy');
-	Route::match(['put', 'patch'], 'settings', 'UserController@update')->name('users.update');
+	Route::match(['put', 'patch'], 'me/update', 'UserController@update')->name('users.update');
 	Route::get('profile', 'UserController@show')->name('users.profile');
 	Route::get('notifications', 'UserController@notifications')->name('users.notifications');
 
@@ -169,6 +169,7 @@ Route::group(['middleware' => 'ajax', 'prefix' => 'ajax'], function () {
 
             Route::get('/{team_id}/make-admin/{user_id}', 'TeamController@makeAdmin')->name('ajax.team.admin.make');
             Route::get('/{team_id}/delete-admin/{user_id}', 'TeamController@deleteAdmin')->name('ajax.team.admin.delete');
+            Route::get('/find/{event_id}', 'TeamController@findRelevant')->name('ajax.team.find-relevant');
         });
 
         // ajax/users

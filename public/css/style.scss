@@ -18,8 +18,6 @@ $m1280:			    "(min-width: 80em)"; /* 1280px */
 $wide:			    "(min-width: 84em)"; /* 1350px */
 $large:			    "(min-width: 93em)"; /* 1488px */
 
-.alert-success { background-color: #57B97F; border-color: #57B97F; color: #005A24; border-radius: 0; margin-top: -22px; }
-
 label .fa {
 	font-size: 1.5em;
 	&.fa-asterisk { color: $accent; font-size: .7em; vertical-align: super; }
@@ -153,6 +151,7 @@ body {
 h1,h2,h3 { font-family: 'Oswald', sans-serif; }
 
 // Select 2
+select { width: 100% !important; }
 [class^='select2'] {
 	border-radius: 0 !important; border-color: transparent !important;
 	&:focus, &:active, &:hover { border-radius: 0 !important; border-color: transparent; }
@@ -162,11 +161,13 @@ h1,h2,h3 { font-family: 'Oswald', sans-serif; }
 	 :not(.select2-container.select2-container--default.select2-container--open) {
 		width: 100% !important;
 	}
+	&.select2 { width: 100% !important; }
+	&.select2-selection__rendered { color: #fff !important; }
 	.select2-selection__choice { background-color: #494949 !important; }
 }
+.select2-dropdown,
 .select2-container,
-.select2-search__field,
-.select2-search__field,
+.select2-selection,
 .select2-selection.select2-selection--multiple {
 	background-color: #3a3b3e !important;
 }
@@ -216,7 +217,6 @@ form {
 			&:focus, &:hover, &:active { color: #868686; background: transparent; }
 		}
 	}
-	select { width: 100%; }
 
 	::-webkit-input-placeholder { color: #777 !important; }
 	:-moz-placeholder { color: #777 !important; opacity: 1; }
@@ -680,6 +680,10 @@ a.accent:hover, a.accent:focus, a.accent:active { color: $accent; }
 
 .errors, .success {
 	margin: -22px 0 1em 0;
+	&.success {
+		background-color: #8fc3a4; color: #8fc3a4; color: #005A24;
+		.alert-success { background-color: #8fc3a4; border-color: #8fc3a4; border-radius: 0; }
+	}
 	&.errors {
 		background-color: #f2dede;
 		.alert-danger { border-radius: 0; }
@@ -973,16 +977,11 @@ label.control-label + p.info { margin-top: -.4em; }
 				}
 				.game {
 					&:not(:last-child) { margin-bottom: 6em; }
-
 					.participant {
 						height: 10em; text-align: center;
 						.profile-img {
-							max-height: 7em; max-width: 5em; display: inline-block; margin: auto 1em; position: relative;
+							max-height: 7em; max-width: 5em; display: inline-block; margin: auto 1em;
 							img { height: auto; width: auto; max-height: 100%; max-width: 100%; }
-							.overlay-won {
-								position: absolute; width: 1.5em; height: 1.5em; background-color: $overlay-color;
-								top: 0; left: 0; color: gold;
-							}
 						}
 						&.team_1, &.team_2 {
 							p.title { height: 2.2em; width: 100%; text-align: center; }
@@ -993,9 +992,29 @@ label.control-label + p.info { margin-top: -.4em; }
 		}
 	}
 	&#round-robin {
+		.game-settle {
+			display: inline-block;
+			.game { color: #fff; text-decoration: none; display: inline-block; position: relative; display: flex }
+			&:hover { background-color: rgba(255, 43, 0, 0.4); }
+		}
 		.profile-img {
-			width: 100%; max-height: 100%;
+			width: calc(100% - 2em); max-height: 100%; margin: 1em;
+			.overlay-won {
+				font-size: 1.5em;
+			}
 			img { width: 100%; height: auto;}
+		}
+		p.title { height: 2.2em; width: 100%; text-align: center; }
+		.versus {
+			position: relative;
+			span { font-size: 2em; height: 1em; position: absolute; top: 0; bottom: 0; left: 0; width: 100%; margin: auto; }
+		}
+	}
+	.profile-img {
+		position: relative;
+		.overlay-won {
+			position: absolute; width: 1.5em; height: 1.5em; line-height: 1.5em; background-color: $overlay-color;
+			top: 0; left: 0; color: gold; text-align: center;
 		}
 	}
 }

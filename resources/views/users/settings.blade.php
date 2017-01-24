@@ -30,7 +30,7 @@
 											<strong>{{ $errors->first('street') }}</strong>
 										</span>
                                     @endif
-                                    <input id="street" type="text" class="form-control" name="street" value="{{ $user->street }}" autofocus>
+                                    <input id="street" type="text" class="form-control" name="street" placeholder="Fake street" value="{{ $user->street }}" autofocus>
                                 </div>
                                 <div class="col-md-3">
                                     <label for="number" class="control-label">Number</label><br>
@@ -39,7 +39,7 @@
 											<strong>{{ $errors->first('number') }}</strong>
 										</span>
                                     @endif
-                                    <input id="number" type="text" class="form-control" name="number" value="{{ $user->number }}">
+                                    <input id="number" type="text" class="form-control" name="number" placeholder="123" value="{{ $user->number }}">
                                 </div>
                             </div>
                         </div>

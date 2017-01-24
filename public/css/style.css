@@ -7,13 +7,6 @@
 /* 1280px */
 /* 1350px */
 /* 1488px */
-.alert-success {
-  background-color: #57B97F;
-  border-color: #57B97F;
-  color: #005A24;
-  border-radius: 0;
-  margin-top: -22px; }
-
 label .fa {
   font-size: 1.5em; }
   label .fa.fa-asterisk {
@@ -237,6 +230,9 @@ body {
 h1, h2, h3 {
   font-family: 'Oswald', sans-serif; }
 
+select {
+  width: 100% !important; }
+
 [class^='select2'] {
   border-radius: 0 !important;
   border-color: transparent !important; }
@@ -248,12 +244,16 @@ h1, h2, h3 {
   :not(.select2-selection__choice)
   :not(.select2-container.select2-container--default.select2-container--open) {
     width: 100% !important; }
+  [class^='select2'].select2 {
+    width: 100% !important; }
+  [class^='select2'].select2-selection__rendered {
+    color: #fff !important; }
   [class^='select2'] .select2-selection__choice {
     background-color: #494949 !important; }
 
+.select2-dropdown,
 .select2-container,
-.select2-search__field,
-.select2-search__field,
+.select2-selection,
 .select2-selection.select2-selection--multiple {
   background-color: #3a3b3e !important; }
 
@@ -310,8 +310,6 @@ form.delete button.confirm {
   form.delete button.confirm:focus, form.delete button.confirm:hover, form.delete button.confirm:active {
     color: #868686;
     background: transparent; }
-form select {
-  width: 100%; }
 form ::-webkit-input-placeholder {
   color: #777 !important; }
 form :-moz-placeholder {
@@ -1001,6 +999,14 @@ a.accent:hover, a.accent:focus, a.accent:active {
 
 .errors, .success {
   margin: -22px 0 1em 0; }
+  .errors.success, .success.success {
+    background-color: #8fc3a4;
+    color: #8fc3a4;
+    color: #005A24; }
+    .errors.success .alert-success, .success.success .alert-success {
+      background-color: #8fc3a4;
+      border-color: #8fc3a4;
+      border-radius: 0; }
   .errors.errors, .success.errors {
     background-color: #f2dede; }
     .errors.errors .alert-danger, .success.errors .alert-danger {
@@ -1387,30 +1393,61 @@ label.control-label + p.info {
       max-height: 7em;
       max-width: 5em;
       display: inline-block;
-      margin: auto 1em;
-      position: relative; }
+      margin: auto 1em; }
       .schedule#elimination .rounds .round .game .participant .profile-img img {
         height: auto;
         width: auto;
         max-height: 100%;
         max-width: 100%; }
-      .schedule#elimination .rounds .round .game .participant .profile-img .overlay-won {
-        position: absolute;
-        width: 1.5em;
-        height: 1.5em;
-        background-color: rgba(0, 0, 0, 0.2);
-        top: 0;
-        left: 0;
-        color: gold; }
     .schedule#elimination .rounds .round .game .participant.team_1 p.title, .schedule#elimination .rounds .round .game .participant.team_2 p.title {
       height: 2.2em;
       width: 100%;
       text-align: center; }
+.schedule#round-robin .game-settle {
+  display: inline-block; }
+  .schedule#round-robin .game-settle .game {
+    color: #fff;
+    text-decoration: none;
+    display: inline-block;
+    position: relative;
+    display: flex; }
+  .schedule#round-robin .game-settle:hover {
+    background-color: rgba(255, 43, 0, 0.4); }
 .schedule#round-robin .profile-img {
-  width: 100%;
-  max-height: 100%; }
+  width: calc(100% - 2em);
+  max-height: 100%;
+  margin: 1em; }
+  .schedule#round-robin .profile-img .overlay-won {
+    font-size: 1.5em; }
   .schedule#round-robin .profile-img img {
     width: 100%;
     height: auto; }
+.schedule#round-robin p.title {
+  height: 2.2em;
+  width: 100%;
+  text-align: center; }
+.schedule#round-robin .versus {
+  position: relative; }
+  .schedule#round-robin .versus span {
+    font-size: 2em;
+    height: 1em;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    margin: auto; }
+.schedule .profile-img {
+  position: relative; }
+  .schedule .profile-img .overlay-won {
+    position: absolute;
+    width: 1.5em;
+    height: 1.5em;
+    line-height: 1.5em;
+    background-color: rgba(0, 0, 0, 0.2);
+    top: 0;
+    left: 0;
+    color: gold;
+    text-align: center; }
 
 /*# sourceMappingURL=style.css.map */

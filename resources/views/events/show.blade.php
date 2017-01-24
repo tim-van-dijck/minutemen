@@ -80,12 +80,8 @@
 @section('js')
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 	<script src="js/forms.js"></script>
-	<script type="text/javascript">
-		$(function() {
-			$('#team').select2({
-				placeholder: "Do something",
-				allowClear: true
-			});
-		});
+	<script>
+		var eventId = {{ $event->id }};
 	</script>
+	<script src="js/enter.js"></script>
 @stop

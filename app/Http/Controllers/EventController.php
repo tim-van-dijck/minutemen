@@ -52,7 +52,8 @@ class EventController extends Controller
 			'city'			=> 'required',
 			'banner'		=> 'image|max:4096',
             'type'          => 'required',
-            'max-teams'     => 'multiple-of-two'
+            'max_teams'     => 'required|multiple-of-two',
+            'max_team_size' => 'required'
 		]);
 
 		$input = $request->all();

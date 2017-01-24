@@ -9,6 +9,7 @@ use Auth;
 use Session;
 use Storage;
 
+use App\Event;
 use App\General;
 use App\Team;
 use App\User;
@@ -53,10 +54,10 @@ class TeamController extends Controller
 		$input = $request->all();
 
 		$input['slug'] = General::sluggify($input['name'], 'teams');
-		$input['tag'] = strtoupper($input['img']);
+		$input['tag'] = strtoupper($input['tag']);
 
 		// Deal with emblem upload
-		if (isset($input['emblem']) && $input['emblem'] != '') {
+		if (isset($input['emblem']) && $input['emblem'] != 'data:,') {
             $input['emblem'] = General::uploadImg($input['emblem'], 'teams',true);
 		} else { unset($input['emblem']); }
 
@@ -182,5 +183,21 @@ class TeamController extends Controller
 
     public function mine() {
 	    return view('teams.index')->with(['teams' => Auth::user()->teams()]);
+    }
+
+    public function findRelevant(Request $request, $event_id) {
+	    $event = Event::find($event_id);
+	    $teams = Team::select('teams.id', 'name AS text', 'emblem')
+                        ->join('team_users', 'team_users.team_id', '=', 'teams.id')
+                        ->where([
+                            ['name', 'LIKE', '%'.$request->input('q').'%'],
+                            ['team_users.user_id', '=', Auth::user()->id],
+                            ['team_users.deleted_at', '=', null],
+                        ])->get();
+
+	    foreach ($teams as $i => $team) {
+	        if (count($team->members()) > $event->max_team_size) { unset($teams[$i]); }
+        }
+        return json_encode($teams);
     }
 }

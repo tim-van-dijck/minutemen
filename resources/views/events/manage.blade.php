@@ -36,8 +36,8 @@
 				</div>
 			</div>
 			@include('modals.add-round')
-			@include('modals.set-winner')
 		@endif
+		@include('modals.set-winner')
 	@endif
 @stop
 

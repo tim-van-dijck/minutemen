@@ -19,7 +19,7 @@
                             </div>
                             <p class="title">{{ $game->team1()->name }}</p>
                         </div>
-                        <span class="col-md-4"><span>vs.</span></span>
+                        <div class="col-md-4 text-center versus"><span>{!! ($game->draw) ? '<i class="fa fa-pause fa-rotate-90"></i>' : 'vs.'!!}</span></div>
                         <div class="col-md-4 participant team_2">
                             <div class="profile-img">
                                 <img src="{{ $game->team2()->emblem or 'img/emblem.png' }}" alt="{{ $game->team2()->name }}">

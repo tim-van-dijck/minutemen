@@ -239,7 +239,7 @@ class User extends Authenticatable
             ->where('users.id', '!=', Auth::user()->id)
             ->where('username', 'LIKE', '%'.$term.'%');
 
-        $result = User::select(DB::raw('id, username AS text, img'))
+        $result = User::select(DB::raw('users.id, username AS text, img'))
                     ->join('team_users', 'team_users.user_id', '=', 'users.id')
                     ->whereNotExists(function ($query) use ($conversation_id) {
                         $query->select(DB::raw(1))
@@ -250,13 +250,16 @@ class User extends Authenticatable
                     ->where('username', 'LIKE', '%'.$term.'%')
                     ->where('users.id', '!=', Auth::user()->id);
 
+        $where = '(';
         foreach ($teams as $index => $team) {
             if ($index == 0) {
-                $result->where('team_id', $team->id);
+                $where .= 'team_id = '.$team->id;
             } else {
-                $result->orWhere('team_id', $team->id);
+                $where .= ' OR team_id = '.$team->id;
             }
         }
+        $where .= ')';
+        if ($where != '()') { $result->whereRaw($where); }
 
         return $result->union($first)->union($second)->groupBy('users.id')->get();
     }
