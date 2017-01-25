@@ -30,7 +30,7 @@
 							<div class="form-group{{ $errors->has('thumb') ? ' has-error' : '' }}">
 								<div class="col-md-12">
 									<label class="control-label">Organisation image</label><br>
-									<input id="img" type="hidden" name="thumb">
+									<input id="img" type="hidden" name="img">
 									<div id="preview-img">
 									</div>
 									<label for="full-img" class="form-control img-label">

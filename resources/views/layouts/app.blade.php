@@ -214,19 +214,23 @@
 			<div class="row">
 				@if (Auth::check())
 					<div class="col-md-2 sidebar">
+						<a class="pull-right accent sidebar-add" href="{{ route('teams.create') }}"><i class="fa fa-plus"></i></a>
 						<h5>Your Teams</h5>
 						<ul>
-							@foreach (Auth::user()->teams() as $team)
+							@forelse (Auth::user()->teams() as $team)
 								<li><a href="{{ route('teams.show', ['slug' => $team->slug]) }}">{{ $team->name }}</a></li>
-							@endforeach
-							<li><a href="{{ route('teams.create') }}"><i class="fa fa-plus"></i> create team</a></li>
+							@empty
+								<li>No teams yet</li>
+							@endforelse
 						</ul>
+						<a class="pull-right accent sidebar-add" href="{{ route('organisations.create') }}"><i class="fa fa-plus"></i></a>
 						<h5>Your Organisations</h5>
 						<ul>
-							@foreach (Auth::user()->organisations() as $org)
+							@forelse (Auth::user()->organisations() as $org)
 								<li><a href="{{ route('organisations.show', ['id' => $org->id]) }}">{{ $org->name }}</a></li>
-							@endforeach
-							<li><a href="{{ route('organisations.create') }}"><i class="fa fa-plus"></i> create organisation</a></li>
+							@empty
+								<li>No teams organisations</li>
+							@endforelse
 						</ul>
 					</div>
 				@endif
@@ -326,7 +330,7 @@
 		</script>
 	@endif
 	@if (Auth::check() && Auth::user()->lfg)
-		<script src="js/lobbies.js"></script>
+		<script src="js/lobby-find.js"></script>
 	@endif
 	@yield('js')
 </body>

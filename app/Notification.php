@@ -103,10 +103,10 @@ class Notification extends Model
 
     protected function updatedOrganisation($organisation_id) {
         $subscribers = User::select('users.*')
-            ->join('organisation_users', 'users.id', '=', 'organisation_users.user_id')
+            ->join('organisation_roles', 'users.id', '=', 'organisation_roles.user_id')
             ->where([
-                ['organisation_users.organisation_id', '=', $organisation_id],
-                ['organisation_users.user_id', '!=', Auth::user()->id],
+                ['organisation_roles.organisation_id', '=', $organisation_id],
+                ['organisation_roles.user_id', '!=', Auth::user()->id],
             ])->get();
 
         foreach ($subscribers as $subscriber) {

@@ -70,7 +70,7 @@ class UserController extends Controller
 		unset($input['full-img']);
 
         // Handle img upload
-        if (isset($input['img']) && $input['img'] != 'data:,') {
+        if (isset($input['img']) && $input['img'] != '' && $input['img'] != 'data:,') {
             if (isset($user->img)) { \unlink(public_path($user->img)); }
 			$input['img'] = General::uploadImg($input['img'], 'users', $user->id);
 		} else { unset($input['img']); }
@@ -85,7 +85,7 @@ class UserController extends Controller
 		$user->save();
 
 		Session::flash('success', 'Successfully updated profile');
-		return redirect()->back();
+		return redirect()->route('users.show', ['slug' => $user->slug]);
 	}
 
 	public function settings() {

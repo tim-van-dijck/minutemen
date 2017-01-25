@@ -40,8 +40,10 @@ $(function() {
         else { $('.stealth-mode').slideUp(); }
     });
 
-    getPlayers();
-    setInterval(function() { getPlayers(); }, 10000);
+    if ($('.lobby-view').length > 0) {
+        getPlayers();
+        setInterval(function() { getPlayers(); }, 10000);
+    }
 
     $('#invite-players-form').submit(function (e) {
         e.preventDefault();

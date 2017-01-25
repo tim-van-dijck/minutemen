@@ -58,6 +58,15 @@ body {
     @media (min-width: 992px) {
       body .sidebar {
         display: block; } }
+    body .sidebar .sidebar-add {
+      color: #cc4020;
+      margin-top: -2px;
+      height: 1em;
+      width: 1em;
+      text-align: center; }
+      body .sidebar .sidebar-add:hover {
+        background-color: #cc4020;
+        color: #fff; }
     body .sidebar ul {
       padding: 0;
       margin-bottom: 2em;

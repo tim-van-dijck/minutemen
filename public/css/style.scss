@@ -45,6 +45,10 @@ body {
 	.sidebar {
 		display: none;
 		@media #{$tablet-bootstrap} { display: block; }
+		.sidebar-add {
+			color: $accent; margin-top: -2px; height: 1em; width: 1em; text-align: center;
+			&:hover { background-color: $accent; color: #fff; }
+		}
 		ul {
 			padding: 0; margin-bottom: 2em; list-style-type: none;
 			li {

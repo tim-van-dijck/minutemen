@@ -40,11 +40,11 @@
 							<div class="form-group{{ $errors->has('emblem') ? ' has-error' : '' }}">
 								<div class="col-md-12">
 									<label class="control-label">Team emblem</label><br>
-									<input id="emblem" type="hidden" name="emblem">
+									<input id="img" type="hidden" name="img">
 									<div id="preview-img">
 									</div>
 									<label for="full-img" class="form-control img-label">
-										<span>Browse</span> <input id="full-img" type="file" class="hidden" name="full-img" value="{{ old('img') }}" accept="image/*">
+										<span>Browse</span> <input id="full-img" type="file" class="hidden" name="full-img" value="{{ old('full-img') }}" accept="image/*">
 									</label>
 
 									@if ($errors->has('img'))

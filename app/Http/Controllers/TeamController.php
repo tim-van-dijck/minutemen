@@ -57,9 +57,10 @@ class TeamController extends Controller
 		$input['tag'] = strtoupper($input['tag']);
 
 		// Deal with emblem upload
-		if (isset($input['emblem']) && $input['emblem'] != 'data:,') {
-            $input['emblem'] = General::uploadImg($input['emblem'], 'teams',true);
-		} else { unset($input['emblem']); }
+		if (isset($input['img']) && $input['img'] != '' && $input['img'] != 'data:,') {
+            $input['emblem'] = General::uploadImg($input['img'], 'teams',true);
+		}
+		unset($input['img']);
 
 		$team = new Team($input);
 		$team->save();
@@ -68,7 +69,7 @@ class TeamController extends Controller
 		Auth::user()->nlfg();
 
 		Session::flash('success', 'Successfully created '.$team->name);
-		return redirect('teams');
+		return redirect()->route('teams.show', ['slug' => $team->slug]);
 	}
 
 	/**
@@ -120,7 +121,7 @@ class TeamController extends Controller
         $input['tag'] = strtoupper($input['tag']);
 
 		// Deal with emblem upload
-        if (isset($input['img']) && $input['img'] != 'data:,') {
+        if (isset($input['img']) && $input['img'] != '' && $input['img'] != 'data:,') {
             if (isset($team->emblem)) { \unlink(public_path($team->emblem)); }
 			$input['emblem'] = General::uploadImg($input['img'], 'teams',true);
 		}

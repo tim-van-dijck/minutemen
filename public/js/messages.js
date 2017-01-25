@@ -130,3 +130,10 @@ function formatUser (user) {
 function formatUserSelection(user) {
     return user.text;
 }
+
+function setTitle() {
+    $.post($('#set-title').attr('action'), $('#set-title').serialize(), function() {
+        $('h1').text($('#set-title input[name="title"]').val()).toggleClass('hidden');
+        $('#set-title').toggleClass('hidden');
+    });
+}

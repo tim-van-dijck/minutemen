@@ -10,6 +10,7 @@ use Storage;
 use App\Event;
 use App\General;
 use App\Organisation;
+use App\Notification;
 use App\Post;
 
 class OrganisationController extends Controller
@@ -49,15 +50,10 @@ class OrganisationController extends Controller
 		$input = $request->all();
 
 		// Deal with thumb upload
-		if (isset($input['img']) && $input['img'] != 'data:,') {
+		if (isset($input['img']) && $input['img'] != 'data:,' && $input['img'] != '') {
 			$input['thumb'] = General::uploadImg($input['img'], 'organisations/thumbs', true);
 		}
 		unset($input['img']);
-
-		// Deal with banner upload
-		if (isset($input['banner']) && $input['banner'] != '') {
-			$input['banner'] = General::uploadImg($input['banner'], 'organisations');
-		} else { unset($input['banner']); }
 
 		$organisation = new Organisation($input);
 		$organisation->save();
@@ -114,7 +110,7 @@ class OrganisationController extends Controller
 		];
 
 		// Deal with emblem upload
-		if (isset($input['img']) && $input['img'] != 'data:,') {
+		if (isset($input['img']) && $input['img'] != 'data:,' && $input['img'] != '') {
 			Storage::delete(public_path($organisation->thumb));
 			$input['thumb'] = General::uploadImg($input['img'], 'organisations/thumbs', true);
 		}

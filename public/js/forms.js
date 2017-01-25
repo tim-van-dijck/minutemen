@@ -1,5 +1,6 @@
 var uploadCrop, map, marker;
 var pos = {lat: 51.1791705,lng: 4.4191379};
+var fileSelected = false;
 
 $(function () {
 	// MAPS
@@ -25,7 +26,10 @@ $(function () {
 				height: 300
 			}
 		});
-		$('#full-img').on('change', function() { readFile(this); });
+		$('#full-img').on('change', function() {
+            fileSelected = true;
+		    readFile(this);
+		});
 	}
 	$('.image-form').submit(function(e) { setImageData(); });
 
@@ -58,6 +62,7 @@ $(function () {
 
 // IMGS
 function readFile(input) {
+    console.log(input);
 	if (input.files && input.files[0]) {
 		if (input.files[0].size/1024 <= 2000) {
 			var reader = new FileReader();
@@ -79,16 +84,18 @@ function readFile(input) {
 	}
 }
 function setImageData() {
-	$uploadCrop.croppie('result', {
-			type: 'base64',
-			size: 'viewport',
-			format: 'png',
-			quality: .8,
-			circle: false
-	}).then(function(src) {
-		$('#img').val(src);
-		$('#emblem').val(src);
-	});
+    if (fileSelected) {
+        $uploadCrop.croppie('result', {
+            type: 'base64',
+            size: 'viewport',
+            format: 'png',
+            quality: .8,
+            circle: false
+        }).then(function(src) {
+            $('#img').val(src);
+            $('#emblem').val(src);
+        });
+    }
 }
 function resetEl($el) {
 	$el.wrap('<form>').closest('form').get(0).reset();
