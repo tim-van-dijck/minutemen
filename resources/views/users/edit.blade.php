@@ -3,7 +3,7 @@
 @section('title', 'Settings')
 @section('content')
 	<h1>Edit profile</h1>
-	<form id="edit-form" class="form-horizontal image-form settings" role="form" method="POST" action="{{ route('settings') }}" enctype="multipart/form-data">
+	<form id="edit-form" class="form-horizontal image-form settings" role="form" method="POST" action="{{ route('users.update') }}" enctype="multipart/form-data">
 		{{ csrf_field() }}
 		<input type="hidden" name="_method" value="PATCH">
 
@@ -129,10 +129,8 @@
 			<div class="col-md-12">
 				<div class="col-md-12">
 					<div class="form-group">
-						<div class="col-md-6 col-md-offset-4">
-							<button type="submit" class="btn btn-primary">
-								Save
-							</button>
+						<div class="col-md-12">
+							<button type="submit" class="btn btn-primary pull-right">Save</button>
 						</div>
 					</div>
 				</div>

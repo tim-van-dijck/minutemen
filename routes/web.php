@@ -47,11 +47,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/{lobby_id}/deny-invite/{notification_id}', 'LobbyController@denyInvite')->name('lobby.deny-invite');
 
 	// Users
-	Route::get('settings', 'UserController@settings')->name('settings');
-	Route::match(['put', 'patch'], 'settings', 'UserController@updateSettings')->name('settings.update');
-	Route::get('edit-profile', 'UserController@edit')->name('users.edit');
-	Route::delete('delete-account', 'UserController@destroy')->name('users.destroy');
-	Route::match(['put', 'patch'], 'me/update', 'UserController@update')->name('users.update');
+    Route::get('edit-profile', 'UserController@edit')->name('users.edit');
+    Route::match(['put', 'patch'], 'me/update', 'UserController@update')->name('users.update');
+    Route::get('settings', 'UserController@settings')->name('settings');
+    Route::match(['put', 'patch'], 'settings', 'UserController@updateSettings')->name('settings.update');
+    Route::delete('delete-account', 'UserController@destroy')->name('users.destroy');
 	Route::get('profile', 'UserController@show')->name('users.profile');
 	Route::get('notifications', 'UserController@notifications')->name('users.notifications');
 
