@@ -120,6 +120,7 @@ body {
 	.icon-list {
 		#search {
 			width: 100%; margin: 1em 0;
+			@media #{$mobile-bootstrap} { padding-right: 20px; }
 			::-webkit-input-placeholder { color: $placeholder-color !important; }
 			:-moz-placeholder { color: $placeholder-color !important; }
 			::-moz-placeholder { color: $placeholder-color !important; }

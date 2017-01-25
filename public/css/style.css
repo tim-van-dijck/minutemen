@@ -164,6 +164,9 @@ body {
 .menu .icon-list #search {
   width: 100%;
   margin: 1em 0; }
+  @media (max-width: 991px) {
+    .menu .icon-list #search {
+      padding-right: 20px; } }
   .menu .icon-list #search ::-webkit-input-placeholder {
     color: #232427 !important; }
   .menu .icon-list #search :-moz-placeholder {
