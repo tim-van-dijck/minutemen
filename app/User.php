@@ -60,7 +60,7 @@ class User extends Authenticatable
 
     // Teams
 	public function teams($limit = false) {
-	    if (Auth::check) && $this->id == Auth::user()->id) { return Team::mine($limit); }
+	    if (Auth::check() && $this->id == Auth::user()->id) { return Team::mine($limit); }
 	    else { return Team::getByUser($this->id, $limit); }
 	}
 
