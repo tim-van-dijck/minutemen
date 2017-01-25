@@ -64,7 +64,7 @@ class UserController extends Controller
 		$input = $request->all();
 
 		unset($input['password_old']);
-		unset($input['password_confirmation']);
+		unset($input['s_password_confirmation']);
 		unset($input['_token']);
 		unset($input['_method']);
 		unset($input['full-img']);
