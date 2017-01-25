@@ -119,7 +119,7 @@
 					<div class="form-group">
 						<div class="col-md-12">
 							<label for="s_password-confirm" class="control-label">Confirm Password</label>
-							<input id="s_password-confirm" type="password" class="form-control" name="password_confirmation">
+							<input id="s_password-confirm" type="password" class="form-control" name="s_password_confirmation">
 						</div>
 					</div>
 				</div>
