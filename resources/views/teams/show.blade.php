@@ -11,7 +11,7 @@
 				@if (Auth::check() && $team->isAdmin())
 					<a href="{{ route('teams.edit', ['slug' => $team->slug]) }}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> edit</a>
 				@elseif (Auth::check() && $team->isInvited())
-					<a id="accept" href="{{ route('ajax.team.join', ['team_id' => $team->id]) }}" class="btn btn-primary pull-right">Accept invite</a>
+					<a id="accept" href="{{ route('ajax.team.accept', ['team_id' => $team->id, 'user_id' => Auth::user()->id]) }}" class="btn btn-primary pull-right">Accept invite</a>
 				@else
 					<form class="delete" data-confirm="leave this team" action="{{ route('team.leave', ['team_id' => $team->id]) }}" method="POST">
 						{{ csrf_field() }}
@@ -19,7 +19,7 @@
 						<button type="submit" class="btn btn-primary pull-right btn-small {{ (Auth::check() && $team->isMember()) ? '' : 'hidden' }}">Leave team</button>
 					</form>
 					<a id="join" href="{{ route('ajax.team.join', ['team_id' => $team->id]) }}"
-					   class="btn btn-primary pull-right {{ (Auth::check() && $team->isMember()) ? 'hidden' : '' }}">Join team
+					   class="btn btn-primary pull-right {{ (Auth::check() && ($team->isMember() || $team->isPending())) ? 'hidden' : '' }}">Join team
 					</a>
 				@endif
 			</div>

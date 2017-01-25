@@ -41,7 +41,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="col-md-12 profile-wrapper">
-				@if ($user->id == Auth::user()->id)
+				@if (Auth::check() && $user->id == Auth::user()->id)
 					<i class="fa fa-2x fa-user menu-icons"></i>
 				@endif
 				<h1 class="profile-title">{{ $user->username }}</h1>

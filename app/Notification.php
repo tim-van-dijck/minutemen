@@ -163,7 +163,7 @@ class Notification extends Model
     protected function lobbyInvite($user_id, $inviter_id, $lobby_id) {
         $inviter = User::find($inviter_id);
         self::insert([
-            'content'			=> '<a href="'.route('users.show', ['id' => $lobby_id]).'">'.$inviter->username.'</a> wants to be your friend',
+            'content'			=> '<a href="'.route('users.show', ['id' => $lobby_id]).'">'.$inviter->username.'</a> invited you to their lobby',
             'seen'				=> 0,
             'user_id'			=> $user_id,
             'entity_name'       => 'lobby-invite',
@@ -173,5 +173,16 @@ class Notification extends Model
 
     protected function count() {
         return count(Notification::select('id')->where(['user_id' => Auth::user()->id, 'seen' => 0])->get());
+    }
+
+    protected function teamInvite($user_id, $team_id) {
+        $team = Team::find($team_id);
+        self::insert([
+            'content'			=> ' invited you into their ranks',
+            'seen'				=> 0,
+            'user_id'			=> $user_id,
+            'entity_name'       => 'team',
+            'entity_id'         => $team_id
+        ]);
     }
 }

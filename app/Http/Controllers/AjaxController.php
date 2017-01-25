@@ -36,11 +36,15 @@ class AjaxController extends Controller
     // Team functions
 	public function joinTeam($team_id) { return Team::join($team_id, Auth::user()->id, false); }
 
-	public function inviteTeam($team_id, $user_id) { Team::join($team_id, $user_id, false, true); }
+	public function inviteTeam($team_id, $user_id) {
+	    Team::join($team_id, $user_id, false, true);
+	    Notification::teamInvite(intval($user_id), $team_id);
+	}
 
     public function inviteTeamBatch(Request $request, $team_id) {
 	    foreach ($request->input('invite') as $user_id) {
 	        Team::join($team_id, intval($user_id), true);
+	        Notification::teamInvite(intval($user_id), $team_id);
         }
     }
 		

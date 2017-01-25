@@ -181,6 +181,25 @@ class Team extends Model
         return true;
     }
 
+    public function isPending($user_id = false) {
+        if (!$user_id) {
+            if (Auth::check()) { $user_id = Auth::user()->id; }
+            else { return false; }
+        }
+        $member = User::select('users.*', 'team_users.created_at AS joined')
+            ->join('team_users', 'team_users.user_id', '=', 'users.id')
+            ->join('teams', 'teams.id', '=', 'team_users.team_id')
+            ->where('team_users.team_id', $this->id)
+            ->where('team_users.user_id', $user_id)
+            ->where('team_users.pending', 1)
+            ->where('team_users.invite', 0)
+            ->where('team_users.deleted_at', null)
+            ->first();
+
+        if ($member == null) { return false; }
+        return true;
+    }
+
 	protected function mine($limit = false) {
         $result =  self::select('*')->join('team_users', 'team_users.team_id', '=', 'teams.id')
                         ->where('team_users.user_id', Auth::user()->id)
