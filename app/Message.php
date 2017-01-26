@@ -12,9 +12,10 @@ class Message extends Model
 
     protected function make($data) {
         self::insert([
-           'content' => $data['content'],
-           'sender_id' => $data['sender_id'],
-           'conversation_id' => $data['conversation_id']
+            'content' => $data['content'],
+            'sender_id' => $data['sender_id'],
+            'conversation_id' => $data['conversation_id'],
+            'created_at' => date('Y-m-d H:i:s')
         ]);
 
         DB::table('conversation_users')
