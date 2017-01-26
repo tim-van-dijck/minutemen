@@ -53,7 +53,18 @@ $(function() {
 
     $('#add-recipients-form').submit(function (e) {
         e.preventDefault();
-        $.post($(this).attr('action'), $(this).serialize());
+        $.post($(this).attr('action'), $(this).serialize(), function(recipients) {
+            recipients = JSON.parse(recipients);
+            $('.recipients').empty();
+            $.each(recipients, function (i,v) {
+                var img = (v.img == null) ? 'img/profile.png' : v.img;
+                $recipient = '<div class="col-md-1 blocklink" title="'+v.username+'">'+
+                                '<div class="profile-img"><img src="'+img+'" alt="'+v.username+'"></div></div>';
+
+                $('.recipients').append($recipient);
+            });
+            $('.recipients').append('<div class="col-md-1 blocklink"><a href="" class="btn btn-primary" data-toggle="modal" data-target="#add-recipient"><i class="fa fa-plus"></i></a></div>')
+        });
         $('#add-recipient').modal('toggle');
     });
 
@@ -61,7 +72,6 @@ $(function() {
         $(this).toggleClass('hidden');
         $('#set-title').toggleClass('hidden');
     });
-
 
     $(window).bind('beforeunload', function(){
         if (messages.length == 0) { $.post(base_url+'ajax/conversation/'+conversationId+'/destroy-if-empty', {_token: window.Laravel.csrfToken, _method:"DELETE"}); }

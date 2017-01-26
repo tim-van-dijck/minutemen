@@ -27,11 +27,14 @@ class HomeController extends Controller
 	 */
 	public function home()
 	{
+	    if (isset(Auth::user()->lat) && isset(Auth::user()->long)) {
+	        $events = Event::upcoming();
+        } else { $events = []; }
 		return view('pages.dashboard')->with([
 			'feed'          => Post::getByUser(Auth::user()->id),
-            'canExpand'     => Post::canExpand(1, Auth::user()->id),
+            'canExpand'     => intval(Post::canExpand(1)),
             'popular'       => Organisation::popular(),
-            'events'        => Event::upcoming(),
+            'events'        => $events,
             'notifications' => Auth::user()->notifications(3)
 		]);
 	}

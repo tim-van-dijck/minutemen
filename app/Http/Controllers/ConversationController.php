@@ -36,7 +36,7 @@ class ConversationController extends Controller
     public function show($id) {
         $conversation = Conversation::find($id);
         if ($conversation != null) {
-            if (!$conversation->isRecipient()) { return redirect('/messages'); }
+            if (!$conversation->isRecipient()) { return redirect()->route('conversations.index'); }
 
             $conversation->alt_title = '';
             foreach ($conversation->recipients() as $index => $recipient) {
@@ -69,6 +69,7 @@ class ConversationController extends Controller
                 'user_id'           => intval($user_id),
             ]);
         }
+        return json_encode(Conversation::find($conversation_id)->recipients());
     }
 
     public function leaveConversation($conversation_id) {

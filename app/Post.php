@@ -23,10 +23,10 @@ class Post extends Model
 					->where('organisation_roles.user_id', $user_id)->orderBy('posts.created_at', 'desc');
 
 		if ($offset) {
-			$query->offset($offset*15);
+			$query->offset($offset*10);
 		}
 
-		$posts = $query->limit(15)->get();
+		$posts = $query->limit(10)->get();
 
 		foreach ($posts as $post) {
 			$post->organisation = Organisation::find($post->organisation_id);
@@ -56,19 +56,19 @@ class Post extends Model
             }
             return $posts;
 		}
-		else { return self::getByUser(Auth::user()->id); }
+		else { return self::getByUser(Auth::user()->id, $offset); }
 	}
 
 	protected function canExpand($offset, $org_id = false) {
 	    $result = false;
-        if ($org_id) {
-            $result = self::select('id')->where('organisation_id', $org_id)->get();
-        } else {
-            $result = self::select('posts.id')->join('organisation_roles', 'organisation_roles.organisation_id', '=', 'posts.organisation_id')
-                ->where('organisation_roles.user_id', Auth::user()->id)->orderBy('posts.created_at', 'desc');
+        if ($org_id) { $result = self::select('id')->where('organisation_id', $org_id)->get(); }
+        else {
+            $result = self::select('posts.id')
+                        ->join('organisation_roles', 'organisation_roles.organisation_id', '=', 'posts.organisation_id')
+                        ->where('organisation_roles.user_id', Auth::user()->id)
+                        ->orderBy('posts.created_at', 'desc')->get();
         }
-	    if (count($result) > ($offset)*10) {
-            return '1';
-        } else { return '0'; }
+	    if (count($result) > $offset*10) { return '1'; }
+        else { return '0'; }
     }
 }

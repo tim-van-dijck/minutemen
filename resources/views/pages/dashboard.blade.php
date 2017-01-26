@@ -139,14 +139,12 @@
 							<h2>Newsfeed</h2>
 							<div id="feed">
 								@foreach($feed as $post)
-									<div class="row">
-										<div class="col-md-12 post">
-											<div class="header">{{ $post->organisation->name }}</div>
-											<div class="content">
-												{!! $post->content !!}
-											</div>
-											<div class="footer">{{ $post->updated_at }}</div>
+									<div class="col-md-12 post">
+										<div class="header">{{ $post->organisation->name }}</div>
+										<div class="content">
+											{!! $post->content !!}
 										</div>
+										<div class="footer">{{ $post->updated_at }}</div>
 									</div>
 								@endforeach
 							</div>
