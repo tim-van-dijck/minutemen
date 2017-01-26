@@ -9,7 +9,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-6 col-md-offset-3 events">
+                    <div class="col-md-10 col-md-offset-1 events">
                         @foreach($organisation->events() as $event)
                             <div class="row event">
                                 <div class="col-md-12">
