@@ -18,7 +18,9 @@ class Message extends Model
         ]);
 
         DB::table('conversation_users')
-            ->where(['conversation_id' => $data['conversation_id']])
-            ->update(['conversation_users.seen' => 0]);
+            ->where([
+                'conversation_id' => $data['conversation_id'],
+                'user_id' => $data['sender_id']
+            ])->update(['conversation_users.seen' => 0]);
     }
 }
