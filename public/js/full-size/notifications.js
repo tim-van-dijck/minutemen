@@ -45,7 +45,7 @@ function getFreqs() {
 }
 
 function getMessageNotifications() {
-    return $.get('ajax/conversations/count', function (count) {
+    return $.get('ajax/conversation/count', function (count) {
         messageNotifications = parseInt(count);
         if (messageNotifications > 0) {
             $('.message-bubble')
