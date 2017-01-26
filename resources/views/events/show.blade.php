@@ -69,7 +69,7 @@
 							<button class="btn btn-load" data-toggle="modal" data-target="#participators">see all</button>
 						@else
 							<div class="col-md-12">
-								<p class="empty">No sign ups yet</p>
+								<p class="text-center">No sign ups yet</p>
 							</div>
 						@endif
 					</div>
