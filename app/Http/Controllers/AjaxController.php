@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use DB;
 
+use App\Conversation;
 use App\Friendship;
 use App\Game;
 use App\Lobby;
