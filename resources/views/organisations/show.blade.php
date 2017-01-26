@@ -105,7 +105,8 @@
                                             </div>
                                         </div>
                                     @endforeach
-                                    <a href="" class="btn btn-load">more events</a>
+                                    <button href="" class="btn btn-load" data-toggle="modal" data-target="#events">more events</button>
+                                    @include('modals.events')
                                 </div>
                             </div>
                         </div>
