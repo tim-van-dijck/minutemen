@@ -9,8 +9,8 @@
 				<div class="row">
 					<div class="col-md-12">
 						<h3>Members</h3>
-						<h4>Invite users</h4>
 						@if (Auth::check() && $team->isAdmin())
+							<h4>Invite users</h4>
 							<form id="users-find-form" action="{{ route('ajax.team.invite.batch', ['team_id' => $team->id]) }}" method="POST">
 								{{ csrf_field() }}
 								<select name="invite[]" id="user-find" multiple="multiple"></select>
