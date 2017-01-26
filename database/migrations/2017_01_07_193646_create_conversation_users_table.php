@@ -17,6 +17,7 @@ class CreateConversationUsersTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('conversation_id')->unsigned();
+            $table->boolean('seen')->default(0);
 
             $table->foreign('conversation_id')->references('id')->on('conversations')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');

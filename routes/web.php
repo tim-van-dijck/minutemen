@@ -126,6 +126,7 @@ Route::group(['middleware' => 'ajax', 'prefix' => 'ajax'], function () {
 
 		// ajax/conversation
 		Route::group(['prefix' => 'conversation'], function() {
+		    Route::get('/count', 'AjaxController@messageCount')->name('ajax.conversations.count');
 		    Route::post('/{conversation_id}/message/send', 'MessageController@send')->name('ajax.message.send');
             Route::post('/{conversation_id}/add-recipients', 'ConversationController@addRecipients')->name('ajax.conversation.add-recipients');
             Route::post('/{conversation_id}/set-title', 'ConversationController@setTitle')->name('ajax.conversation.set-title');

@@ -31,7 +31,7 @@
 					<div class="row">
 						<div class="col-md-12 bigbtn lobby">
 							<a href="{{ route('lobbies.create') }}">
-								<span class="title">Create a lobby</span>
+								<span class="title">{{ (Auth::user()->hasLobby()) ? 'Go to' : 'Create a' }} lobby</span>
 								<p>start playing ASAP</p>
 							</a>
 						</div>

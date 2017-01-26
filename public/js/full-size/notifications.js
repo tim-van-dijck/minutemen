@@ -1,6 +1,6 @@
 var offset = 1;
 var id, canExpand;
-var notifications = freqs = 0;
+var notifications = messageNotifications = freqs = 0;
 
 $(function() {
 	bubbleHandler();
@@ -42,6 +42,19 @@ function getFreqs() {
 			$('.friend-bubble').hide();
 		}
 	});
+}
+
+function getMessageNotifications() {
+    return $.get('ajax/conversations/count', function (count) {
+        messageNotifications = parseInt(count)
+        if (messageNotifications > 0) {
+            $('.message-bubble')
+                .text(count)
+                .show();
+        } else {
+            $('.message-bubble').hide();
+        }
+    });
 }
 
 function getNotifications() {
@@ -116,11 +129,13 @@ function notificationSeen($el) {
 function bubbleHandler() {
     getFreqs().then(function() {
 		getNotifications().then(function() {
-			if (notifications + freqs > 0) {
-				$('.excl-bubble').show();
-			} else {
-				$('.excl-bubble').hide();
-			}
+			getMessageNotifications().then(function() {
+                if (notifications + messageNotifications + freqs > 0) {
+                    $('.excl-bubble').show();
+                } else {
+                    $('.excl-bubble').hide();
+                }
+            });
 		});
 	});
 }

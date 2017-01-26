@@ -41,7 +41,7 @@ class Lobby extends Model
     }
 
     public function joinLobby($user_id) {
-        DB::table('lobby_users')->insert([
+        DB::table('lobby_users')->updateOrCreate([
             'lobby_id'  => $this->id,
             'user_id'  => $user_id,
             'confirmed' => 1
@@ -54,7 +54,7 @@ class Lobby extends Model
         DB::table('lobby_users')->where([
             'lobby_id'  => $this->id,
             'user_id'  => $user_id
-        ])->delete();
+        ], [])->delete();
     }
 
     public function invite($user_id) {

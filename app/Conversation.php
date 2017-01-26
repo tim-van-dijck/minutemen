@@ -57,4 +57,13 @@ class Conversation extends Model
 
         return $conversations;
     }
+
+    protected function countUnseen() {
+        $messages = DB::table('conversation_users')
+                        ->select('id')
+                        ->where('conversation_users.seen', 0)
+                        ->where('conversation_users.user_id', Auth::user()->id)
+                        ->get();
+        return count($messages);
+    }
 }

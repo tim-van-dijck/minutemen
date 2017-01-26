@@ -20,6 +20,8 @@ class AjaxController extends Controller
 
 	public function notificationCount() { return Notification::count(); }
 
+	public function messageCount() { return Conversation::countUnseen(); }
+
     public function notificationSeen($notification_id) {
         $notification = Notification::find($notification_id);
         $notification->seen = 1;
