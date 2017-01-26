@@ -41,11 +41,11 @@ class Lobby extends Model
     }
 
     public function joinLobby($user_id) {
-        DB::table('lobby_users')->updateOrCreate([
-            'lobby_id'  => $this->id,
-            'user_id'  => $user_id,
-            'confirmed' => 1
-        ]);
+        $lobby_user = DB::table('lobby_users')->firstOrNew([
+                            'lobby_id'  => $this->id,
+                            'user_id'  => $user_id,
+                        ]);
+        $lobby_user->save();
 
         User::find($user_id)->nlfg();
     }
