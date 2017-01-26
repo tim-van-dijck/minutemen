@@ -26,12 +26,12 @@ class AjaxController extends Controller
         $notification->save();
     }
 
-    // Feed fucntions
+    // Feed functions
 	public function feed($id = false) { return json_encode(Post::feed($id)); }
 
 	public function feedExtend(Request $request, $id) { return json_encode(Post::feedExpand($id, $request->input('offset'))); }
 
-    public function canExpandFeed(Request $request, $id = false) { Post::canExpand($request->input('offset'), $id); }
+    public function canExpandFeed(Request $request, $id = false) { return Post::canExpand($request->input('offset'), $id); }
 
     // Team functions
 	public function joinTeam($team_id) { return Team::join($team_id, Auth::user()->id, false); }

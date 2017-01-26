@@ -123,7 +123,7 @@
 									<div class="col-md-2 blocklink organisation">
 										<a href="{{ route('organisations.show', ['id' => $organisation->id]) }}">
 											<div class="profile-img">
-												<img src="{{ $organisation->thumb }}" alt="{{ $organisation->name }}">
+												<img src="{{ $organisation->thumb or 'img/organisation.png' }}" alt="{{ $organisation->name }}">
 											</div>
 											<p class="name">{{ $organisation->name }}</p>
 										</a>

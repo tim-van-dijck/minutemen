@@ -11,7 +11,9 @@ class Conversation extends Model
     protected $fillable = ['title', 'created_at', 'updated_at'];
 
     public function messages() {
-        $messages = Message::where('conversation_id', $this->id)->orderBy('created_at')->get();
+        $messages = Message::where('conversation_id', $this->id)->orderBy('created_at', 'desc')->limit(50)->get();
+
+        $messages->reverse();
 
         foreach ($messages as $message) {
             $message->sender = User::find($message->sender_id);

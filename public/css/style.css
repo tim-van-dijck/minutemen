@@ -486,28 +486,32 @@ form textarea {
   height: 100%;
   position: relative; }
 
-#feed, #notifications {
+#feed, #feed-ext, #notifications, #conversation-list {
   margin-top: 1.5em; }
-  #feed .post, #notifications .post {
+  #feed .post, #feed-ext .post, #notifications .post, #conversation-list .post {
     background-color: rgba(0, 0, 0, 0.2);
     margin: .25em 0;
     padding: .5em;
     color: #999; }
-    #feed .post a, #notifications .post a {
+    #feed .post a, #feed-ext .post a, #notifications .post a, #conversation-list .post a {
       color: #cc4020; }
-      #feed .post a.toggleSeen, #notifications .post a.toggleSeen {
+      #feed .post a.toggleSeen, #feed-ext .post a.toggleSeen, #notifications .post a.toggleSeen, #conversation-list .post a.toggleSeen {
         color: #4d4d4d; }
-        #feed .post a.toggleSeen:hover .fa-circle:before, #notifications .post a.toggleSeen:hover .fa-circle:before {
+        #feed .post a.toggleSeen:hover .fa-circle:before, #feed-ext .post a.toggleSeen:hover .fa-circle:before, #notifications .post a.toggleSeen:hover .fa-circle:before, #conversation-list .post a.toggleSeen:hover .fa-circle:before {
           content: "\f10c"; }
-    #feed .post .header, #notifications .post .header {
+    #feed .post .header, #feed-ext .post .header, #notifications .post .header, #conversation-list .post .header {
       color: #fff;
       font-weight: bold; }
-    #feed .post .content, #notifications .post .content {
+    #feed .post .content, #feed-ext .post .content, #notifications .post .content, #conversation-list .post .content {
       padding: .1em 1.5em; }
-    #feed .post .footer, #notifications .post .footer {
+    #feed .post .footer, #feed-ext .post .footer, #notifications .post .footer, #conversation-list .post .footer {
       font-size: .8em;
       text-align: right;
       font-style: italic; }
+  #feed#conversation-list .post a, #feed-ext#conversation-list .post a, #notifications#conversation-list .post a, #conversation-list#conversation-list .post a {
+    color: #fff; }
+    #feed#conversation-list .post a:hover, #feed-ext#conversation-list .post a:hover, #notifications#conversation-list .post a:hover, #conversation-list#conversation-list .post a:hover {
+      text-decoration: none; }
 
 .btn {
   border-radius: 0; }
@@ -1266,6 +1270,39 @@ label.control-label + p.info {
         font-size: 1.5em; }
     #search-results .blocklink-wrapper :last-child, #admin .blocklink-wrapper :last-child, #users .blocklink-wrapper :last-child {
       border-bottom: 0; } }
+
+.search {
+  width: 100%;
+  margin: 1em 0; }
+  @media (max-width: 991px) {
+    .search {
+      padding-right: 20px; } }
+  .search ::-webkit-input-placeholder {
+    color: #232427 !important; }
+  .search :-moz-placeholder {
+    color: #232427 !important; }
+  .search ::-moz-placeholder {
+    color: #232427 !important; }
+  .search :-ms-input-placeholder {
+    color: #232427 !important; }
+  .search input[type="text"] {
+    width: calc(100% - 2em);
+    background-color: #777;
+    border: none;
+    color: rgba(35, 36, 39, 0.5) !important;
+    padding: 0 .5em;
+    margin-bottom: 2em;
+    height: 2em; }
+  .search .btn.btn-primary {
+    border: none;
+    color: #fff;
+    height: 2em;
+    width: 2em;
+    padding: 0;
+    margin: 0;
+    text-align: center; }
+    .search .btn.btn-primary:hover, .search .btn.btn-primary:focus, .search .btn.btn-primary:active {
+      color: #c1bfbf; }
 
 .events .event {
   border-bottom: 1px solid rgba(0, 0, 0, 0.2); }

@@ -5,6 +5,10 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="col-md-12">
+				<form class="search" action="search" method="GET">
+					<button type="submit" class="pull-right btn btn-primary"><i class="fa fa-search"></i></button>
+					<input class="pull-right" type="text" name="q" placeholder="Search Minutemen">
+				</form>
 				<h1>Results for "{{ $query }}"</h1>
 				@if (!isset($results) || $results['organisations']->isEmpty() && $results['events']->isEmpty() && $results['teams']->isEmpty() && $results['users']->isEmpty())
 					<div class="row">

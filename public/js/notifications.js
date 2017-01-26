@@ -1,5 +1,5 @@
 var offset = 1;
-var id;
+var id, canExpand;
 var notifications = freqs = 0;
 
 $(function() {
@@ -17,7 +17,7 @@ $(function() {
         }
         $('.load-feed.btn-load').click(function(e) {
             e.preventDefault();
-            $(this).html('<i class="fa fa-spinner fa-spin"></i>');
+            $(this).html('<i class="fa fa-circle-o-notch fa-spin"></i>');
             feedExpand($(this));
         });
     }
@@ -80,19 +80,18 @@ function getFeed() {
 }
 
 function feedExpand($el) {
-	$.getJSON($el.data('href'), {offset: offset}, function(posts) {
+	$.getJSON('ajax/feed/extend'+id, {offset: offset}, function(posts) {
         if (posts.length > 0) {
             $.each(posts, function(i,v) {
                 var timestamp = v.updated_at;
                 if (timestamp == null) { timestamp = v.created_at; }
 
-                $('<div/>')
-                    .addClass('col-md-12')
-                    .addClass('post')
-                    .html(	'<div class="header">'+v.organisation.name+'</div>'+
-                        	'<div class="content">'+v.content+'</div>'+
-                        	'<div class="footer">'+timestamp+'</div>')
-                    .appendTo('#feed-ext');
+                $post = '<div class="col-md-12 post">'+
+                    '<div class="header">'+v.organisation.name+'</div><div class="content">'+
+                    v.content+'</div><div class="footer">'+ v.created_at+'</div>'+
+                '</div>';
+
+                $('#feed-ext').append($post);
             });
         }
         $el.html('Load more');

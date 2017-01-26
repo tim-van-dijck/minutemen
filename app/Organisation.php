@@ -135,5 +135,9 @@ class Organisation extends Model
 	    return $result->get();
 	}
 	
-	public function posts() { return Post::where('organisation_id', $this->id)->orderBy('created_at', 'desc')->get(); }
+	public function posts($limit = false) {
+	    $query = Post::where('organisation_id', $this->id)->orderBy('created_at', 'desc');
+	    if ($limit) { $query->limit($limit); }
+	    return $query->get();
+	}
 }

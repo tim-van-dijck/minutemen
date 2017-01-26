@@ -177,6 +177,12 @@ class EventController extends Controller
 
 	public function enter(Request $request, $event_id) { Event::enter($event_id, intval($request->input('team'))); }
 
+	public function withdraw($event_id) {
+	    $event = Event::find($event_id);
+	    $event->withdrawParticipating();
+	    return redirect()->back();
+    }
+
 	public function roundrobin($event_id) {
 	    $event = Event::find($event_id);
 	    $event->roundrobin();

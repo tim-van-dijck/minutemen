@@ -140,6 +140,35 @@ class Event extends Model
 
 	public function isAdmin() { return Organisation::find($this->organisation_id)->isAdmin(); }
 
+    public function isParticipating() {
+	    $teams = Auth::user()->teams();
+	    $participators = $this->participators();
+
+	    foreach ($participators as $participator) {
+	        foreach ($teams as $team) {
+	            if ($team->id == $participator->id && $team->isAdmin()) { return true; }
+            }
+        }
+
+        return false;
+    }
+
+    public function withdrawParticipating() {
+        $teams = Auth::user()->teams();
+        $participators = $this->participators();
+
+        foreach ($participators as $participator) {
+            foreach ($teams as $team) {
+                if ($team->id == $participator->id && $team->isAdmin()) {
+                    DB::table('participations')->where([
+                        'event_id' => $this->id,
+                        'team_id' => $team->id
+                    ])->delete();
+                }
+            }
+        }
+    }
+
 	protected function upcoming() {
         return self::select('*',
             DB::raw('ROUND(6353 * 2 * ASIN(SQRT(POWER(SIN(('.Auth::user()->lat.' - abs(`lat`))

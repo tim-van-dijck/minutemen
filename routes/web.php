@@ -106,6 +106,7 @@ Route::group(['prefix' => 'events'], function () {
         Route::post('/{event_id}/enter', 'EventController@enter')->name('events.enter');
         Route::match(['get', 'post'], '/{event_id}/round/add', 'RoundController@store')->name('events.add-round');
         Route::match(['get', 'post'], '/{event_id}/roundrobin', 'EventController@roundrobin')->name('events.roundrobin');
+        Route::post('{event_id}/withdraw', 'EventController@withdraw')->name('events.withdraw');
     });
     Route::get('/{event_id}/schedule', 'EventController@manage')->name('events.schedule');
     Route::get('/', 'EventController@index')->name('events.index');

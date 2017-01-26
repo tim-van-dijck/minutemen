@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Useres')
+@section('title', 'Users')
 @section('content')
 	<h1>Users</h1>
 	<div class="row">
@@ -19,8 +19,8 @@
 		@empty
 			<div class="col-md-6 col-md-offset-3">
 				<p>You have no friends yet.</p>
-				<div class="btn"><a href="">invite friends</a></div>
 			</div>
 		@endforelse
 	</div>
+	@if (count($user->friends() > 12))
 @stop

@@ -14,15 +14,19 @@
                             <div class="col-md-12 post" data-notification-id="{{ $conversation->id }}">
                                 <a href="{{ route('conversations.show', ['id' => $conversation->id]) }}">
                                     <div class="content">
-                                        <h3>
-                                            @if ($conversation->title !== null)
-                                                {{ $conversation->title }}
-                                            @elseif($conversation->alt_title != '')
-                                                {{ $conversation->alt_title }}
-                                            @else
-                                                {{ '<No Recipients>' }}
-                                            @endif
-                                        </h3>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h3>
+                                                    @if ($conversation->title !== null)
+                                                        {{ $conversation->title }}
+                                                    @elseif($conversation->alt_title != '')
+                                                        {{ $conversation->alt_title }}
+                                                    @else
+                                                        {{ '<No Recipients>' }}
+                                                    @endif
+                                                </h3>
+                                            </div>
+                                        </div>
                                         <div class="row">
                                             <div class="col-md-11">{{ $conversation->latestMessage()->content or 'No messages yet' }}</div>
                                             <div class="col-md-1">

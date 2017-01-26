@@ -106,19 +106,6 @@ function formatUser (user) {
     if (user.loading) return user.text;
     var img = (user.img != null) ? user.img : 'img/profile.png';
 
-    var markup = "<div class='select2-result-repository clearfix'>" +
-        "<div class='select2-result-img'><img src='" + img + "' /></div>" +
-        "<div class='select2-result-meta'>" +
-        "<div class='select2-result-title'>" + user.text + "</div>"+
-        "</div></div>";
-
-    return markup;
-}
-
-function formatUser (user) {
-    if (user.loading) return user.text;
-    var img = (user.img != null) ? user.img : 'img/profile.png';
-
     var markup = '<div class="selectbox-result row blocklink-wrapper persist-cols">'+
         '<div class="col-md-12 blocklink user"><div class="row"><div class="col-md-4"><div class="profile-img">'+
         '<img src="'+img+'" alt="'+user.text+'"></div></div>'+

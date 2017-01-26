@@ -67,7 +67,7 @@
                 @if (!$organisation->events()->isEmpty())
                     <div class="row divider">
                         <div class="col-md-12">
-                            <h3>Events</h3>
+                            <h3>Upcoming events</h3>
                             <div class="row events">
                                 <div class="col-md-12 events">
                                     @foreach($organisation->events(4) as $index => $event)
@@ -128,7 +128,7 @@
                             </div>
                         @endif
                         <div id="feed" data-organisation="{{ $organisation->id }}">
-                            @forelse($organisation->posts() as $post)
+                            @forelse($organisation->posts(10) as $post)
                                 <div class="col-md-12 post">
                                     <div class="header">{{ $organisation->name or 'This Organisation' }}</div>
                                     <div class="content">
@@ -142,6 +142,8 @@
                                 </div>
                             @endforelse
                         </div>
+                        <div id="feed-ext"></div>
+                        <a href="{{ route('ajax.feed.extend', ['id' => $organisation->id]) }}" class="load-feed btn btn-load">Load more</a>
                     </div>
                 </div>
                 @include('modals.subscribers')
