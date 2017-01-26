@@ -11,9 +11,6 @@
                         <i class="fa fa-2x fa-unlock-alt menu-icons" title="You can manage this page"></i>
                         <a href="{{ route('organisations.edit', ['id' => $organisation->id]) }}" class="btn btn-primary pull-right"><i class="fa fa-pencil"></i> edit</a>
                     @elseif ($organisation->subscribed())
-                        @if (count($organisation->subscribers()) > 0)
-                            <button type="button" data-toggle="modal" data-target="#subscribers" class="btn btn-primary">Subscribers ({{count($organisation->subscribers())}})</button>
-                        @endif
                         <a id="sub" href="{{ route('ajax.unsub', ['organisation_id' => $organisation->id]) }}" class="btn btn-primary pull-right" data-href="{{ route('ajax.sub', ['organisation_id' => $organisation->id]) }}">Unsubscribe</a>
                     @else
                         @if (count($organisation->subscribers()) > 0)
@@ -38,8 +35,9 @@
                     <div class="col-md-4 text-center">
                         <div class="profile-img profile">
                             <img src="{{ $organisation->thumb or 'img/organisation.png' }}" alt="{{ $organisation->name }}">
-
-                            <h5 class="text-center">{{ count($organisation->subscribers()) }} subscribers</h5>
+                            @if (count($organisation->subscribers()) > 0)
+                                <button type="button" data-toggle="modal" data-target="#subscribers" class="btn btn-primary">Subscribers ({{count($organisation->subscribers())}})</button>
+                            @endif
                         </div>
                     </div>
                     <div class="col-md-8">

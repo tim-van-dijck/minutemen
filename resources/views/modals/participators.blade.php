@@ -8,8 +8,8 @@
                 <h4 class="modal-title text-center" id="participatorsLabel">Participators</h4>
             </div>
             <div class="modal-body">
-                <div class="row persist-cols">
-                    <div class="col-md-6 col-md-offset-3 friends">
+                <div class="row">
+                    <div class="col-md-6 col-md-offset-3 participators">
                         @foreach($event->participators() as $index => $team)
                             <div class="row blocklink-wrapper">
                                 <div class="col-md-12 blocklink user">

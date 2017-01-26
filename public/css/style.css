@@ -1496,6 +1496,28 @@ label.control-label + p.info {
     .organisations :last-child {
       border-bottom: 0; } }
 
+@media (max-width: 991px) {
+  .subscribers, .participators {
+    display: block; }
+    .subscribers .blocklink, .participators .blocklink {
+      float: none;
+      min-height: 5.5em;
+      width: 100%;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+      background-color: rgba(0, 0, 0, 0.1); }
+      .subscribers .blocklink .profile-img, .participators .blocklink .profile-img {
+        height: 4em;
+        width: 4em;
+        margin-right: 1em;
+        float: left; }
+        .subscribers .blocklink .profile-img img, .participators .blocklink .profile-img img {
+          height: 100%;
+          width: auto; }
+      .subscribers .blocklink p.name, .participators .blocklink p.name {
+        font-size: 1.5em; }
+    .subscribers :last-child, .participators :last-child {
+      border-bottom: 0; } }
+
 @media (max-width: 47em) {
   .teams.blocklink-wrapper {
     display: block; }

@@ -1034,6 +1034,20 @@ label.control-label + p.info { margin-top: -.4em; }
 		:last-child { border-bottom: 0; }
 	}
 }
+.subscribers, .participators {
+	@media #{$mobile-bootstrap} {
+		display: block;
+		.blocklink {
+			float: none; min-height: 5.5em; width: 100%; border-bottom: 1px solid rgba(0, 0, 0, 0.2); background-color: rgba(0,0,0,.1);
+			.profile-img {
+				height: 4em; width: 4em; margin-right: 1em; float: left;
+				img { height: 100%; width: auto; }
+			}
+			p.name { font-size: 1.5em; }
+		}
+		:last-child { border-bottom: 0; }
+	}
+}
 
 // My teams
 .teams {
