@@ -41,13 +41,18 @@ class Lobby extends Model
     }
 
     public function joinLobby($user_id) {
-        $lobby_user = DB::table('lobby_users')->firstOrNew([
-                            'lobby_id'  => $this->id,
-                            'user_id'  => $user_id,
-                        ]);
-        $lobby_user->save();
+        $lobby_user = DB::table('lobby_users')->where([
+            'lobby_id'  => $this->id,
+            'user_id'  => $user_id,
+        ])->first();
 
-        User::find($user_id)->nlfg();
+        if ($lobby_user == null) {
+            DB::table('lobby_users')->insert([
+                'lobby_id'  => $this->id,
+                'user_id'  => $user_id,
+            ]);
+            User::find($user_id)->nlfg();
+        }
     }
 
     public function leaveLobby($user_id) {
