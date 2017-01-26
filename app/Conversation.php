@@ -70,6 +70,6 @@ class Conversation extends Model
     public function setSeen($user_id) {
         DB::table('conversation_users')
             ->where(['user_id' => $user_id, 'conversation_id' => $this->id])
-            ->update(['seen' => 1]);
+            ->update(['conversation_users.seen' => 1]);
     }
 }
