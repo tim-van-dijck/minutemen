@@ -51,6 +51,7 @@ class Team extends Model
 					->join('team_users', 'team_users.user_id', '=', 'users.id')
 					->join('teams', 'teams.id', '=', 'team_users.team_id')
 					->where('team_users.team_id', $this->id)
+					->where('team_users.pending', 0)
 					->where('team_users.admin', 0)
 					->orderBy('left', 'desc');
 		if ($limit != false) { $result->limit($limit); }
