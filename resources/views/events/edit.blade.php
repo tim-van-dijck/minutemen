@@ -53,7 +53,7 @@
                                 <div class="col-md-12">
                                     <h3>Address</h3>
                                     <div class="row">
-                                        <div class="col-md-9">
+                                        <div class="col-md-8">
                                             <label for="street" class="control-label">Street<i class="fa fa-asterisk"></i></label><br>
                                             @if ($errors->has('street'))
                                                 <span class="help-block">
@@ -62,7 +62,7 @@
                                             @endif
                                             <input id="street" type="text" class="form-control" name="street" value="{{ $event->street }}" required autofocus>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <label for="number" class="control-label">Number<i class="fa fa-asterisk"></i></label><br>
                                             @if ($errors->has('number'))
                                                 <span class="help-block">

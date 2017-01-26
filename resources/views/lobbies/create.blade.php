@@ -116,7 +116,7 @@
                                     <p><em>You can pass along the location's address for easy navigation</em></p>
                                     <div class="row">
                                         <div class="col-md-9">
-                                            <label for="street" class="control-label">Street</label><br>
+                                            <label for="street" class="control-label">Street<i class="fa fa-asterisk"></i></label><br>
                                             <input id="street" type="text" class="form-control" name="street" value="{{ old('street') }}" placeholder="Fake street" autofocus>
 
                                             @if ($errors->has('street'))
@@ -126,7 +126,7 @@
                                             @endif
                                         </div>
                                         <div class="col-md-3">
-                                            <label for="number" class="control-label">Number</label><br>
+                                            <label for="number" class="control-label">Number<i class="fa fa-asterisk"></i></label><br>
                                             <input id="number" type="text" class="form-control" name="number" value="{{ old('number') }}" placeholder="123" autofocus>
 
                                             @if ($errors->has('number'))
@@ -138,7 +138,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <label for="zip" class="control-label">Zip code</label><br>
+                                            <label for="zip" class="control-label">Zip code<i class="fa fa-asterisk"></i></label><br>
                                             <input id="zip" type="text" class="form-control" name="zip" value="{{ old('zip') }}" placeholder="1207" autofocus>
 
                                             @if ($errors->has('zip'))
@@ -148,7 +148,7 @@
                                             @endif
                                         </div>
                                         <div class="col-md-8">
-                                            <label for="city" class="control-label">City</label><br>
+                                            <label for="city" class="control-label">City<i class="fa fa-asterisk"></i></label><br>
                                             <input id="city" type="text" class="form-control" name="city" value="{{ old('city') }}" placeholder="Fakopolis" autofocus>
 
                                             @if ($errors->has('city'))

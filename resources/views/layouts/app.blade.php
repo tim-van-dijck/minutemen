@@ -168,9 +168,9 @@
 				<div class="video-overlay"></div>
 				<a href="#" class="scrollDown"><i class="fa fa-2x fa-chevron-down"></i></a>
 				<div class="hero">
-					<h1 class="title">Minutemen</h1>
+					<img src="img/logo.svg" alt="Logo" class="logo">
 					<p>Laser tag at a minute's notice</p>
-					<p class="accent"><b>CONNECT. COMPETE. ENJOY.</b></p>
+					<p class="accent"><b>CONNECT. COMPETE. ENJOY</b></p>
 				</div>
 				<div class="row">
 					<video autoplay muted loop class="embed-responsive-item" id="autovid">
