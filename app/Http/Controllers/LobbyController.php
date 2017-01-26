@@ -50,7 +50,7 @@ class LobbyController extends Controller
         $lobby->meet_at = $meet_at;
         $lobby->save();
 
-        $lobby->joinLobby(Auth::user()->id);
+        $lobby->joinLobby(Auth::user()->id, true);
 
         return redirect()->route('lobbies.show', ['id' => $lobby->id]);
     }

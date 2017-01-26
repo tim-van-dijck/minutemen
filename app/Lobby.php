@@ -40,7 +40,7 @@ class Lobby extends Model
             ->exists();
     }
 
-    public function joinLobby($user_id) {
+    public function joinLobby($user_id, $confirmed = false) {
         $lobby_user = DB::table('lobby_users')->where([
             'lobby_id'  => $this->id,
             'user_id'  => $user_id,
@@ -48,8 +48,9 @@ class Lobby extends Model
 
         if ($lobby_user == null) {
             DB::table('lobby_users')->insert([
-                'lobby_id'  => $this->id,
-                'user_id'  => $user_id,
+                'lobby_id'      => $this->id,
+                'user_id'       => $user_id,
+                'confirmed'     => $confirmed
             ]);
             User::find($user_id)->nlfg();
         }
