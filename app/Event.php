@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Auth;
 use DB;
 use Image;
 
@@ -138,4 +139,17 @@ class Event extends Model
     }
 
 	public function isAdmin() { return Organisation::find($this->organisation_id)->isAdmin(); }
+
+	protected function upcoming() {
+        return self::select('*',
+            DB::raw('ROUND(6353 * 2 * ASIN(SQRT(POWER(SIN(('.Auth::user()->lat.' - abs(`lat`))
+				* pi()/180 / 2),2) + COS('.Auth::user()->lat.' * pi()/180 ) * COS(abs(`lat`) *  pi()/180)
+				* POWER(SIN(('.Auth::user()->long.' - `long`) *  pi()/180 / 2), 2) )), 2) AS distance'))
+            ->where('starts_at', '>', date('Y-m-d H:i:s'))
+            ->where('starts_at', '<=', date('Y-m-d H:i:s', strtotime('next Sunday') + 86400))
+            ->having('distance', '<', Auth::user()->range)
+            ->orderBy('starts_at', 'asc')
+            ->limit(3)
+            ->get();
+    }
 }

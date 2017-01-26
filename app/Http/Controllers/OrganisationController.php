@@ -22,8 +22,10 @@ class OrganisationController extends Controller
 	 */
 	public function index()
 	{
-		$organisations = Organisation::get();
-		return view('organisations.index')->with(['organisations' => $organisations]);
+		return view('organisations.index')->with([
+		    'organisations' => Auth::user()->organisations(),
+            'subscriptions' => Auth::user()->subscriptions()
+        ]);
 	}
 
 	/**
@@ -160,12 +162,4 @@ class OrganisationController extends Controller
 	public function subscribe($organisation_id) { Organisation::subscribe($organisation_id); }
 
 	public function unsubscribe($organisation_id) { Organisation::unsubscribe($organisation_id); }
-
-	public function mine() {
-	    return view('organisations.index')->with(['organisations' => Auth::user()->organisations()]);
-    }
-
-	public function mySubscriptions() {
-	    return view('organisations.index')->with(['organisations' => Auth::user()->subscriptions()]);
-    }
 }

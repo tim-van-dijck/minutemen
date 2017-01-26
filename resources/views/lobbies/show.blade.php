@@ -62,36 +62,32 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h4>Description</h4>
-                                <i class="fa fa-info-circle pull-left accent"></i>
-                                <p class="description">
-                                    {{ nl2br($lobby->description) }}
-                                </p>
+                        @if (isset($lobby->description) && $lobby->description != '')
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4>Description</h4>
+                                    <i class="fa fa-info-circle pull-left accent"></i>
+                                    <p class="description">
+                                        {{ nl2br($lobby->description) }}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
                     @if (!$lobby->stealth)
-                        <a class="pull-right" data-toggle="modal" data-target="#invite-players"><i class="fa fa-plus"></i> invite players</a>
+                        <a class="pull-right accent" data-toggle="modal" data-target="#invite-players"><i class="fa fa-plus"></i> invite players</a>
                         <h4>Players</h4>
-                        <div class="col-md-5 players">
-                            @foreach($lobby->players() as $player)
-                                <div class="row blocklink-wrapper">
+                        <div class="col-md-5">
+                            <div class="row blocklink-wrapper players">
+                                @foreach($lobby->players() as $player)
                                     <div class="col-md-12 blocklink">
                                         <a href="{{ route('users.show', ['slug' => $player->slug]) }}">
-                                            <div class="col-md-3">
-                                                <div class="profile-img">
-                                                    <img src="{{ $player->img or 'img/profile.png' }}" alt="{{ $player->username }}">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-9">
-                                                <h5>{{ $player->username }}{{ ($player->id === $lobby->host->id) ? ' (HOST)' : '' }}</h5>
-                                            </div>
+                                            <div class="profile-img"><img src="{{ $player->img or 'img/profile.png' }}" alt="{{ $player->username }}"></div>
+                                            <p>{{$player->username}}</p>
                                         </a>
                                     </div>
-                                </div>
-                            @endforeach
+                                @endforeach
+                            </div>
                         </div>
                     @endif
                 </div>

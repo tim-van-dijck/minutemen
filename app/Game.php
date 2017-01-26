@@ -14,9 +14,12 @@ class Game extends Model
 
     protected function setWinner($game_id, $winner) {
         $game = self::find($game_id);
+        $event_id = Round::find($game->round_id)->event_id;
+
         switch ($winner) {
             case 0:
                 $game->draw = 1;
+                $game->team_1_won = null;
                 $game->save();
                 break;
             case 1:
@@ -30,5 +33,7 @@ class Game extends Model
             default:
                 break;
         }
+
+        Leaderboard::createOrUpdateForEvent($event_id);
     }
 }

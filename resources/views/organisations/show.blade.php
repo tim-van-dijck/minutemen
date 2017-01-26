@@ -38,12 +38,23 @@
                     <div class="col-md-4 text-center">
                         <div class="profile-img profile">
                             <img src="{{ $organisation->thumb or 'img/organisation.png' }}" alt="{{ $organisation->name }}">
+
                             <h5 class="text-center">{{ count($organisation->subscribers()) }} subscribers</h5>
                         </div>
                     </div>
                     <div class="col-md-8">
                         <h4 class="text-center">About {{ $organisation->name }}</h4>
                         <div class="description">{!! $organisation->description !!}</div>
+                        @if (isset($organisation->website) && $organisation->website != '')
+                            <div class="row persist-cols">
+                                <div class="col-md-1">
+                                    <i class="fa fa-globe accent"></i>
+                                </div>
+                                <div class="col-md-11">
+                                    <a class="accent website" href="{{ $organisation->website }}">{{ $organisation->website }}</a>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
                 @if ($organisation->isAdmin())

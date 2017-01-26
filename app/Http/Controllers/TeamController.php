@@ -23,7 +23,7 @@ class TeamController extends Controller
 	 */
 	public function index()
 	{
-		$teams = Team::get();
+		$teams = Team::mine();
 		return view('teams.index')->with(['teams' => $teams]);
 	}
 

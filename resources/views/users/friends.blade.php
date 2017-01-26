@@ -58,13 +58,12 @@
 							</a>
 						</div>
 						@if ($index != 0 && $index % 6 == 0)
-				</div><div class="row blocklink-wrapper">
-					@endif
+							</div><div class="row blocklink-wrapper">
+						@endif
 					@empty
-						<li>
-							<p>You have no friends yet.</p>
-							<div class="btn"><a href="">invite friends</a></div>
-						</li>
+						<div class="col-md-12">
+							<p class="text-center">You have no friends yet.</p>
+						</div>
 					@endforelse
 				</div>
 			</div>

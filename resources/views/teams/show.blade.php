@@ -56,7 +56,7 @@
 					<div class="col-md-12">
 						<div class="row">
 							<div class="col-md-12">
-								<p class="description">{!! $team->description !!}</p>
+								<div class="description">{!! $team->description !!}</div>
 							</div>
 						</div>
 					</div>

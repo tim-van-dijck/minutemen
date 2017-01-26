@@ -28,4 +28,5 @@ $(function () {
 		$('#login-modal').modal('hide');
 		$('#register-modal').modal('show');
 	});
+	setTimeout(function() { $('.success').slideUp(); }, 3000);
 });

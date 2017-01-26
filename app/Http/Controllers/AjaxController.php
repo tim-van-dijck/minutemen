@@ -57,7 +57,7 @@ class AjaxController extends Controller
 	public function denyRequest($team_id, $user_id) { Team::deleteRequest($team_id, $user_id); }
 
 	// LFG & Lobby functions
-	public function toggleLfg() { Auth::user()->lfgToggle(); }
+	public function toggleLfg() { Auth::user()->lfgToggle(); return ''.Auth::user()->lfg; }
 
 	public function findLobby() {
 	    $lobbies = null;

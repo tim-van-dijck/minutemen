@@ -38,7 +38,7 @@
                                     <div class="col-md-8 col-md-offset-2">
                                         <label for="passphrase">Passphrase<i class="fa fa-asterisk"></i></label>
                                         <p><em>This is used by the players to identify one another (stealth mode)</em></p>
-                                        <input type="text" autocomplete="off" name="passphrase" id="passphrase" class="form-control" placeholder="I hear Minsk is nice this time of year.">
+                                        <input type="text" autocomplete="off" name="passphrase" id="passphrase" class="form-control" placeholder="I hear Minsk is nice this time of year."  value="{{ old('passphrase') }}">
 
                                         @if ($errors->has('passphrase'))
                                             <span class="help-block">
@@ -51,7 +51,7 @@
                                     <div class="col-md-8 col-md-offset-2">
                                         <label for="answer">Answer</label>
                                         <p><em>Optional answer to the passphrase (stealth mode)</em></p>
-                                        <input type="text" name="answer" id="answer" class="form-control" placeholder="I've never been, the weather affects my knees">
+                                        <input type="text" name="answer" id="answer" class="form-control" placeholder="I've never been, the weather affects my knees" value="{{ old('answer') }}">
 
                                         @if ($errors->has('answer'))
                                             <span class="help-block">
@@ -69,7 +69,7 @@
                                 <div class="col-md-5">
                                     <label class="control-label" for="size">Lobby size<i class="fa fa-asterisk"></i></label>
                                     <p><em>Maximum amount of players</em></p>
-                                    <input type="text" id="size" placeholder="0" name="size" class="form-control">
+                                    <input type="text" id="size" placeholder="0" name="size" class="form-control" value="{{ old('size') }}">
 
                                     @if ($errors->has('size'))
                                         <span class="help-block">
@@ -78,9 +78,9 @@
                                     @endif
                                 </div>
                                 <div class="col-md-3 col-md-offset-4">
-                                    <label class="control-label" for="meet_at">Meeting time<i class="fa fa-asterisk"></i></label>
+                                    <label class="control-label" for="meet_at">Meeting at<i class="fa fa-asterisk"></i></label>
                                     <p><em>When are you meeting?</em></p>
-                                    <input type="time" id="meet_at" name="meet_at" class="form-control">
+                                    <input type="time" id="meet_at" name="meet_at" class="form-control" value="{{ old('meet_at') }}">
 
                                     @if ($errors->has('size'))
                                         <span class="help-block">
@@ -97,7 +97,7 @@
                                 <div class="col-md-12">
                                     <label for="location_name" class="control-label">Location name<i class="fa fa-asterisk"></i></label><br>
                                     <p><em>The name of the game location (eg. local laser tag range)</em></p>
-                                    <input id="location_name" type="text" class="form-control" name="location_name" value="{{ old('location_name') }}" placeholder="The local arenae" autofocus>
+                                    <input id="location_name" type="text" class="form-control" name="location_name" value="{{ old('location_name') }}" placeholder="The local arena" autofocus>
 
                                     @if ($errors->has('location_name'))
                                         <span class="help-block">

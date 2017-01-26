@@ -45,8 +45,8 @@
 					<div class="col-md-4 col-md-offset-4 teams">
 						<h3 class="text-center">Participators</h3>
 					@if (0 < count($event->participators()) && count($event->participators()) <= 4)
-						@foreach($event->participators() as $team)
-								<div class="col-md-3 {{ ($index == 0) ? 'col-md-offset-'.floor((12 - 3*count($team->members())) / 2) : '' }} blocklink team">
+						@foreach($event->participators() as $index => $team)
+								<div class="col-md-4 {{ ($index == 0 && count($event->participators()) < 3) ? 'col-md-offset-'. 4 / count($event->participators()) : '' }} blocklink team">
 									<div class="profile-img"><img src="{{ $team->thumb or 'img/emblem.png' }}" alt="{{ $team->name }}" title="{{ $team->name }}"></div>
 								</div>
 							@endforeach

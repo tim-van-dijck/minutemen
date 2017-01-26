@@ -90,4 +90,20 @@ class Leaderboard extends Model
 
 		}
 	}
+
+	protected function createOrUpdateForEvent($event_id) {
+	    $event = Event::find($event_id);
+        foreach ($event->participators() as $team) {
+            $leaderboard = self::firstOrNew([
+                'team_id' => $team->id,
+                'event_id' => $event->id
+            ]);
+
+            $leaderboard->wins = $team->wins($event->id);
+            $leaderboard->draws = $team->draws($event->id);
+            $leaderboard->losses = $team->losses($event->id);
+
+            $leaderboard->save();
+        }
+    }
 }

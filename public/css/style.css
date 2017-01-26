@@ -60,13 +60,12 @@ body {
         display: block; } }
     body .sidebar .sidebar-add {
       color: #cc4020;
-      margin-top: -2px;
+      margin-top: 1px;
       height: 1em;
       width: 1em;
       text-align: center; }
       body .sidebar .sidebar-add:hover {
-        background-color: #cc4020;
-        color: #fff; }
+        color: #bc3010; }
     body .sidebar ul {
       padding: 0;
       margin-bottom: 2em;
@@ -401,7 +400,8 @@ form .slider.slider-horizontal .slider-selection {
 form .slider.slider-horizontal .slider-handle {
   background: #cc4020; }
 form:not(#login-form) label.control-label {
-  margin-top: 2em; }
+  margin-top: 2em;
+  margin-bottom: .3em; }
 @media (max-width: 991px) {
   form label[for="full-img"] {
     max-width: 300px;
@@ -587,7 +587,9 @@ i.accent {
   font-size: 1.5em; }
 
 a.accent:hover, a.accent:focus, a.accent:active {
-  color: #cc4020; }
+  color: #bc3010;
+  text-decoration: none;
+  cursor: pointer; }
 
 .modal .modal-header {
   border: none; }
@@ -631,7 +633,7 @@ a.accent:hover, a.accent:focus, a.accent:active {
   .switch input {
     display: none; }
     .switch input:checked + .slider {
-      background-color: #12F493; }
+      background-color: #cc4020; }
     .switch input:focus + .slider {
       box-shadow: 0 0 1px #2196F3; }
     .switch input:checked + .slider:before {
@@ -658,6 +660,12 @@ a.accent:hover, a.accent:focus, a.accent:active {
 .cke_toolgroup:hover, .cke_combo_button:hover, .cke_button:hover {
   background-image: none !important; }
 
+#video-container {
+  margin-top: -22px;
+  margin-bottom: 22px;
+  max-height: calc(100vh - 50px);
+  overflow: hidden;
+  position: relative; }
 @keyframes bouncing {
   0% {
     bottom: 2em; }
@@ -665,14 +673,18 @@ a.accent:hover, a.accent:focus, a.accent:active {
     bottom: 20px; }
   100% {
     bottom: 2em; } }
-.fade-carousel {
-  position: relative;
-  height: calc(100vh - 50px);
-  margin-top: -22px;
-  margin-bottom: 22px;
-  overflow: hidden;
-  clear: left; }
-  .fade-carousel a.scrollDown {
+  #video-container .video-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: #000;
+    opacity: .8;
+    top: 0;
+    left: 0; }
+    @media (max-width: 1190px) {
+      #video-container .video-overlay {
+        height: 99%; } }
+  #video-container a.scrollDown {
     animation: bouncing 1s infinite ease-in-out;
     position: absolute;
     bottom: 2em;
@@ -685,98 +697,30 @@ a.accent:hover, a.accent:focus, a.accent:active {
     color: #777;
     z-index: 1;
     padding: 5px 6px 7px 6px; }
-    .fade-carousel a.scrollDown:hover, .fade-carousel a.scrollDown:active {
+    #video-container a.scrollDown:hover, #video-container a.scrollDown:active {
       color: #cc4020; }
-  .fade-carousel .carousel-inner .item {
-    height: 100vh; }
-  .fade-carousel .carousel-indicators {
-    bottom: 6em; }
-    .fade-carousel .carousel-indicators li {
-      margin: 0 2px;
-      background-color: #cc4020;
-      border-color: #cc4020;
-      opacity: .7; }
-      .fade-carousel .carousel-indicators li.active {
-        width: 10px;
-        height: 10px;
-        opacity: 1; }
+  #video-container .hero {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 21em;
+    height: 10em;
+    margin: auto; }
+    @media (max-width: 47em) {
+      #video-container .hero {
+        width: 14em;
+        height: 7em; } }
+    @media (min-width: 47em) {
+      #video-container .hero h1 {
+        font-size: 4em; }
+      #video-container .hero p {
+        font-size: 1.5em; } }
+  #video-container video {
+    width: 100%; }
 
-.hero {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 3;
-  color: #d6d9d5;
-  text-align: center;
-  text-transform: uppercase;
-  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.75);
-  -webkit-transform: translate3d(-50%, -50%, 0);
-  -moz-transform: translate3d(-50%, -50%, 0);
-  -ms-transform: translate3d(-50%, -50%, 0);
-  -o-transform: translate3d(-50%, -50%, 0);
-  transform: translate3d(-50%, -50%, 0); }
-
-.hero h1 {
-  font-size: 6em;
-  font-weight: bold;
-  margin: 0;
-  padding: 0; }
-
-.fade-carousel .carousel-inner .item .hero {
-  opacity: 0;
-  -webkit-transition: 2s all ease-in-out .1s;
-  -moz-transition: 2s all ease-in-out .1s;
-  -ms-transition: 2s all ease-in-out .1s;
-  -o-transition: 2s all ease-in-out .1s;
-  transition: 2s all ease-in-out .1s; }
-
-.fade-carousel .carousel-inner .item.active .hero {
-  opacity: 1;
-  -webkit-transition: .5s all ease-in-out .1s;
-  -moz-transition: .5s all ease-in-out .1s;
-  -ms-transition: .5s all ease-in-out .1s;
-  -o-transition: 2s all ease-in-out .1s;
-  transition: .5s all ease-in-out .1s; }
-
-.overlay {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  background-color: #080d15;
-  opacity: .7; }
-
-.btn.btn-lg {
-  padding: 10px 40px; }
-
-.btn.btn-hero, .btn.btn-hero:hover, .btn.btn-hero:focus {
-  color: #f5f5f5;
-  background-color: #cc4020;
-  border-color: #cc4020;
-  outline: none;
-  margin: 20px auto; }
-
-.fade-carousel .slides .slide-1,
-.fade-carousel .slides .slide-2,
-.fade-carousel .slides .slide-3 {
-  height: 100vh;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-attachment: fixed; }
-.fade-carousel .slides .slide-1 {
-  background-image: url("../img/slide-1.jpg"); }
-.fade-carousel .slides .slide-2 {
-  background-image: url("../img/slide-2.jpg"); }
-.fade-carousel .slides .slide-3 {
-  background-image: url("../img/slide-3.jpg"); }
-
-@media screen and (min-width: 980px) {
-  .hero {
-    width: 980px; } }
-@media screen and (max-width: 640px) {
-  .hero h1 {
-    font-size: 4em; } }
 .leaderboard {
   margin-bottom: -15px; }
   @media (max-width: 615px) {
@@ -1037,16 +981,17 @@ a.accent:hover, a.accent:focus, a.accent:active {
 @media (min-width: 47em) {
   .profile-wrapper .profile-title {
     margin-bottom: 1em; } }
-.profile-wrapper > .row > .col-md-4 > .profile-img {
-  margin: 2em auto; }
-  .profile-wrapper > .row > .col-md-4 > .profile-img.profile {
-    width: 100%;
-    max-width: 250px; }
-    @media (max-width: 47em) {
-      .profile-wrapper > .row > .col-md-4 > .profile-img.profile {
-        display: inline-block; } }
-    .profile-wrapper > .row > .col-md-4 > .profile-img.profile img {
-      width: 100%; }
+@media (max-width: 47em) {
+  .profile-wrapper > .row > .col-md-4 > .profile-img {
+    margin: 2em auto; } }
+.profile-wrapper > .row > .col-md-4 > .profile-img.profile {
+  width: 100%;
+  max-width: 250px; }
+  @media (max-width: 47em) {
+    .profile-wrapper > .row > .col-md-4 > .profile-img.profile {
+      display: inline-block; } }
+  .profile-wrapper > .row > .col-md-4 > .profile-img.profile img {
+    width: 100%; }
 @media (min-width: 47em) {
   .profile-wrapper .stats-col .stats {
     margin-top: 2em; } }
@@ -1077,7 +1022,7 @@ a.accent:hover, a.accent:focus, a.accent:active {
 @media (max-width: 991px) {
   .profile-wrapper .members, .profile-wrapper .friends, .profile-wrapper .teams {
     max-width: 15em;
-    margin: auto; } }
+    margin-left: calc(50% - 7.5em) !important; } }
 .profile-wrapper .description {
   text-align: center;
   margin: 2em 0; }
@@ -1219,11 +1164,21 @@ a.accent:hover, a.accent:focus, a.accent:active {
   text-align: center;
   cursor: pointer; }
   .bigbtn.participate {
-    background-color: #e94a26; }
+    background-color: #e94a26;
+    margin-bottom: 15px; }
+    @media (min-width: 992px) {
+      .bigbtn.participate {
+        width: calc(50% - 7.5px);
+        margin-right: 7.5px; } }
     .bigbtn.participate:hover, .bigbtn.participate:focus, .bigbtn.participate:active {
       background-color: #e23a12; }
   .bigbtn.organise {
-    background-color: #e75a3a; }
+    background-color: #e75a3a;
+    margin-bottom: 15px; }
+    @media (min-width: 992px) {
+      .bigbtn.organise {
+        width: calc(50% - 7.5px);
+        margin-left: 7.5px; } }
     .bigbtn.organise:hover, .bigbtn.organise:focus, .bigbtn.organise:active {
       background-color: #e94a26; }
   .bigbtn.lobby {
@@ -1250,11 +1205,31 @@ a.accent:hover, a.accent:focus, a.accent:active {
   color: #cc4020;
   font-size: 1.2em;
   margin-top: .5em; }
+.lobby-view .players.blocklink-wrapper {
+  display: block; }
+  .lobby-view .players.blocklink-wrapper .blocklink {
+    float: none;
+    min-height: 5.5em;
+    width: 100%;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, 0.1); }
+    .lobby-view .players.blocklink-wrapper .blocklink .profile-img {
+      height: 4em;
+      width: 4em;
+      margin-right: 1em;
+      float: left; }
+      .lobby-view .players.blocklink-wrapper .blocklink .profile-img img {
+        height: 100%;
+        width: auto; }
+    .lobby-view .players.blocklink-wrapper .blocklink p.name {
+      font-size: 1.5em; }
+  .lobby-view .players.blocklink-wrapper :last-child {
+    border-bottom: 0; }
 
 p.info {
   font-size: .9em;
   font-style: italic;
-  margin-top: -1em;
+  margin-top: -.5em;
   color: #b8b7ad; }
 
 label.control-label + p.info {
@@ -1461,5 +1436,49 @@ label.control-label + p.info {
     left: 0;
     color: gold;
     text-align: center; }
+
+@media (max-width: 47em) {
+  .organisations {
+    display: block; }
+    .organisations .blocklink {
+      float: none;
+      min-height: 5.5em;
+      width: 100%;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+      background-color: rgba(0, 0, 0, 0.1); }
+      .organisations .blocklink .profile-img {
+        height: 4em;
+        width: 4em;
+        margin-right: 1em;
+        float: left; }
+        .organisations .blocklink .profile-img img {
+          height: 100%;
+          width: auto; }
+      .organisations .blocklink p.name {
+        font-size: 1.5em; }
+    .organisations :last-child {
+      border-bottom: 0; } }
+
+@media (max-width: 47em) {
+  .teams.blocklink-wrapper {
+    display: block; }
+    .teams.blocklink-wrapper .blocklink {
+      float: none;
+      min-height: 5.5em;
+      width: 100%;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+      background-color: rgba(0, 0, 0, 0.1); }
+      .teams.blocklink-wrapper .blocklink .profile-img {
+        height: 4em;
+        width: 4em;
+        margin-right: 1em;
+        float: left; }
+        .teams.blocklink-wrapper .blocklink .profile-img img {
+          height: 100%;
+          width: auto; }
+      .teams.blocklink-wrapper .blocklink p.name {
+        font-size: 1.5em; }
+    .teams.blocklink-wrapper :last-child {
+      border-bottom: 0; } }
 
 /*# sourceMappingURL=style.css.map */

@@ -46,8 +46,8 @@ body {
 		display: none;
 		@media #{$tablet-bootstrap} { display: block; }
 		.sidebar-add {
-			color: $accent; margin-top: -2px; height: 1em; width: 1em; text-align: center;
-			&:hover { background-color: $accent; color: #fff; }
+			color: $accent; margin-top: 1px; height: 1em; width: 1em; text-align: center;
+			&:hover { color: #bc3010; }
 		}
 		ul {
 			padding: 0; margin-bottom: 2em; list-style-type: none;
@@ -284,7 +284,7 @@ form {
 		.slider-handle { background: $accent; }
 	}
 	&:not(#login-form) {
-		label.control-label { margin-top: 2em; }
+		label.control-label { margin-top: 2em; margin-bottom: .3em; }
 	}
 	label[for="full-img"] {
 		@media #{$mobile-bootstrap} { max-width: 300px; margin: auto; }
@@ -408,7 +408,7 @@ form {
 
 .accent { color: $accent; }
 i.accent { font-size: 1.5em; }
-a.accent:hover, a.accent:focus, a.accent:active { color: $accent; }
+a.accent:hover, a.accent:focus, a.accent:active { color: #bc3010; text-decoration: none; cursor: pointer; }
 
 // Modals
 .modal {
@@ -436,7 +436,7 @@ a.accent:hover, a.accent:focus, a.accent:active { color: $accent; }
 	}
 	input {
 		display:none;
-		&:checked + .slider { background-color: #12F493; }
+		&:checked + .slider { background-color: $accent; }
 		&:focus + .slider { box-shadow: 0 0 1px #2196F3; }
 		&:checked + .slider:before { -webkit-transform: translateX(26px); -ms-transform: translateX(26px); transform: translateX(26px); }
 	}
@@ -451,77 +451,33 @@ a.accent:hover, a.accent:focus, a.accent:active { color: $accent; }
 .cke_toolgroup:hover, .cke_combo_button:hover, .cke_button:hover { background-image: none !important; }
 // END CKEDITOR //
 
-//-- CAROUSEL/HERO --//
-@keyframes bouncing {
-	0% {bottom: 2em;}
-	50% {bottom: 20px;}
-	100% {bottom: 2em;}
-}
-.fade-carousel {
-	position: relative; height: calc(100vh - 50px); margin-top: -22px; margin-bottom: 22px; overflow: hidden; clear: left;
+#video-container {
+	@keyframes bouncing {
+		0% {bottom: 2em;}
+		50% {bottom: 20px;}
+		100% {bottom: 2em;}
+	}
+	margin-top: -22px; margin-bottom: 22px; max-height: calc(100vh - 50px); overflow: hidden; position: relative;
+	.video-overlay {
+		width: 100%; height: 100%; position: absolute; background-color: #000; opacity: .8;top: 0; left: 0;
+		@media (max-width: 1190px) { height: 99%; }
+	}
 	a.scrollDown {
 		animation: bouncing 1s infinite ease-in-out;
 		position: absolute; bottom: 2em; left: 0; right: 0; margin: auto; width: 40px; height: 40px; text-align: center;
 		color: #777; z-index: 1; padding: 5px 6px 7px 6px;
 		&:hover, &:active { color: $accent; }
 	}
-	.carousel-inner .item { height: 100vh; }
-	.carousel-indicators {
-		bottom: 6em;
-		li {
-            margin: 0 2px; background-color: $accent; border-color: $accent; opacity: .7;
-            &.active { width: 10px; height: 10px; opacity: 1; }
-        }
-    }
+	.hero {
+		position: absolute; z-index: 1; top: 0; left: 0; right: 0; bottom: 0; width: 21em; height: 10em; margin: auto;
+		@media #{$mobile} { width: 14em; height: 7em; }
+		@media #{$tablet} {
+			h1 { font-size: 4em; }
+			p { font-size: 1.5em; }
+		}
+	}
+	video { width: 100%; }
 }
-
-.hero {
-	position: absolute; top: 50%; left: 50%; z-index: 3; color: #d6d9d5; text-align: center; text-transform: uppercase;
-	text-shadow: 1px 1px 0 rgba(0,0,0,.75); -webkit-transform: translate3d(-50%,-50%,0); -moz-transform: translate3d(-50%,-50%,0);
-	-ms-transform: translate3d(-50%,-50%,0); -o-transform: translate3d(-50%,-50%,0); transform: translate3d(-50%,-50%,0);
-}
-.hero h1 { font-size: 6em; font-weight: bold; margin: 0; padding: 0; }
-
-.fade-carousel .carousel-inner .item .hero {
-	opacity: 0; -webkit-transition: 2s all ease-in-out .1s; -moz-transition: 2s all ease-in-out .1s;
-	-ms-transition: 2s all ease-in-out .1s; -o-transition: 2s all ease-in-out .1s; transition: 2s all ease-in-out .1s;
-}
-.fade-carousel .carousel-inner .item.active .hero {
-	opacity: 1; -webkit-transition: .5s all ease-in-out .1s; -moz-transition: .5s all ease-in-out .1s;
-	-ms-transition: .5s all ease-in-out .1s; -o-transition: 2s all ease-in-out .1s; transition: .5s all ease-in-out .1s;
-}
-
-.overlay { position: absolute; width: 100%; height: 100%; z-index: 2; background-color: #080d15; opacity: .7; }
-
-//-- CUSTOM BUTTONS --//
-.btn.btn-lg {padding: 10px 40px;}
-.btn.btn-hero {
-	&, &:hover, &:focus { color: #f5f5f5; background-color: $accent; border-color: $accent; outline: none; margin: 20px auto; }
-}
-// END CUSTOM BUTTONS //
-
-//-- SLIDES BACKGROUNDS --//
-.fade-carousel .slides {
-	.slide-1,
-	.slide-2,
-	.slide-3 { height: 100vh; background-size: cover; background-position: center center; background-repeat: no-repeat; background-attachment: fixed; }
-
-	.slide-1 { background-image: url('../img/slide-1.jpg'); }
-	.slide-2 { background-image: url('../img/slide-2.jpg'); }
-	.slide-3 { background-image: url('../img/slide-3.jpg'); }
-}
-
-// END SLIDES BACKGROUND //
-
-
-//-- MEDIA QUERIES --//
-@media screen and (min-width: 980px){
-	.hero { width: 980px; }
-}
-@media screen and (max-width: 640px){
-	.hero h1 { font-size: 4em; }
-}
-// END MEDIA QUERIES //
 
 .leaderboard {
 	margin-bottom: -15px;
@@ -706,7 +662,7 @@ a.accent:hover, a.accent:focus, a.accent:active { color: $accent; }
 		@media #{$tablet} { margin-bottom: 1em; }
 	}
 	>.row>.col-md-4>.profile-img {
-		margin: 2em auto;
+		@media #{$mobile} { margin: 2em auto; }
 		&.profile {
 			width: 100%; max-width: 250px;
 			@media #{$mobile} {  display: inline-block; }
@@ -744,7 +700,7 @@ a.accent:hover, a.accent:focus, a.accent:active { color: $accent; }
 		@extend .persist-cols;
 		@media #{$mobile-bootstrap} {
 			max-width: 15em;
-			margin: auto;
+			margin-left: calc(50% - 7.5em) !important;
 
 		}
 	}
@@ -827,11 +783,13 @@ a.accent:hover, a.accent:focus, a.accent:active { color: $accent; }
 .bigbtn {
 	height: 6em; text-align: center; cursor: pointer;
 	&.participate {
-		background-color: #e94a26;
+		background-color: #e94a26; margin-bottom: 15px;
+		@media #{$tablet-bootstrap} { width: calc(50% - 7.5px); margin-right: 7.5px; }
 		&:hover, &:focus, &:active { background-color: #e23a12; }
 	}
 	&.organise {
-		background-color: #e75a3a;
+		background-color: #e75a3a; margin-bottom: 15px;
+		@media #{$tablet-bootstrap} { width: calc(50% - 7.5px); margin-left: 7.5px; }
 		&:hover, &:focus, &:active { background-color: #e94a26; }
 	}
 	&.lobby {
@@ -847,15 +805,29 @@ a.accent:hover, a.accent:focus, a.accent:active { color: $accent; }
 	}
 	p {font-size: .8em;}
 }
-.dashboard { margin-top: 3em; }
+.dashboard {
+	margin-top: 3em;
+}
 
 // Lobby
 .lobby-view {
 	p.passphrase { color: $accent; font-size: 1.2em; margin-top: .5em; }
+	.players.blocklink-wrapper {
+		display: block;
+		.blocklink {
+			float: none; min-height: 5.5em; width: 100%; border-bottom: 1px solid rgba(0, 0, 0, 0.2); background-color: rgba(0,0,0,.1);
+			.profile-img {
+				height: 4em; width: 4em; margin-right: 1em; float: left;
+				img { height: 100%; width: auto; }
+			}
+			p.name { font-size: 1.5em; }
+		}
+		:last-child { border-bottom: 0; }
+	}
 }
 
 
-p.info { font-size: .9em; font-style: italic; margin-top: -1em; color: #b8b7ad; }
+p.info { font-size: .9em; font-style: italic; margin-top: -.5em; color: #b8b7ad; }
 label.control-label + p.info { margin-top: -.4em; }
 .full-width { width: 100%; }
 
@@ -941,6 +913,7 @@ label.control-label + p.info { margin-top: -.4em; }
 	}
 }
 
+// Manage team / schedule
 #settle-game-form {
 	.row {
 		.col-md-4 {
@@ -1020,6 +993,40 @@ label.control-label + p.info { margin-top: -.4em; }
 		.overlay-won {
 			position: absolute; width: 1.5em; height: 1.5em; line-height: 1.5em; background-color: $overlay-color;
 			top: 0; left: 0; color: gold; text-align: center;
+		}
+	}
+}
+
+// My organisations / subscriptions
+.organisations {
+	@media #{$mobile} {
+		display: block;
+		.blocklink {
+			float: none; min-height: 5.5em; width: 100%; border-bottom: 1px solid rgba(0, 0, 0, 0.2); background-color: rgba(0,0,0,.1);
+			.profile-img {
+				height: 4em; width: 4em; margin-right: 1em; float: left;
+				img { height: 100%; width: auto; }
+			}
+			p.name { font-size: 1.5em; }
+		}
+		:last-child { border-bottom: 0; }
+	}
+}
+
+// My teams
+.teams {
+	@media #{$mobile} {
+		&.blocklink-wrapper {
+			display: block;
+			.blocklink {
+				float: none; min-height: 5.5em; width: 100%; border-bottom: 1px solid rgba(0, 0, 0, 0.2); background-color: rgba(0,0,0,.1);
+				.profile-img {
+					height: 4em; width: 4em; margin-right: 1em; float: left;
+					img { height: 100%; width: auto; }
+				}
+				p.name { font-size: 1.5em; }
+			}
+			:last-child { border-bottom: 0; }
 		}
 	}
 }

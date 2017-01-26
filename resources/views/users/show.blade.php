@@ -64,36 +64,51 @@
 					<div class="col-md-12">
 						<h3 class="text-center">Teams ({{count($user->teams())}})</h3>
 						<div class="row">
-							<div class="col-md-6 col-md-offset-3 teams">
-								<div class="row blocklink-wrapper">
-									@foreach ($user->teams(4) as $index => $team)
-										<div class="col-md-3 {{ ($index == 0) ? 'col-md-offset-'.floor((12 - 3*count($user->friends(3))) / 2) : '' }} blocklink team">
+							<div class="col-md-6 col-md-offset-3 {{ (count($user->teams(3)) > 0) ? 'teams' : '' }}">
+								<div class="row {{ (count($user->teams(3)) > 0) ? 'blocklink-wrapper' : '' }}">
+									@forelse ($user->teams(3) as $index => $team)
+										<div class="col-md-4 {{ ($index == 0 && count($user->teams(3)) < 3) ? 'col-md-offset-'. 4 / count($user->teams(3)) : '' }} blocklink team">
 											<a href="{{ route('teams.show', ['slug' => $team->slug]) }}">
 												<div class="profile-img">
 													<img src="{{ $team->emblem or 'img/emblem.png' }}" alt="{{ $team->name }}" title="{{ $team->name }}">
 												</div>
 											</a>
 										</div>
-									@endforeach
+									@empty
+										<div class="col-md-12">
+											<p class="text-center">{{ (Auth::check() && $user->id == Auth::user()->id) ? 'You are' : 'This user is' }} not in any teams yet.</p>
+										</div>
+									@endforelse
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-6 col-md-offset-3 friends">
+					<div class="col-md-6 col-md-offset-3 {{ (count($user->friends(3)) > 0) ? 'friends' : '' }}">
 						<h3 class="text-center">Friends ({{ count($user->friends()) }})</h3>
 						<div class="row">
 							<div class="row blocklink-wrapper">
-								@foreach ($user->friends(5) as $index => $friend)
-									<div class="col-md-3 {{ ($index == 0) ? 'col-md-offset-'.floor((12 - 3*count($user->friends(4))) / 2) : '' }} blocklink team">
+								@forelse ($user->friends(3) as $index => $friend)
+									<div class="col-md-4 {{ ($index == 0 && count($user->friends(3)) < 3) ? 'col-md-offset-'. 4 / count($user->friends(3)) : '' }} blocklink team">
 										<a href="{{ route('users.show', ['slug' => $friend->slug]) }}">
 											<div class="profile-img">
 												<img src="{{ $friend->img or 'img/profile.png' }}" alt="{{ $friend->username }}" title="{{ $friend->username }}">
 											</div>
 										</a>
 									</div>
-								@endforeach
+								@empty
+									<div class="col-md-12">
+										<p class="text-center">{{ (Auth::check() && $user->id == Auth::user()->id) ? 'You have' : 'This user has' }} no friends yet.</p>
+									</div>
+								@endforelse
+							</div>
+							<div class="row">
+								<div class="col-md-6 col-md-offset-3">
+									<a href="{{ route('users.friends', ['slug' => $user->slug]) }}" class="btn btn-load full-width">
+										See all friends
+									</a>
+								</div>
 							</div>
 						</div>
 					</div>

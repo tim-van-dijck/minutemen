@@ -1,5 +1,7 @@
 $(function() {
-    findLobby();
+    if ($('#lfg').prop('checked')) {
+        findLobby();
+    }
 });
 
 function findLobby() {
@@ -54,8 +56,6 @@ function findLobby() {
                                 }
                             }
                         );
-
-                        console.log(isConfirmed);
                     }
                 }
             )

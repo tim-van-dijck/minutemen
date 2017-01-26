@@ -139,7 +139,7 @@ class EventController extends Controller
 		$event = Event::find($id);
 		
 		if (isset($input['banner']) && $input['banner'] != '') {
-			Storage::delete(public_path($event->banner));
+		    if ($event->banner != null) { \unlink(public_path($event->banner)); }
 			$input['banner'] = General::uploadImg($input['banner'], 'events', true);
 		} else { unset($input['banner']); }
 
@@ -152,7 +152,7 @@ class EventController extends Controller
         Notification::updatedEvent($event->id);
 
         Session::flash('success', 'Successfully updated '.$event->title);
-		return redirect(route('events.show', ['id' => $event->id]));
+		return redirect()->route('events.show', ['id' => $event->id]);
 	}
 
 	/**

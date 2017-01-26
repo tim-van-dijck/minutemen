@@ -84,7 +84,7 @@ class Notification extends Model
     protected function updatedEvent($event_id) {
         $subscribers = User::select('users.*')
             ->join('team_users', 'users.id', '=', 'team_users.user_id')
-            ->join('participations', 'teams.id', '=', 'participations.team_id')
+            ->join('participations', 'team_users.team_id', '=', 'participations.team_id')
             ->where([
                 ['participations.event_id', '=', $event_id],
                 ['team_users.pending', '=', false],

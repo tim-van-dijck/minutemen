@@ -8,7 +8,6 @@ $(function() {
 		bubbleHandler();
 	}, 5000);
 
-	$('#lfg').change(function(e) { $.get('ajax/lfg'); });
 	if ($('#feed').length > 0) { setInterval(function () { getFeed(); }, 5000); }
 
 	if ($('#feed').length > 0) {

@@ -32,9 +32,10 @@ class Organisation extends Model
 	protected function popular() {
 		return self::select('organisations.*', DB::raw('COUNT(organisation_roles.user_id) AS subscriptions'))
 					->join('organisation_roles', 'organisation_roles.organisation_id','=', 'organisations.id')
+
 					->groupBy('organisation_roles.organisation_id')
 					->orderBy('subscriptions', 'desc')
-					->limit(5)->get();
+					->limit(6)->get();
 	}
 
 	protected function subscribe($organisation_id) {

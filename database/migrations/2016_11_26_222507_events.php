@@ -32,7 +32,7 @@ class Events extends Migration
             $table->double('long', 9, 6);
 
             $table->string('banner')->nullable();
-            $table->string('type')->default('round-robin');
+            $table->string('type');
             $table->integer('organisation_id')->unsigned();
 
             $table->foreign('organisation_id')->references('id')->on('organisations')->onUpdate('cascade')->onDelete('cascade');

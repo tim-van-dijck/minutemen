@@ -3,8 +3,9 @@
 @section('title', 'Edit '.$event->title)
 @section('content')
     <h1>Edit {{ $event->title }}</h1>
-    <form class="form-horizontal" role="form" method="POST" action="{{ route('events.store', ['id' => $event->id]) }}" enctype="multipart/form-data">
+    <form id="edit-event" class="form-horizontal" role="form" method="POST" action="{{ route('events.update', ['id' => $event->id]) }}" enctype="multipart/form-data">
         {{ csrf_field() }}
+        <input type="hidden" name="_method" value="PATCH">
 
         <div class="row">
             <div class="col-md-12">
@@ -35,7 +36,7 @@
                             <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
                                 <div class="col-md-12">
                                     <label for="title" class="control-label">Event title<i class="fa fa-asterisk"></i></label><br>
-                                    <input id="title" type="text" class="form-control" name="title" value="{{ old('title') }}" placeholder="Awesome Cup" required autofocus>
+                                    <input id="title" type="text" class="form-control" name="title" value="{{ $event->title }}" placeholder="Awesome Cup" required autofocus>
 
                                     @if ($errors->has('title'))
                                         <span class="help-block">
@@ -135,32 +136,8 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <h3>Schedule type</h3>
-                            <p class="info">This determines whether you can create elimination rounds or a round-robin contest</p>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <div class="col-md-12">
-                                            <input id="single-elim" type="radio" name="type" value="elimination">
-                                            <label for="single-elim">Single Elimination</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <div class="col-md-12">
-                                            <input id="round-robin" type="radio" name="type" value="round-robin">
-                                            <label for="round-robin">Round robin</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
                             <label for="description" class="control-label">Description</label><br>
-                            <textarea id="description" class="form-control" name="description" required autofocus>{{ old('description') }}</textarea>
+                            <textarea id="description" class="form-control" name="description" required autofocus>{{ $event->description }}</textarea>
 
                             @if ($errors->has('description'))
                                 <span class="help-block">
@@ -175,11 +152,13 @@
 
         <div class="row">
             <div class="col-md-12">
-                <div class="form-group">
-                    <div class="col-md-6 col-md-offset-4">
-                        <button type="submit" class="btn btn-primary">
-                            Save
-                        </button>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="col-md-4 col-md-offset-4">
+                            <button type="submit" class="btn btn-primary pull-right full-width" form="edit-event">
+                                Save
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -187,11 +166,13 @@
     </form>
     <div class="row">
         <div class="col-md-12">
-            <form class="delete" data-confirm="delete {{ $event->title}}" action="{{ route('events.destroy', ['id' => $event->id]) }}" method="POST">
-                {{ csrf_field() }}
-                <input type="hidden" name="_method" value="DELETE">
-                <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Delete</button>
-            </form>
+            <div class="col-md-12">
+                <form class="delete" data-confirm="delete {{ $event->title}}" action="{{ route('events.destroy', ['id' => $event->id]) }}" method="POST">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="btn btn-danger pull-left"><i class="fa fa-trash"></i> Delete</button>
+                </form>
+            </div>
         </div>
     </div>
 @stop
@@ -199,6 +180,7 @@
 @section('js')
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjI_a7-CJA5anDE0q3NSBHoccjlL31Dmk"></script>
     <script src="js/forms.js"></script>
+    <script src="js/delete-confirm.js"></script>
     <script src="js/ckeditor/ckeditor.js"></script>
     <script>
         CKEDITOR.replace('description');

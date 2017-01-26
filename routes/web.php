@@ -14,7 +14,6 @@
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
-Route::get('about', 'HomeController@about')->name('about');
 Route::get('search', 'HomeController@search')->name('search');
 Route::get('sitemap', 'HomeController@sitemap')->name('sitemap');
 
@@ -29,11 +28,10 @@ Route::group(['prefix' => 'users'], function () {
 Route::group(['middleware' => 'auth'], function () {
     // My stuff
 	Route::get('/dashboard', 'HomeController@home')->name('dashboard');
-	Route::get('/home', 'HomeController@home')->name('dashboard');
-	Route::get('/my-teams', function() { return redirect()->route('dashboard'); });
+	Route::get('/home', 'HomeController@home')->name('dashboard.alt');
+	Route::get('/my-teams', 'TeamController@index')->name('my-teams');
 
-	Route::get('/my-subscriptions', 'OrganisationController@mySubscriptions')->name('my-subscriptions');
-	Route::get('/my-organisations', 'OrganisationController@mine')->name('my-organisations');
+	Route::get('/my-organisations', 'OrganisationController@index')->name('my-organisations');
 
 	// Messages
 	Route::resource('conversations', 'ConversationController', ['only' => ['index', 'create', 'show', 'destroy']]);

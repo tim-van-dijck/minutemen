@@ -26,7 +26,11 @@ class LobbyController extends Controller
             'answer'        => 'profanity-filter',
             'stealth'       => 'required|boolean',
             'size'          => 'required|min:1|integer',
-            'meet_at'       => 'required:date_format:H:i'
+            'meet_at'       => 'required:date_format:H:i',
+            'street'        => 'required',
+            'number'        => 'required',
+            'zip'           => 'required',
+            'city'          => 'required'
         ]);
 
         $input = $request->except(['meet_at', 'coords']);

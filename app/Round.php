@@ -9,14 +9,7 @@ use App\Game;
 
 class Round extends Model
 {
-	protected $fillable = ['event_id', 'name', 'teams', 'created_at', 'updated_at'];
-
-	public function elimination($data) {
-		$teams = Event::find($this->event_id)->competing($this->teams);
-
-		$prev_round = Round::where('event_id');
-		return $teams;
-	}
+	protected $fillable = ['event_id', 'name', 'created_at', 'updated_at'];
 
 	public function games() { return Game::where('round_id', $this->id)->get(); }
 

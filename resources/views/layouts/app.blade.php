@@ -147,7 +147,7 @@
 				<div class="navbar-header">
 
 					<!-- Branding Image -->
-					<a id="logo" class="navbar-brand" href="{{ url('/') }}">
+					<a id="logo" class="navbar-brand" href="{{ (Auth::check()) ? route('dashboard') : url('/') }}">
 						{!! file_get_contents('img/logo.svg') !!}
 					</a>
 				</div>
@@ -163,59 +163,32 @@
 		@include('partial.success')
 		@include('partial.error')
 
-		@if (Request::is('/') && Auth::guest())
-			<div class="carousel fade-carousel slide" data-ride="carousel" data-interval="4000" id="bs-carousel"&>
-			<!-- Scroll button -->
+		@if (Request::is('/'))
+			<div class="container-fluid" class="embed-responsive embed-responsive-16by9" id="video-container">
+				<div class="video-overlay"></div>
 				<a href="#" class="scrollDown"><i class="fa fa-2x fa-chevron-down"></i></a>
-
-			<!-- Indicators -->
-			<ol class="carousel-indicators">
-				<li data-target="#bs-carousel" data-slide-to="0" class="active"></li>
-				<li data-target="#bs-carousel" data-slide-to="1"></li>
-				<li data-target="#bs-carousel" data-slide-to="2"></li>
-			</ol>
-
-			<!-- Wrapper for slides -->
-			<div class="carousel-inner">
-				<div class="item slides active">
-					<div class="overlay"></div>
-					<div class="slide-1"></div>
-					<div class="hero">
-						<hgroup>
-							<h1>Laser tag</h1>
-							<h2>at a minute's notice</h2>
-						</hgroup>
-					</div>
+				<div class="hero">
+					<h1 class="title">Minutemen</h1>
+					<p>Laser tag at a minute's notice</p>
+					<p class="accent"><b>CONNECT. COMPETE. ENJOY.</b></p>
 				</div>
-				<div class="item slides">
-					<div class="overlay"></div>
-					<div class="slide-2"></div>
-					<div class="hero">
-						<hgroup>
-							<h1>Connect</h1>
-							<h2>Team up with other minutemen</h2>
-						</hgroup>
-					</div>
-				</div>
-				<div class="item slides">
-					<div class="overlay"></div>
-					<div class="slide-3"></div>
-					<div class="hero">
-						<hgroup>
-							<h1>Compete</h1>
-							<h2>Enter events and rise through the leaderboard</h2>
-						</hgroup>
-					</div>
+				<div class="row">
+					<video autoplay muted loop class="embed-responsive-item" id="autovid">
+						<source src="{{ 'video/action-supercut.mp4' }}" type="video/mp4">
+						<source src="{{ 'video/action-supercut.webm' }}" type="video/webm">
+						Your browser does not support the video tag.
+					</video>
 				</div>
 			</div>
-		</div>
 		@endif
 		<div class="container">
 			<div class="row">
 				@if (Auth::check())
 					<div class="col-md-2 sidebar">
-						<a class="pull-right accent sidebar-add" href="{{ route('teams.create') }}"><i class="fa fa-plus"></i></a>
-						<h5>Your Teams</h5>
+						<h5>
+							<a class="pull-right accent sidebar-add" href="{{ route('teams.create') }}"><i class="fa fa-plus"></i></a>
+							Your Teams
+						</h5>
 						<ul>
 							@forelse (Auth::user()->teams() as $team)
 								<li><a href="{{ route('teams.show', ['slug' => $team->slug]) }}">{{ $team->name }}</a></li>
@@ -223,13 +196,15 @@
 								<li>No teams yet</li>
 							@endforelse
 						</ul>
-						<a class="pull-right accent sidebar-add" href="{{ route('organisations.create') }}"><i class="fa fa-plus"></i></a>
-						<h5>Your Organisations</h5>
+						<h5>
+							<a class="pull-right accent sidebar-add" href="{{ route('organisations.create') }}"><i class="fa fa-plus"></i></a>
+							Your Organisations
+						</h5>
 						<ul>
 							@forelse (Auth::user()->organisations() as $org)
 								<li><a href="{{ route('organisations.show', ['id' => $org->id]) }}">{{ $org->name }}</a></li>
 							@empty
-								<li>No teams organisations</li>
+								<li>No organisations yet</li>
 							@endforelse
 						</ul>
 					</div>
@@ -313,6 +288,7 @@
 	<script src="js/animations.js"></script>
 	<script>
         var base_url = '{{ asset('/') }}';
+        var addressSet = {{ (isset(Auth::user()->lat) && isset(Auth::user()->long)) }}
 	</script>
 	@if (Auth::check())
 		<script src="js/notifications.js"></script>
@@ -329,9 +305,7 @@
 			});
 		</script>
 	@endif
-	@if (Auth::check() && Auth::user()->lfg)
-		<script src="js/lobby-find.js"></script>
-	@endif
+	<script src="js/lobby-find.js"></script>
 	@yield('js')
 </body>
 </html>

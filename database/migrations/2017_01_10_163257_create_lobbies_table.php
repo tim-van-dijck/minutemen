@@ -15,7 +15,7 @@ class CreateLobbiesTable extends Migration
     {
         Schema::create('lobbies', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->string('location_name');
             $table->string('address')->nullable();
             $table->double('lat', 9, 6);
