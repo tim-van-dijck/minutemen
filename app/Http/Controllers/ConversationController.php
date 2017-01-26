@@ -35,6 +35,7 @@ class ConversationController extends Controller
 
     public function show($id) {
         $conversation = Conversation::find($id);
+        $conversation->setSeen(Auth::user()->id);
         if ($conversation != null) {
             if (!$conversation->isRecipient()) { return redirect()->route('conversations.index'); }
 

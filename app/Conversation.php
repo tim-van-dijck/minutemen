@@ -66,4 +66,10 @@ class Conversation extends Model
                         ->get();
         return count($messages);
     }
+
+    public function setSeen($user_id) {
+        DB::table('conversation_users')
+            ->where(['user_id' => $user_id, 'conversation_id' => $this->id])
+            ->update(['seen' => 1]);
+    }
 }
