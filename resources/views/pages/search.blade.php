@@ -74,7 +74,7 @@
 																@if ($index == 'users')
 																	<img src="{{ $item->img or 'img/profile.png' }}" alt="{{ $item->username }}">
 																@elseif ($index == 'teams')
-																	<img src="{{ $item->img or 'img/emblem.png' }}" alt="{{ $item->username }}">
+																	<img src="{{ $item->emblem or 'img/emblem.png' }}" alt="{{ $item->username }}">
 																@elseif ($index == 'organisations')
 																	<img src="{{ $item->thumb or 'img/organisation.png' }}" alt="{{ $item->name }}">
 																@endif
