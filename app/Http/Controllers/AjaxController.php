@@ -86,7 +86,7 @@ class AjaxController extends Controller
         if ($lobbies->isEmpty()) { return json_encode(['error' => 'No suitable lobby could be found']); }
 
         $lobby = Lobby::find($lobbies->random()->id);
-        $lobby->joinLobby(Auth::user()->id);
+        $lobby->joinLobby(Auth::user()->id, true);
 
         return json_encode(['success' => 1, 'link' => route('lobbies.show', ['id' => $lobby->id])]);
     }
