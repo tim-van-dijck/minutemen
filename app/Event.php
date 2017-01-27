@@ -181,4 +181,12 @@ class Event extends Model
             ->limit(3)
             ->get();
     }
+
+    public function isAdminForParticipating() {
+	    $teams = $this->participators();
+        foreach ($teams as $team) {
+            if ($team->isAdmin()) { return true; }
+        }
+        return false;
+    }
 }

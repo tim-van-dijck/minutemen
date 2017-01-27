@@ -64,6 +64,18 @@ class User extends Authenticatable
 	    else { return Team::getByUser($this->id, $limit); }
 	}
 
+	public function isTeamAdmin() {
+	    $teams = Auth::user()->teams();
+
+	    foreach ($teams as $team) {
+	        if ($team->isAdmin()) {
+	            return true;
+            }
+        }
+
+        return false;
+    }
+
     protected function passwordConfirm($pass) {
         if (Hash::check($pass, Auth::user()->password)) { return true; }
         return false;
@@ -208,7 +220,7 @@ class User extends Authenticatable
     }
 
     public function findRecipients($term, $conversation_id) {
-        $teams = Team::select('id')
+        $teams = Team::select('teams.id')
                         ->join('team_users', 'team_users.team_id', '=', 'teams.id')
                         ->where('team_users.user_id', $this->id)
                         ->get();
@@ -250,16 +262,17 @@ class User extends Authenticatable
                     ->where('username', 'LIKE', '%'.$term.'%')
                     ->where('users.id', '!=', Auth::user()->id);
 
-        $where = '(';
-        foreach ($teams as $index => $team) {
-            if ($index == 0) {
-                $where .= 'team_id = '.$team->id;
-            } else {
-                $where .= ' OR team_id = '.$team->id;
-            }
+        if (count($teams) > 0) {
+            $result->where(function ($query) use ($teams) {
+                foreach ($teams as $index => $team) {
+                    if ($index == 0) {
+                        $query->where('team_id', $team->id);
+                    } else {
+                        $query->orWhere('team_id', $team->id);
+                    }
+                }
+            });
         }
-        $where .= ')';
-        if ($where != '()') { $result->whereRaw($where); }
 
         return $result->union($first)->union($second)->groupBy('users.id')->get();
     }

@@ -43,6 +43,7 @@ $(function () {
 		e.preventDefault();
 		ajaxSubmit($(this));
 		$('#enter-event').modal('toggle');
+		if ($(this).attr('id', 'enter-form')) { location.reload(); }
         $('#settle-game').modal('toggle');
 	});
 

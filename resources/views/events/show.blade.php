@@ -33,7 +33,7 @@
 					</div>
 
 				</div>
-				@if (Auth::check() && !$event->full() && !$event->isAdmin() && !$event->isParticipating())
+				@if (Auth::check() && !$event->full() && !$event->isAdmin() && !$event->isParticipating() && Auth::user()->isTeamAdmin())
 					<div class="row">
 						<div class="col-md-4 col-md-offset-4">
 							<button type="button" class="btn btn-primary full-width" data-toggle="modal" data-target="#enter-event">sign up your team</button>
@@ -41,7 +41,7 @@
 					</div>
 					@include('modals.enter-event')
 				@endif
-				@if (Auth::check() && !$event->isAdmin() && $event->isParticipating())
+				@if (Auth::check() && !$event->isAdmin() && $event->isParticipating() && $event->isAdminForParticipating())
 					<div class="row">
 						<div class="col-md-4 col-md-offset-4">
 							<form class="delete" data-confirm="withdraw from {{ $event->title }}" action="{{ route('events.withdraw', ['event_id' => $event->id]) }}" method="POST">
@@ -79,6 +79,8 @@
 						<a href="{{ route('events.leaderboard', ['id' => $event->id]) }}" class="btn btn-primary pull-right">leaderboard</a>
 						@if (Auth::check() && $event->isAdmin())
 							<a href="{{ route('events.manage', ['id' => $event->id]) }}" class="btn btn-primary">manage</a>
+						@else
+							<a href="{{ route('events.schedule', ['id' => $event->id]) }}" class="btn btn-primary">schedule</a>
 						@endif
 					</div>
 				</div>
