@@ -63,7 +63,7 @@
 						@elseif(count($event->participators()) > 4)
 							@for ($i = 0; $i < 4; $i++)
 								<div class="col-md-3 blocklink team">
-									<div class="profile-img"><img src="{{ $event->participators()[$i]->thumb or 'img/emblem.png' }}" alt="{{ $event->participators()[$i]->name }}" title="{{ $event->participators()[$i]->name }}"></div>
+									<div class="profile-img"><img src="{{ $event->participators()[$i]->emblem or 'img/emblem.png' }}" alt="{{ $event->participators()[$i]->name }}" title="{{ $event->participators()[$i]->name }}"></div>
 								</div>
 							@endfor
 							<button class="btn btn-load" data-toggle="modal" data-target="#participators">see all</button>
