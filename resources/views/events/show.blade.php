@@ -53,7 +53,7 @@
 				@endif
 				<div class="row divider">
 					<div class="col-md-4 col-md-offset-4 teams">
-						<h3 class="text-center">Participators</h3>
+						<h3 class="text-center">Participators ({{ count($event->participators()) . '/' . $event->max_teams }})</h3>
 						@if (0 < count($event->participators()) && count($event->participators()) <= 4)
 							@foreach($event->participators() as $index => $team)
 								<div class="col-md-4 {{ ($index == 0 && count($event->participators()) < 3) ? 'col-md-offset-'. 4 / count($event->participators()) : '' }} blocklink team">
